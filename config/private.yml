@@ -1,0 +1,5 @@
+---
+blobstore:
+  s3:
+    access_key_id: AKIAJOJTSCTGN7BJJSIA
+    secret_access_key: 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

@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -e
+
+# shellcheck source=/dev/null
+. /var/vcap/jobs/rabbitmq-server/debug
+# shellcheck source=/dev/null
+. /var/vcap/jobs/rabbitmq-server/env
+
+main() {
+  stop
+  echo 0
+}
+
+stop() {
+  if rabbitmqctl status > "${RABBITMQ_LOG_BASE:?must be defined}/drain.log" 2>&1
+  then
+    timeout $(( 9 * 60 )) rabbitmqctl stop_app > "$RABBITMQ_LOG_BASE/drain.log" 2>&1
+  else
+    echo "RabbitMQ not running, nothing to stop" > "$RABBITMQ_LOG_BASE/drain.log" 2>&1
+  fi
+}
+
+main

@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -e
+
+# shellcheck source=/dev/null
+. /var/vcap/jobs/rabbitmq-server/debug
+# shellcheck source=/dev/null
+. /var/vcap/jobs/rabbitmq-server/env
+
+exec 1> >(tee -a "${RABBITMQ_LOG_BASE:?must be defined}/stop.log") 2>&1
+
+main() {
+  stop
+}
+
+stop() {
+  rabbitmqctl stop || echo "RabbitMQ already stopped"
+
+  rm -f "$RABBITMQ_PID_FILE"
+}
+
+main

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -e
+
+[ -z "$DEBUG" ] || set -x
+
+echo "Install Ruby"
+echo "Run gem install bosh_cli"

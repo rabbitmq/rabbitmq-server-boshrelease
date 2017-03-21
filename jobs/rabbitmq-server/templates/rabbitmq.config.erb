@@ -1,0 +1,24 @@
+% vim: set filetype=erlang shiftwidth=4 :
+
+<%
+
+cluster_nodes = link("rabbitmq-server").instances.map do |instance|
+    "'rabbit@rmq#{instance.index}'"
+end
+
+%>
+
+[
+    {rabbit,
+        [
+            {cluster_nodes, {[<%= cluster_nodes.join(",") %>], disc}},
+            {disk_free_limit, <%= p("rabbitmq-server.disk_free_limit") %>},
+            {vm_memory_high_watermark, <%= p("rabbitmq-server.vm_memory_high_watermark") %>}
+        ]
+    },
+    {rabbitmq_trust_store,
+        [
+            {directory, "<%= p("rabbitmq-trust-store.directory") %>"}
+        ]
+    }
+].

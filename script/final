@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -e
+
+[ -z "$DEBUG" ] || set -x
+
+if [ -z "$1" ]
+then
+  echo "First argument must be the release version"
+  echo "Release versions that already exist:"
+  cd releases/rabbitmq-server/
+  ls rabbitmq-server-*.yml
+  exit 1
+fi
+
+FINAL_RELEASE_VERSION="$1"
+
+bosh create release --final --version "$FINAL_RELEASE_VERSION"

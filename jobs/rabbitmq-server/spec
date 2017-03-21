@@ -1,0 +1,92 @@
+# vim: set filetype=yaml :
+---
+name: rabbitmq-server
+
+properties:
+  erlang.version:
+    description: "Erlang OTP version that will be used for running RabbitMQ. We install multiple Erlang OTP versions to test compatibility. The default version is what we recommend for production deployments."
+    default: "19.2.3"
+  erlang.cookie:
+    description: "Erlang cookie required by the nodes and CLI tools to authenticate with one another"
+    default: InsecureDefaultCookie
+
+  rabbitmq-server.debug:
+    description: "Runs BOSH job scripts in debug mode"
+    default: false
+
+  rabbitmq-server.generic-unix-url:
+    description: "URL to Generic UNIX RabbitMQ xz package"
+    default: https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_8/rabbitmq-server-generic-unix-3.6.8.tar.xz
+
+  rabbitmq-server.admin_user:
+    description: "Admin user with full privileges"
+    default: admin
+  rabbitmq-server.admin_pass:
+    description: "Admin user password"
+    default: InsecureDefaultPassword
+
+  rabbitmq-server.mnesia_base:
+    description: "All persistent data will be stored here"
+    default: /var/vcap/store/rabbitmq-server/mnesia
+
+  rabbitmq-server.vm_memory_high_watermark:
+    description: "Maximum memory footprint after which publishers are blocked"
+    default: '0.7'
+  rabbitmq-server.disk_free_limit:
+    description: "Minimum free disk space after which publishers are blocked"
+    default: '{mem_relative, 1.0}'
+
+  rabbitmq-server.plugins:
+    description: "List of RabbitMQ plugins to enable"
+    default:
+      - rabbitmq_amqp1_0
+      - rabbitmq_auth_backend_ldap
+      - rabbitmq_auth_mechanism_ssl
+      - rabbitmq_consistent_hash_exchange
+      - rabbitmq_event_exchange
+      - rabbitmq_federation
+      - rabbitmq_federation_management
+      - rabbitmq_jms_topic_exchange
+      - rabbitmq_management
+      - rabbitmq_management_agent
+      - rabbitmq_management_visualiser
+      - rabbitmq_mqtt
+      - rabbitmq_recent_history_exchange
+      - rabbitmq_sharding
+      - rabbitmq_shovel
+      - rabbitmq_shovel_management
+      - rabbitmq_stomp
+      - rabbitmq_top
+      - rabbitmq_tracing
+      - rabbitmq_trust_store
+      - rabbitmq_web_dispatch
+      - rabbitmq_web_mqtt
+      - rabbitmq_web_mqtt_examples
+      - rabbitmq_web_stomp
+      - rabbitmq_web_stomp_examples
+
+  rabbitmq-trust-store.directory:
+    description: "Location of the whitelisted certificates for Trust Store"
+    default: /var/vcap/store/rabbitmq-server/trust-store/whitelist
+
+templates:
+  bin/pre-start: bin/pre-start
+  bin/start: bin/start
+  bin/post-start: bin/post-start
+  bin/stop: bin/stop
+  bin/drain: bin/drain
+
+  debug.erb: debug
+  env.erb: env
+  rabbitmq.config.erb: rabbitmq.config
+
+packages:
+- erlang-19.2.3
+
+provides:
+- name: rabbitmq-server
+  type: rabbitmq-server
+
+consumes:
+- name: rabbitmq-server
+  type: rabbitmq-server

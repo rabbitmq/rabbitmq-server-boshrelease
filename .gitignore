@@ -1,0 +1,9 @@
+.sw?
+.*.sw?
+/.blobs/
+/.dev_builds/
+/config/dev.yml
+/config/private.yml
+/dev_releases/
+/rabbitmq-server-vars.yml
+/manifest.yml

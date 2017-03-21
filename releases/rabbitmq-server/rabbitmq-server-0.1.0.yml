@@ -1,0 +1,20 @@
+---
+packages:
+- name: erlang-19.2.3
+  version: 63df64d80845d1b6724e69ac34e7d78bafc3909b
+  fingerprint: 63df64d80845d1b6724e69ac34e7d78bafc3909b
+  sha1: d2a71bea96cd9f573dfdbb0c4c342086dd67ba17
+  dependencies: []
+jobs:
+- name: rabbitmq-server
+  version: 001a8b67b245793eaaafe4915b8dde01fd489871
+  fingerprint: 001a8b67b245793eaaafe4915b8dde01fd489871
+  sha1: f3d2007aa312e0daf8190e4b21e61c6ae0501fa4
+license:
+  version: cc1b7162294c354984aee8de84412f920d23f369
+  fingerprint: cc1b7162294c354984aee8de84412f920d23f369
+  sha1: d857eca670fade94215a4ed62345a3ba0144497c
+commit_hash: 7126ba6e
+uncommitted_changes: true
+name: rabbitmq-server
+version: 0.1.0

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -e
+
+[ -z "$DEBUG" ] || set -x
+
+bosh upload release
+cat rabbitmq-server-vars.yml rabbitmq-server.yml > manifest.yml
+bosh deployment manifest.yml
+bosh deploy

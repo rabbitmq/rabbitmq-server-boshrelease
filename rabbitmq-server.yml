@@ -1,0 +1,86 @@
+# Deployment identification
+#
+name: *deployment_name
+director_uuid: *bosh_director_uuid
+
+# Packages & processes
+#
+releases: # http://bosh.io/releases
+- name: rabbitmq-server
+  version: latest
+- name: routing
+  version: 0.136.0
+  url: https://bosh.io/d/github.com/cloudfoundry-incubator/cf-routing-release?v=0.136.0
+  sha1: 422c1dc423a04d37fd88d1dbf38f56f602bc1e1e
+- name: datadog-agent
+  version: 5.8.5.4
+  url: https://github.com/onemedical/datadog-agent-boshrelease/releases/download/v5.8.5.4/datadog-agent-5.8.5.4.tgz
+  sha1: f46443088f44cd1328640215f4e5791589968091
+
+# VM base images
+#
+stemcells: # http://bosh.io/stemcells
+- alias: trusty
+  name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
+  sha1: 3f4251c27a1173812199ae6301dc968660d8ae8b
+  url: https://bosh.io/d/stemcells/bosh-aws-xen-ubuntu-trusty-go_agent
+  version: '3363.12'
+
+# Lifecycle configurations
+#
+update:
+  canaries: 1
+  canary_watch_time: &watch_time 10000-60000 # 10s - 1m
+  max_in_flight: 10
+  serial: false
+  update_watch_time: *watch_time
+
+# VM groups
+#
+instance_groups:
+- name: rmq
+  instances: *server_count
+  vm_type: *vm_type
+  persistent_disk_type: 50GB
+  stemcell: trusty
+  jobs:
+  - name: rabbitmq-server
+    release: rabbitmq-server
+    properties:
+      erlang:
+        cookie: *erlang_cookie
+      rabbitmq-server:
+        debug: true
+        generic-unix-url: *rabbitmq_generic_unix
+        admin_user: *server_user
+        admin_pass: *server_pass
+  - name: route_registrar
+    release: routing
+    properties:
+      nats:
+        machines: *nats_hosts
+        user: *nats_user
+        password: *nats_pass
+        port: 4222
+      route_registrar:
+        routes:
+        - *server_route
+  - name: datadog-agent
+    release: datadog-agent
+    properties:
+      api_key: *datadog_api_key
+      use_bosh_hostname: true
+      include_bosh_tags: true
+      tags:
+        rabbitmq2: 3.6
+      integrations:
+        rabbitmq:
+          init_config:
+          instances:
+            - rabbitmq_api_url: http://127.0.0.1:15672/api/
+              rabbitmq_user: *server_user
+              rabbitmq_pass: *server_pass
+  networks:
+  - name: services
+  azs:
+  - eu-west-1a
