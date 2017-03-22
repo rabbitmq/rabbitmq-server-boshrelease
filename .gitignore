@@ -2,6 +2,7 @@
 .*.sw?
 /.blobs/
 /.dev_builds/
+/blobs/
 /config/dev.yml
 /config/private.yml
 /dev_releases/
