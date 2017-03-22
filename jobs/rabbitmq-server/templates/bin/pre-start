@@ -13,7 +13,7 @@ main() {
   write_erlang_cookie
   install_generic_unix_package
   add_rabbitmq_server_env_to_global_shell_profile
-  enable_plugins
+  enable_all_plugins
 }
 
 add_hostname_alias_to_etc_hosts() {
@@ -58,9 +58,9 @@ add_rabbitmq_server_env_to_global_shell_profile() {
 EOF
 }
 
-enable_plugins() {
-  # shellcheck disable=SC2086
-  rabbitmq-plugins enable ${RABBITMQ_PLUGINS:?must be defined} --offline
+enable_all_plugins() {
+  # shellcheck disable=SC2046
+  rabbitmq-plugins enable $(rabbitmq-plugins list -m) --offline
 }
 
 main
