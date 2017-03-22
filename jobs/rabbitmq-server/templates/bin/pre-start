@@ -25,6 +25,10 @@ write_erlang_cookie() {
   echo -n "${ERLANG_COOKIE:?must be defined}" > /home/"${SERVICE_USER:?must be defined}"/.erlang.cookie
   chown "$SERVICE_USER:${SERVICE_GROUP:?must be defined}" "/home/$SERVICE_USER/.erlang.cookie"
   chmod 600 "/home/$SERVICE_USER/.erlang.cookie"
+
+  echo -n "$ERLANG_COOKIE" > /root/.erlang.cookie
+  chown root:root /root/.erlang.cookie
+  chmod 600 /root/.erlang.cookie
 }
 
 install_generic_unix_package() {
