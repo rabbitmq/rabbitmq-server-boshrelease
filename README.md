@@ -72,7 +72,7 @@ instance_groups:
         generic-unix-url: https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_7_0_milestone14/rabbitmq-server-generic-unix-3.7.500.14.tar.xz
 ```
 
-It's just as easy to install an older version such as RabbitMQ v3.5.8.
+Even though RabbitMQ v3.5 will apparently cluster natively, without the rabbitmq_clusterer plugin, arbitrary node restarts will fail. Since we don't expect anymore v3.5 releases, we won't be spending time on this.
 
 ### Limitations when configuring system user limits
 
