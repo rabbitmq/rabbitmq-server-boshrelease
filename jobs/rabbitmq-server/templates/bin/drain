@@ -13,7 +13,7 @@ main() {
 }
 
 stop() {
-  if rabbitmqctl status > "${RABBITMQ_LOG_BASE:?must be defined}/drain.log" 2>&1
+  if rabbitmqctl eval "true = rabbit:is_running()." > "${RABBITMQ_LOG_BASE:?must be defined}/drain.log" 2>&1
   then
     timeout $(( 9 * 60 )) rabbitmqctl stop_app > "$RABBITMQ_LOG_BASE/drain.log" 2>&1
   else
