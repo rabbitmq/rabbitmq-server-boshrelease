@@ -1,29 +1,14 @@
 rabbitmq_generic_unix: &rabbitmq_generic_unix https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_8/rabbitmq-server-generic-unix-3.6.8.tar.xz
 
+## Deployment name will be used as a route name
+deployment_name: &deployment_name rabbitmq
+
 server_host: &server_host rabbitmq.example.com
+
 server_user: &server_user admin
 server_pass: &server_pass InsecureDefaultPassword
-server_count: &server_count 1
-vm_type: &vm_type c4.xlarge
-server_route: &server_route
-  name: &server_route_name rabbitmq
-  uris:
-  - *server_host
-  port: 15672
-  registration_interval: 20s
 
 erlang_cookie: &erlang_cookie InsecureDefaultCookie
 
-cf_cc_url: &cf_cc_url https://api.cloudfoundry.com
-cf_cc_user: &cf_cc_user admin
-cf_cc_pass: &cf_cc_pass CloudControllerUserPassword
-
-nats_hosts: &nats_hosts
-- 10.0.1.9
-nats_user: &nats_user nats
-nats_pass: &nats_pass NatsUserPassword
-
-datadog_api_key: &datadog_api_key DatadogAPIKey
-
-deployment_name: &deployment_name rabbitmq
-bosh_director_uuid: &bosh_director_uuid BOSH-DIRECTOR-GUID
+server_count: &server_count 1
+vm_type: &vm_type c4.xlarge

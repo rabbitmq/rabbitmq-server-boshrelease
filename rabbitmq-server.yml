@@ -1,3 +1,25 @@
+# Vars we won't change so often
+#
+cf_cc_url: &cf_cc_url https://api.tarantino.directors.cf-app.com
+cf_cc_user: &cf_cc_user admin
+cf_cc_pass: &cf_cc_pass Feewiepu6nuF1Ahgh6yeil8j
+
+nats_hosts: &nats_hosts
+- 10.0.1.109
+nats_user: &nats_user nats
+nats_pass: &nats_pass Feewiepu6nuF1Ahgh6yeil8j
+
+datadog_api_key: &datadog_api_key bc2636fbb9c2b13f429b77e066cf78f7
+
+bosh_director_uuid: &bosh_director_uuid 2bae1108-63f4-4cb4-8e64-48400e704301
+
+server_route: &server_route
+  name: *deployment_name
+  uris:
+  - *server_host
+  port: 15672
+  registration_interval: 20s
+
 # Deployment identification
 #
 name: *deployment_name
