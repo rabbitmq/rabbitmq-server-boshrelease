@@ -40,8 +40,8 @@ The effective manifest will be created by merging `rabbitmq-server-vars.yml` and
 `rabbitmq-server.yml` files. It then will be deployed to the director when the
 `script/deploy` script is executed.
 
-**If you using a fresh clone of the repository, you should run the `script/dev` script to
-create a "dev" release, before deploying with `script/deploy`.**
+**If you are using a fresh clone of the repository, you should run the `script/dev`
+script to create a "dev" release, before deploying with the `script/deploy` script.**
 
 ### Accessing the Deployment.
 
