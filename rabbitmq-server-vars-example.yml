@@ -1,9 +1,9 @@
 rabbitmq_generic_unix: &rabbitmq_generic_unix https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_8/rabbitmq-server-generic-unix-3.6.8.tar.xz
 
 ## Deployment name will be used as a route name
-deployment_name: &deployment_name rabbitmq
+deployment_name: &deployment_name my_deployment_name
 
-server_host: &server_host rabbitmq.example.com
+server_host: &server_host my_deployment.tarantino.directors.cf-app.com
 
 server_user: &server_user admin
 server_pass: &server_pass InsecureDefaultPassword

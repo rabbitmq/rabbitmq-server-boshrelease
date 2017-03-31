@@ -7,4 +7,4 @@ set -e
 bosh upload release
 cat rabbitmq-server-vars.yml rabbitmq-server.yml > manifest.yml
 bosh deployment manifest.yml
-bosh deploy
+bosh deploy --no-redact
