@@ -1,21 +1,23 @@
 ## Deployment
 
-This bosh release is supposed to be used with CF internal `tarantino` bosh director.
-Defualt parameters for manifest, specified in `rabbitmq-server.yml` use tarantino
-director UUID and cloud foundry cloud controller settings.
+This BOSH release is supposed to be used with a BOSH director (Cloud Foundry instance)
+available to team RabbitMQ.
 
-### Targeting director
+Defualt parameters for the manifest (`rabbitmq-server.yml`) currently use the Tarantino envinment
+director UUID and Cloud Foundry Cloud Controller (CC) settings.
 
-You need to install [bosh CLI](https://bosh.io/docs/bosh-cli.html) first.
+### Targeting the Director
 
-Credentials for the director are stored in lastpass.
-To retrieve them you can use [lastpass CLI](https://github.com/lastpass/lastpass-cli).
+You need to install [BOSH CLI](https://bosh.io/docs/bosh-cli.html) tools first.
 
-To get credentials ID: `lpass ls | grep bosh-env-tarantino`
+Credentials for the director are [stored in LastPass](https://github.com/rabbitmq/private-docs/).
+To retrieve them you can use [LastPass CLI](https://github.com/lastpass/lastpass-cli) or access
+the vault via a Web browser.
 
-To get credentials from id: `lpass show <ID>`
+To get an environment ID, run `lpass ls | grep bosh-env-tarantino`.
+To get the credentials for the above ID: `lpass show <ID>`
 
-To target the director:
+Now let's target the director:
 
 ```
 # target the director
@@ -24,57 +26,82 @@ bosh target https://tarantino.directors.cf-app.com:25555 tarantino
 bosh login <user> <pass>
 ```
 
-Bosh CLI will save current target and credentials in users home directory
-configuration file.
+Bosh CLI will store current target and credentials under the current user's home directory.
 
-### Creating deployment
 
-To create a new bosh deployment manifest, you should copy `rabbitmq-server-vars-example.yml`
-to `rabbitmq-server-vars.yml` and modify `deployment_name` and `server_host`.
-`server_host` should point to a subdomain of `tarantino.directors.cf-app.com`.
+### Creating a Deployment
 
-Manifest will be created by merfing `rabbitmq-server-vars.yml` and
-`rabbitmq-server.yml` files and deployed to the director when you run
-`script/deploy` script.
+To create a new BOSH deployment manifest, copy `rabbitmq-server-vars-example.yml`
+to `rabbitmq-server-vars.yml` and modify the `deployment_name` and `server_host` keys.
+`server_host` should point to a subdomain of `tarantino.directors.cf-app.com`,
+e.g. `rmq37.tarantino.directors.cf-app.com`.
 
-### Accessing deployment.
+The effective manifest will be created by merging `rabbitmq-server-vars.yml` and
+`rabbitmq-server.yml` files. It then will be deployed to the director when the
+`script/deploy` script is executed.
 
-After deployment, rabbitmq management console will be available on `server_host`
-url.
 
-To connect clients to deployment, you should get a private IP for deployed servers
-using `bosh vms <deployment_name>` and configure clients to use this IP as an amqp host.
+### Accessing the Deployment.
 
-The release will start a datadog agent for a deployment, so you can configure
-a datadog dashboard by cloning RMQ 3.6 private dashboard and changing `from` fields
-for all the graphs.
+After the deployment finishes, RabbitMQ management console will be available at the URL from the `server_host`
+key.
+
+To connect clients to the deployment, get a private IP for the deployed servers
+using `bosh vms <deployment_name>` and configure the clients (apps) to use this IP as the host.
+
+The release will start a DataDog agent for the deployment, so you can
+configure a datadog dashboard by cloning the RabbitMQ 3.6 private
+dashboard in DataDog UI and changing `from` fields for all the graphs.
 
 ## Q & A
 
 ### How do I use this BOSH release?
 
-All actions are captured in the `./script` dir, and are meant to be self-contained and descriptive. `./script/setup` is a good first step. `./script/deploy` is the most useful action by far.
+All actions are captured in the `./script` dir, and are meant to be self-contained and descriptive.
+`./script/setup` is supposed to be the script executed first.
+`./script/deploy` is will be the most commonly performed action.
 
-To create a new dev release, run `./script/dev`. When the time comes to cut a new final release, `./script/final` will do most of the heavy lifting. You will still need to create a git tag and update the `CHANGELOG.md`. It's a small price to pay for the excitement that shipping a final release brings.
+To create a new dev release, run `./script/dev`. When the time comes
+to cut a new final release, `./script/final` will do most of the heavy
+lifting. You will still need to create a git tag and update the
+`CHANGELOG.md`. It's a small price to pay for the excitement that
+shipping a final release brings.
 
 ### How can I make this BOSH release better?
 
-You're a champ for just thinking it. Making things better is deeply rewarding, we already like you very much.
+You're a champ for just thinking it. Making things better is deeply
+rewarding, we already like you very much.
 
-Any problems that you come across are bugs and should preferably be raised as Github pull requests. Github issues are OK as well, but they will take longer to action. Every little helps, we welcome all forms of contribution.
+Any problems that you come across are bugs and should preferably be
+raised as Github pull requests. Github issues are OK as well, but they
+will take longer to action. Every little helps, we welcome all forms
+of contribution.
 
 ### Isn't `cf-rabbitmq-release` the official RabbitMQ BOSH release?
 
-Yes it is, and we don't expect it to change anytime soon. This BOSH release must remain private and restricted to PCF RabbitMQ & RabbitMQ Core teams only. Do not share with Pivotal Support or Sales and definitely do not mention it to any of our customers or external collaborators.
+Yes it is, and we don't expect it to change anytime soon. This BOSH
+release must remain private and restricted to PCF RabbitMQ & RabbitMQ
+Core teams only. Do not share with Pivotal Support or Sales and
+definitely do not mention it to any of our customers or external
+collaborators.
 
-We created this BOSH release to make it easier for the RabbitMQ Core team to deploy long-running RabbitMQ environments, and ad-hoc testing environments.
+We created this BOSH release to make it easier for the RabbitMQ Core
+team to deploy long-running RabbitMQ environments, and ad-hoc testing
+environments.
 
-We also wanted to explore what it would look like to create a RabbitMQ BOSH release from scratch, with all the learnings from [cf-rabbitmq-release](https://github.com/pivotal-cf/cf-rabbitmq-release).
+We also wanted to explore what it would look like to create a RabbitMQ
+BOSH release from scratch, with all the learnings from
+[cf-rabbitmq-release](https://github.com/pivotal-cf/cf-rabbitmq-release).
 
-For all we know, this release is just a stepping stone towards improving cf-rabbitmq-release.
+For all we know, this release is just a stepping stone towards
+improving cf-rabbitmq-release.
 
-It is also possible that this BOSH release will become the new official one, maintained by the RabbitMQ Core team and consumed by PCF RabbitMQ. After all, it's easier for us to learn BOSH than PCF RabbitMQ to learn the many sharp edges that both RabbitMQ and Erlang have. We are already creating RabbitMQ packages for every major OS and Linux distribution, why not the BOSH release?
-
+It is also possible that this BOSH release will become the new
+official one, maintained by the RabbitMQ Core team and consumed by PCF
+RabbitMQ. After all, it's easier for us to learn BOSH than PCF
+RabbitMQ to learn the many sharp edges that both RabbitMQ and Erlang
+have. We are already creating RabbitMQ packages for every major OS and
+Linux distribution, why not the BOSH release?
 
 
 ## Learnings
