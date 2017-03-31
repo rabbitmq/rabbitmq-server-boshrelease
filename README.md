@@ -9,8 +9,11 @@ director UUID and cloud foundry cloud controller settings.
 You need to install [bosh CLI](https://bosh.io/docs/bosh-cli.html) first.
 
 Credentials for the director are stored in lastpass.
-To retrieve them you can use `lpass ls | grep bosh-env-tarantino`
-to get credentials ID and `lpass show <ID>` to get credentials.
+To retrieve them you can use [lastpass CLI](https://github.com/lastpass/lastpass-cli).
+
+To get credentials ID: `lpass ls | grep bosh-env-tarantino`
+
+To get credentials from id: `lpass show <ID>`
 
 To target the director:
 
