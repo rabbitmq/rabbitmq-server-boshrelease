@@ -1,3 +1,51 @@
+## Deployment
+
+This bosh release is supposed to be used with CF internal `tarantino` bosh director.
+Defualt parameters for manifest, specified in `rabbitmq-server.yml` use tarantino
+director UUID and cloud foundry cloud controller settings.
+
+### Targeting director
+
+You need to install [bosh CLI](https://bosh.io/docs/bosh-cli.html) first.
+
+Credentials for the director are stored in lastpass.
+To retrieve them you can use `lpass ls | grep bosh-env-tarantino`
+to get credentials ID and `lpass show <ID>` to get credentials.
+
+To target the director:
+
+```
+# target the director
+bosh target https://tarantino.directors.cf-app.com:25555 tarantino
+# login with credentials from lastpass
+bosh login <user> <pass>
+```
+
+Bosh CLI will save current target and credentials in users home directory
+configuration file.
+
+### Creating deployment
+
+To create a new bosh deployment manifest, you should copy `rabbitmq-server-vars-example.yml`
+to `rabbitmq-server-vars.yml` and modify `deployment_name` and `server_host`.
+`server_host` should point to a subdomain of `tarantino.directors.cf-app.com`.
+
+Manifest will be created by merfing `rabbitmq-server-vars.yml` and
+`rabbitmq-server.yml` files and deployed to the director when you run
+`script/deploy` script.
+
+### Accessing deployment.
+
+After deployment, rabbitmq management console will be available on `server_host`
+url.
+
+To connect clients to deployment, you should get a private IP for deployed servers
+using `bosh vms <deployment_name>` and configure clients to use this IP as an amqp host.
+
+The release will start a datadog agent for a deployment, so you can configure
+a datadog dashboard by cloning RMQ 3.6 private dashboard and changing `from` fields
+for all the graphs.
+
 ## Q & A
 
 ### How do I use this BOSH release?
