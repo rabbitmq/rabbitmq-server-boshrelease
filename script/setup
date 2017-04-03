@@ -4,5 +4,75 @@ set -e
 
 [ -z "$DEBUG" ] || set -x
 
-echo "Install Ruby"
-echo "Run gem install bosh_cli"
+main() {
+  detect_os
+  check_bosh_cli_min_ruby_version || install_ruby
+  ensure_bosh_cli_installed
+  ensure_lpass_cli_installed
+  setup_complete
+}
+
+detect_os() {
+  case "$(uname)" in
+    Darwin)
+      check_homebrew
+      ;;
+    *)
+      manual_installation_required
+      ;;
+  esac
+
+}
+
+check_homebrew() {
+  which brew &>/dev/null || (
+    echo "Homebrew must be installed first - https://brew.sh/"
+    exit 1
+  )
+}
+
+manual_installation_required() {
+  echo "Setup has not been automated for this OS, you will need to install:
+
+  * Ruby - https://www.ruby-lang.org/en/documentation/installation/
+    * gem install bosh_cli --no-document
+  * lastpass-cli - https://github.com/lastpass/lastpass-cli
+"
+  exit 1
+}
+
+check_bosh_cli_min_ruby_version() {
+  /usr/bin/env ruby <<-RUBY
+  bosh_cli_min_ruby_version = 2.0
+
+  if RUBY_VERSION.to_f < bosh_cli_min_ruby_version
+    puts "bosh_cli requires Ruby #{bosh_cli_min_ruby_version} or higher, found #{RUBY_VERSION}"
+    exit 1
+  end
+RUBY
+}
+
+install_ruby() {
+  echo "Installing Ruby ..."
+  brew install ruby
+}
+
+ensure_bosh_cli_installed() {
+  gem search -i bosh_cli &>/dev/null || (
+    echo "Installing bosh ..."
+    gem install bosh_cli --no-document
+  )
+}
+
+ensure_lpass_cli_installed() {
+  which lpass &>/dev/null || (
+    echo "Installing lpass ..."
+    brew install lastpass-cli
+  )
+}
+
+setup_complete() {
+  echo "All dependencies installed, you might want to run: ./script/deploy"
+}
+
+main
