@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+set -e
+
+[ -z "$DEBUG" ] || set -x
+
+LASTPASS_BOSH_DIRECTOR_CREDENTIALS="Shared-London Services/london-ci/bosh-env-tarantino"
+
+main() {
+  ensure_logged_in
+  delete_deployment
+  delete_deployment_manifest
+}
+
+ensure_logged_in() {
+  bosh stemcells &>/dev/null ||
+  bosh login "$(bosh_username)" "$(bosh_password)"
+}
+
+bosh_username() {
+  lpass show --username "$LASTPASS_BOSH_DIRECTOR_CREDENTIALS"
+}
+
+bosh_password() {
+  lpass show --password "$LASTPASS_BOSH_DIRECTOR_CREDENTIALS"
+}
+
+delete_deployment() {
+  if [ -f manifest.yml ]
+  then
+    bosh delete deployment "$(deployment_name_from_manifest)"
+  else
+    echo "It doesn't seem that you have deployed using script/deploy, no deployment to delete"
+  fi
+}
+
+deployment_name_from_manifest() {
+  awk '/&deployment_name/ { print $3 }' < manifest.yml
+}
+
+delete_deployment_manifest() {
+  rm -f manifest.yml
+}
+
+main

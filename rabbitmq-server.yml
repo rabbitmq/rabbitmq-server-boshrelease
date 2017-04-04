@@ -1,4 +1,4 @@
-# Vars we won't change so often
+# Vars that don't change often
 #
 cf_cc_url: &cf_cc_url https://api.tarantino.directors.cf-app.com
 cf_cc_user: &cf_cc_user admin
@@ -19,6 +19,8 @@ server_route: &server_route
   - *server_host
   port: 15672
   registration_interval: 20s
+
+vm_type: &vm_type c4.xlarge
 
 # Deployment identification
 #
