@@ -7,7 +7,7 @@ set -e
 LASTPASS_BOSH_DIRECTOR_CREDENTIALS="Shared-London Services/london-ci/bosh-env-tarantino"
 BOSH_DIRECTOR_FQDN="tarantino.directors.cf-app.com"
 
-RMQ_PACKAGE="https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_8/rabbitmq-server-generic-unix-3.6.8.tar.xz"
+RMQ_PACKAGE="https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_9/rabbitmq-server-generic-unix-3.6.9.tar.xz"
 NODES_COUNT=1
 DEPLOYMENT_NAME="rmq-$USER"
 SERVER_USER="admin"
