@@ -2,7 +2,7 @@
 
 ### How do I use this BOSH release?
 
-All actions are captured in the `./script` dir, and are meant to be self-contained and descriptive. `./script/setup` is a good first step. `./script/deploy` is the most useful action by far.
+All actions are captured in the `./script` dir, and are meant to be self-contained and descriptive. Start by running `./script/setup` first, followed by `./script/deploy`. To delete a deployment, run `./script/delete`.
 
 To create a new dev release, run `./script/dev`. When the time comes to cut a new final release, `./script/final` will do most of the heavy lifting. You will still need to create a git tag and update the `CHANGELOG.md`. It's a small price to pay for the excitement that shipping a final release brings.
 
