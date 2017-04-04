@@ -9,9 +9,14 @@ set -e
 
 main() {
   date
-  set_cluster_name
-  delete_guest_user
-  add_admin_user
+  if [ -n "${BOOTSTRAP_NODE?must be defined}" ]
+  then
+    set_cluster_name
+    delete_guest_user
+    add_admin_user
+  else
+    echo "$0 will only run on the bootstrap node, ${BOOTSTRAP_NODE_INSTANCE:?must be set}"
+  fi
 }
 
 set_cluster_name() {
