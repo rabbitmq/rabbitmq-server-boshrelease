@@ -7,7 +7,7 @@ set -e
 # shellcheck source=/dev/null
 . /var/vcap/jobs/rabbitmq-server/env
 
-exec 1> >(tee -a "${RABBITMQ_LOG_BASE:?must be defined}/start.log") 2>&1
+exec 1> >(tee -a "${RABBITMQ_LOG_BASE:?must be configure}/start.log") 2>&1
 
 main() {
   date
@@ -18,12 +18,12 @@ main() {
 
 setup_directories() {
   mkdir -p \
-    "${RUN_DIR:?must be defined}" \
-    "${RABBITMQ_LOG_BASE:?must be defined}" \
-    "${RABBITMQ_MNESIA_BASE:?must be defined}" \
-    "${RABBITMQ_TRUST_STORE_DIRECTORY:?must be defined}"
+    "${RUN_DIR:?must be set}" \
+    "${RABBITMQ_LOG_BASE:?must be set}" \
+    "${RABBITMQ_MNESIA_BASE:?must be set}" \
+    "${RABBITMQ_TRUST_STORE_DIRECTORY:?must be set}"
 
-  chown "${SERVICE_USER:?must be defined}":"${SERVICE_GROUP:?must be defined}" \
+  chown "${SERVICE_USER:?must be set}":"${SERVICE_GROUP:?must be set}" \
     "$RUN_DIR" \
     "$RABBITMQ_LOG_BASE" \
     "$RABBITMQ_MNESIA_BASE" \
@@ -36,10 +36,10 @@ increase_file_descriptor_limit() {
 
 start() {
   RUNNING_UNDER_SYSTEMD=true /sbin/start-stop-daemon \
-    --pidfile "${RABBITMQ_PID_FILE:?must be defined}" \
+    --pidfile "${RABBITMQ_PID_FILE:?must be set}" \
     --chuid "$SERVICE_USER":"$SERVICE_GROUP" \
     --start --oknodo --background \
-    --exec "${RABBITMQ_SERVER_PACKAGE:?must be defined}/sbin/rabbitmq-server" --name beam
+    --exec "${RABBITMQ_SERVER_PACKAGE:?must be set}/sbin/rabbitmq-server" --name beam
 }
 
 main

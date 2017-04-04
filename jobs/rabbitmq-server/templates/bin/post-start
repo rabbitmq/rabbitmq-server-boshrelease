@@ -15,7 +15,7 @@ main() {
 }
 
 set_cluster_name() {
-  rabbitmqctl set_cluster_name "${RABBITMQ_CLUSTER_NAME:?must be defined}"
+  rabbitmqctl set_cluster_name "${RABBITMQ_CLUSTER_NAME:?must be set}"
 }
 
 delete_guest_user() {
@@ -24,8 +24,8 @@ delete_guest_user() {
 
 authenticate_admin_user() {
   rabbitmqctl authenticate_user \
-    "${RABBITMQ_ADMIN_USER:?must be defined}" \
-    "${RABBITMQ_ADMIN_PASS:?must be defined}"
+    "${RABBITMQ_ADMIN_USER:?must be set}" \
+    "${RABBITMQ_ADMIN_PASS:?must be set}"
 }
 
 add_admin_user() {

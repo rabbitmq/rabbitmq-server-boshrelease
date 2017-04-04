@@ -13,9 +13,9 @@ main() {
 }
 
 stop() {
-  if rabbitmqctl eval "true = rabbit:is_running()." > "${RABBITMQ_LOG_BASE:?must be defined}/drain.log" 2>&1
+  if rabbitmqctl eval "true = rabbit:is_running()." > "${RABBITMQ_LOG_BASE:?must be set}/drain.log" 2>&1
   then
-    timeout $(( 9 * 60 )) rabbitmqctl stop_app > "$RABBITMQ_LOG_BASE/drain.log" 2>&1
+    timeout $(( 9 * 60 )) rabbitmqctl stop "${RABBITMQ_PID_FILE:?must be set}" > "$RABBITMQ_LOG_BASE/drain.log" 2>&1
   else
     echo "RabbitMQ not running, nothing to stop" > "$RABBITMQ_LOG_BASE/drain.log" 2>&1
   fi

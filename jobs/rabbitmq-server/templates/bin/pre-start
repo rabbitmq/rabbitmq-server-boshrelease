@@ -17,13 +17,13 @@ main() {
 }
 
 add_hostname_alias_to_etc_hosts() {
-  grep "${ETC_HOSTS:?must be defined}" /etc/hosts ||
+  grep "${ETC_HOSTS:?must be set}" /etc/hosts ||
     echo "$ETC_HOSTS" >> /etc/hosts
 }
 
 write_erlang_cookie() {
-  echo -n "${ERLANG_COOKIE:?must be defined}" > /home/"${SERVICE_USER:?must be defined}"/.erlang.cookie
-  chown "$SERVICE_USER:${SERVICE_GROUP:?must be defined}" "/home/$SERVICE_USER/.erlang.cookie"
+  echo -n "${ERLANG_COOKIE:?must be set}" > /home/"${SERVICE_USER:?must be set}"/.erlang.cookie
+  chown "$SERVICE_USER:${SERVICE_GROUP:?must be set}" "/home/$SERVICE_USER/.erlang.cookie"
   chmod 600 "/home/$SERVICE_USER/.erlang.cookie"
 
   echo -n "$ERLANG_COOKIE" > /root/.erlang.cookie
@@ -32,7 +32,7 @@ write_erlang_cookie() {
 }
 
 install_generic_unix_package() {
-  true "${RABBITMQ_SERVER_PACKAGE_URL:?must be defined}"
+  true "${RABBITMQ_SERVER_PACKAGE_URL:?must be set}"
 
   (
     local archive package_dir _version
@@ -63,7 +63,7 @@ install_generic_unix_package() {
       esac
     fi
 
-    ln -nsf "$package_dir" "${RABBITMQ_SERVER_PACKAGE:?must be defined}"
+    ln -nsf "$package_dir" "${RABBITMQ_SERVER_PACKAGE:?must be set}"
   )
 }
 
