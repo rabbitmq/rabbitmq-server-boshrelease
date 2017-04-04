@@ -25,7 +25,8 @@ detect_os() {
 }
 
 check_homebrew() {
-  which brew &>/dev/null || (
+  which brew &>/dev/null ||
+  (
     echo "Homebrew must be installed first - https://brew.sh/"
     exit 1
   )
@@ -58,14 +59,16 @@ install_ruby() {
 }
 
 ensure_bosh_cli_installed() {
-  gem search -i bosh_cli &>/dev/null || (
+  gem search -i bosh_cli &>/dev/null ||
+  (
     echo "Installing bosh ..."
     gem install bosh_cli --no-document
   )
 }
 
 ensure_lpass_cli_installed() {
-  which lpass &>/dev/null || (
+  which lpass &>/dev/null ||
+  (
     echo "Installing lpass ..."
     brew install lastpass-cli
   )
