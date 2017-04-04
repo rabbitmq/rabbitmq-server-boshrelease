@@ -103,9 +103,15 @@ deployed() {
   echo "
 Successfully deployed $NODES_COUNT node(s) of $RMQ_PACKAGE
 
-URL:  https://$DEPLOYMENT_NAME.$BOSH_DIRECTOR_FQDN/#/
-USER: $SERVER_USER
-PASS: $SERVER_PASS
+  URL:  https://$DEPLOYMENT_NAME.$BOSH_DIRECTOR_FQDN/#/
+  USER: $SERVER_USER
+  PASS: $SERVER_PASS
+
+To SSH into any of the RabbitMQ node(s) that you have just deployed:
+
+  cd ../rabbitmq-credentials/bosh
+  git pull
+  ./ssh
 "
 }
 
