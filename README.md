@@ -10,6 +10,8 @@ To create a new dev release, run `./script/create-dev-release`. When the time co
 
 You're a champ for just thinking it. Making things better is deeply rewarding, we already like you very much.
 
+When you're making local changes and want to test the release, you can use `./script/test-release`. It assumes that you have already used `./script/deploy` and have a local BOSH deployment manifest.
+
 Any problems that you come across are bugs and should preferably be raised as Github pull requests. Github issues are OK as well, but they will take longer to action. Every little helps, we welcome all forms of contribution.
 
 ### Isn't `cf-rabbitmq-release` the official RabbitMQ BOSH release?
