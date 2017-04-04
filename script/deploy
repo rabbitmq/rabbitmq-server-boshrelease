@@ -4,7 +4,109 @@ set -e
 
 [ -z "$DEBUG" ] || set -x
 
-bosh upload release
-cat rabbitmq-server-vars.yml rabbitmq-server.yml > manifest.yml
-bosh deployment manifest.yml
-bosh deploy
+LASTPASS_BOSH_DIRECTOR_CREDENTIALS="Shared-London Services/london-ci/bosh-env-tarantino"
+BOSH_DIRECTOR_FQDN="tarantino.directors.cf-app.com"
+
+RMQ_PACKAGE="https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_8/rabbitmq-server-generic-unix-3.6.8.tar.xz"
+NODES_COUNT=1
+DEPLOYMENT_NAME="rmq-$USER"
+SERVER_USER="admin"
+SERVER_PASS="InsecureDefaultPassword"
+ERLANG_COOKIE="InsecureDefaultCookie"
+
+main() {
+  ensure_logged_in
+  first_deploy
+  upload_latest_final_release
+  bosh deployment manifest.yml
+  bosh deploy --no-redact
+  deployed
+}
+
+ensure_logged_in() {
+  bosh stemcells &>/dev/null ||
+  bosh login "$(bosh_username)" "$(bosh_password)"
+}
+
+bosh_username() {
+  lpass show --username "$LASTPASS_BOSH_DIRECTOR_CREDENTIALS"
+}
+
+bosh_password() {
+  lpass show --password "$LASTPASS_BOSH_DIRECTOR_CREDENTIALS"
+}
+
+first_deploy() {
+  if [ ! -f manifest.yml ]
+  then
+    prompt_and_generate_vars
+    generate_manifest
+  fi
+}
+
+prompt_and_generate_vars() {
+  echo "It looks like this is your first deploy"
+
+  echo
+  read -rp "What name would you like to give your deployment? (press enter for $DEPLOYMENT_NAME): " deployment_name
+  DEPLOYMENT_NAME="${deployment_name:=$DEPLOYMENT_NAME}"
+
+  echo
+  read -rp "Which RabbitMQ package do you want to deploy? (press enter for $RMQ_PACKAGE): " rmq_package
+  RMQ_PACKAGE="${rmq_package:=$RMQ_PACKAGE}"
+
+  echo
+  read -rp "What username should we set for the Management UI? (press enter for $SERVER_USER): " server_user
+  SERVER_USER="${server_user:=$SERVER_USER}"
+
+  echo
+  read -rp "What password should we set for the Management UI? (press enter for $SERVER_PASS): " server_pass
+  SERVER_PASS="${server_pass:=$SERVER_PASS}"
+
+  echo
+  read -rp "What Erlang cookie should we set? (press enter for $ERLANG_COOKIE): " erlang_cookie
+  ERLANG_COOKIE="${erlang_cookie:=$ERLANG_COOKIE}"
+
+  echo
+  read -rp "Lastly, how many nodes should there be in this cluster? (press enter for $NODES_COUNT): " nodes_count
+  NODES_COUNT="${nodes_count:=$NODES_COUNT}"
+
+  cat > rabbitmq-server-vars.yml <<EOF
+rabbitmq_generic_unix: &rabbitmq_generic_unix $RMQ_PACKAGE
+
+deployment_name: &deployment_name $DEPLOYMENT_NAME
+
+server_host: &server_host $DEPLOYMENT_NAME.$BOSH_DIRECTOR_FQDN
+
+server_user: &server_user $SERVER_USER
+server_pass: &server_pass $SERVER_PASS
+
+erlang_cookie: &erlang_cookie $ERLANG_COOKIE
+
+server_count: &server_count $NODES_COUNT
+EOF
+}
+
+generate_manifest() {
+  cat rabbitmq-server-vars.yml rabbitmq-server.yml > manifest.yml
+}
+
+upload_latest_final_release() {
+  local final_releases latest_final_release_manifest
+  final_releases=(releases/*/*.yml)
+  latest_final_release_manifest="${final_releases[*]: -1}"
+
+  bosh upload release "$latest_final_release_manifest"
+}
+
+deployed() {
+  echo "
+Successfully deployed $NODES_COUNT node(s) of $RMQ_PACKAGE
+
+URL:  https://$DEPLOYMENT_NAME.$BOSH_DIRECTOR_FQDN/#/
+USER: $SERVER_USER
+PASS: $SERVER_PASS
+"
+}
+
+main
