@@ -3,7 +3,7 @@
 <%
 
 cluster_nodes = link("rabbitmq-server").instances.map do |instance|
-    "'rabbit@rmq#{instance.index}'"
+    "'rabbit@rmq#{instance.index}.#{spec.deployment}'"
 end
 
 %>
