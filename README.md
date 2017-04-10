@@ -6,6 +6,8 @@ All actions are captured in the `./script` dir, and are meant to be self-contain
 
 To create a new dev release, run `./script/create-dev-release`. When the time comes to cut a new final release, `./script/create-final-release` will do most of the heavy lifting. You will still need to create a git tag and update the `CHANGELOG.md`. It's a small price to pay for the excitement that shipping a final release brings.
 
+To monitor a deployment, you can clone [the DataDog dashboard](https://app.datadoghq.com/dash/272837/rmq-deployment-example?live=true&page=0&is_auto=false&from_ts=1491812266751&to_ts=1491815866751&tile_size=m) and edit the `deployment` variable.
+
 ### How can I make this BOSH release better?
 
 You're a champ for just thinking it. Making things better is deeply rewarding, we already like you very much.
