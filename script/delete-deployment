@@ -9,7 +9,7 @@ LASTPASS_BOSH_DIRECTOR_CREDENTIALS="Shared-London Services/london-ci/bosh-env-ta
 main() {
   ensure_logged_in
   delete_deployment
-  delete_deployment_manifest
+  delete_deployment_files
 }
 
 ensure_logged_in() {
@@ -25,21 +25,31 @@ bosh_password() {
   lpass show --password "$LASTPASS_BOSH_DIRECTOR_CREDENTIALS"
 }
 
+deployment_exists() {
+  [ -f deployment ]
+}
+
 delete_deployment() {
-  if [ -f manifest.yml ]
+  if deployment_exists
   then
-    bosh delete deployment "$(deployment_name_from_manifest)"
+    . deployment
+    bosh delete deployment "$DEPLOYMENT_NAME"
   else
-    echo "It doesn't seem that you have deployed using script/deploy, no deployment to delete"
+    echo "It doesn't seem that you have deployed using script/create-deployment, no deployment to delete"
   fi
 }
 
-deployment_name_from_manifest() {
-  awk '/&deployment_name/ { print $3 }' < manifest.yml
-}
-
-delete_deployment_manifest() {
+delete_deployment_files() {
   rm -f manifest.yml
+  while true; do
+    read -p "Do you want to delete a deployment file [yn]? " yn
+    case $yn in
+      [Yy]* ) rm -f deployment
+              break;;
+      [Nn]* ) exit;;
+      * ) echo "Please answer y or n.";;
+    esac
+  done
 }
 
 main

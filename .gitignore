@@ -8,3 +8,4 @@
 /dev_releases/
 /rabbitmq-server-vars.yml
 /manifest.yml
+/deployment

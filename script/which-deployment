@@ -1,0 +1,24 @@
+set -e
+
+[ -z "$DEBUG" ] || set -x
+
+if [ -f deployment ]
+
+then
+. deployment
+echo "
+Selected deployment $DEPLOYMENT_NAME with $NODES_COUNT node(s) of $RMQ_PACKAGE
+
+  URL:  https://$DEPLOYMENT_NAME.$BOSH_DIRECTOR_FQDN/#/
+  USER: $SERVER_USER
+  PASS: $SERVER_PASS
+
+To SSH into any of the RabbitMQ node(s):
+
+  cd ../rabbitmq-credentials/bosh
+  git pull
+  ./ssh
+"
+else
+echo "It doesn't seem that you have deployed using script/create-deployment"
+fi

@@ -2,9 +2,22 @@
 
 ### How do I use this BOSH release?
 
-All actions are captured in the `./script` dir, and are meant to be self-contained and descriptive. Start by running `./script/setup` first, followed by `./script/deploy`. To delete a deployment, run `./script/delete-deployment`.
+All actions are captured in the `./script` dir.
 
-To create a new dev release, run `./script/create-dev-release`. When the time comes to cut a new final release, `./script/create-final-release` will do most of the heavy lifting. You will still need to create a git tag and update the `CHANGELOG.md`. It's a small price to pay for the excitement that shipping a final release brings.
+To configure your system to use `lpass` and `bosh` CLI tools, run `./script/setup`.
+
+To create a new deployment configuration, run `./script/create-deployment`
+it will create a `deployment` file with deployment configurations.
+
+To deploy an existing configuration, run `./script/deploy`.
+
+To delete a deployment, run `./script/delete-deployment`.
+
+To print a deployment information, run `./script/which-deployment`.
+
+To create a new dev release, run `./script/create-dev-release`.
+
+When the time comes to cut a new final release, `./script/create-final-release` will do most of the heavy lifting. You will still need to create a git tag and update the `CHANGELOG.md`. It's a small price to pay for the excitement that shipping a final release brings.
 
 To monitor a deployment, you can clone [the DataDog dashboard](https://app.datadoghq.com/dash/272837/rmq-deployment-example?live=true&page=0&is_auto=false&from_ts=1491812266751&to_ts=1491815866751&tile_size=m) and edit the `deployment` variable.
 
