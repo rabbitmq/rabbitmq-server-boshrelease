@@ -1,11 +1,12 @@
+#!/usr/bin/env bash
+
 set -e
 
 [ -z "$DEBUG" ] || set -x
 
 if [ -f deployment ]
-
 then
-. deployment
+  . deployment
 echo "
 Selected deployment $DEPLOYMENT_NAME with $NODES_COUNT node(s) of $RMQ_PACKAGE
 
@@ -20,5 +21,5 @@ To SSH into any of the RabbitMQ node(s):
   ./ssh
 "
 else
-echo "It doesn't seem that you have deployed using script/create-deployment"
+  echo "It doesn't seem that you have created a manifest, you may want to first run script/create-manifest"
 fi

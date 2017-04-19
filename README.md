@@ -6,8 +6,7 @@ All actions are captured in the `./script` dir.
 
 To configure your system to use `lpass` and `bosh` CLI tools, run `./script/setup`.
 
-To create a new deployment configuration, run `./script/create-deployment`
-it will create a `deployment` file with deployment configurations.
+To create a new manifest, run `./script/create-manifest` which will write the deployment configuration to a `deployment` file and the BOSH manifest to `manifest.yml` file.
 
 To deploy an existing configuration, run `./script/deploy`.
 

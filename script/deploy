@@ -10,21 +10,21 @@ BOSH_DIRECTOR_FQDN="tarantino.directors.cf-app.com"
 
 main() {
   ensure_logged_in
-  maybe_deploy
-}
-
-deploy() {
-  . deployment
-  generate_manifest
-  upload_latest_final_release
-  bosh deployment manifest.yml
-  bosh deploy --no-redact
-  deployed
+  if manifest_exists
+  then
+    . deployment
+    upload_latest_final_release
+    bosh deployment manifest.yml
+    bosh deploy --no-redact
+    ok
+  else
+    suggest_creating_manifest_first
+  fi
 }
 
 ensure_logged_in() {
   bosh stemcells &>/dev/null ||
-  bosh login "$(bosh_username)" "$(bosh_password)"
+    bosh login "$(bosh_username)" "$(bosh_password)"
 }
 
 bosh_username() {
@@ -35,37 +35,13 @@ bosh_password() {
   lpass show --password "$LASTPASS_BOSH_DIRECTOR_CREDENTIALS"
 }
 
-deployment_exists() {
-  [ -f deployment ]
+manifest_exists() {
+  [ -f deployment ] && [ -f manifest.yml ]
 }
 
-
-maybe_deploy() {
-  if deployment_exists
-  then
-    . deployment
-    echo "
-Using existing deployment $DEPLOYMENT_NAME
-    "
-    deploy
-  else
-    echo "It doesn't seem that you have deployed using script/create-deployment, nothing to deploy"
-  fi
-}
-
-generate_manifest() {
-  cat - rabbitmq-server.yml > manifest.yml <<EOF
-rabbitmq_generic_unix: &rabbitmq_generic_unix $RMQ_PACKAGE
-deployment_name: &deployment_name $DEPLOYMENT_NAME
-
-server_host: &server_host $DEPLOYMENT_NAME.$BOSH_DIRECTOR_FQDN
-server_user: &server_user $SERVER_USER
-server_pass: &server_pass $SERVER_PASS
-
-erlang_cookie: &erlang_cookie $ERLANG_COOKIE
-
-server_count: &server_count $NODES_COUNT
-EOF
+suggest_creating_manifest_first() {
+  echo "It doesn't seem that you have created a manifest, you may want to first run script/create-manifest"
+  return 1
 }
 
 upload_latest_final_release() {
@@ -76,13 +52,11 @@ upload_latest_final_release() {
   bosh upload release "$latest_final_release_manifest"
 }
 
-deployed() {
+ok() {
   echo "
 Successfully deployed $NODES_COUNT node(s) of $RMQ_PACKAGE
 
-  Deploument name: $DEPLOYMENT_NAME
-
-  URL:  https://$DEPLOYMENT_NAME.$BOSH_DIRECTOR_FQDN/#/
+  URL:  https://$DEPLOYMENT_NAME.$BOSH_DIRECTOR_FQDN/
   USER: $SERVER_USER
   PASS: $SERVER_PASS
 

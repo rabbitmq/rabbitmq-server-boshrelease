@@ -4,60 +4,38 @@ set -e
 
 [ -z "$DEBUG" ] || set -x
 
-LASTPASS_BOSH_DIRECTOR_CREDENTIALS="Shared-London Services/london-ci/bosh-env-tarantino"
-
-BOSH_DIRECTOR_FQDN="tarantino.directors.cf-app.com"
-
 RMQ_PACKAGE="https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_9/rabbitmq-server-generic-unix-3.6.9.tar.xz"
-NODES_COUNT=1
+NODES_COUNT=2
 DEPLOYMENT_NAME="rmq-$USER"
 SERVER_USER="admin"
 SERVER_PASS="InsecureDefaultPassword"
 ERLANG_COOKIE="InsecureDefaultCookie"
-
-
-deployment_exists() {
-  [ -f deployment ]
-}
-
-ensure_logged_in() {
-  bosh stemcells &>/dev/null ||
-  bosh login "$(bosh_username)" "$(bosh_password)"
-}
-
-bosh_username() {
-  lpass show --username "$LASTPASS_BOSH_DIRECTOR_CREDENTIALS"
-}
-
-bosh_password() {
-  lpass show --password "$LASTPASS_BOSH_DIRECTOR_CREDENTIALS"
-}
-
+BOSH_DIRECTOR_FQDN="tarantino.directors.cf-app.com"
 
 main() {
-  ensure_logged_in
-  create_deployment
+  if should_create_new_manifest
+  then
+    generate_deployment
+    generate_manifest
+  fi
+  ok
 }
 
-create_deployment() {
-  if deployment_exists
+should_create_new_manifest() {
+  if manifest_exists
   then
-    while true; do
-      read -p "Deployment already exists, do you want to overwrite it [yn]? " yn
-      case $yn in
-        [Yy]* ) prompt_and_generate_vars
-                break;;
-        [Nn]* ) exit;;
-        * ) echo "Please answer y or n.";;
-      esac
-    done
+    read -rp "Do you want to overwrite the existing manifest? [yn] " overwrite
+    [[ "$overwrite" =~ [Yy] ]]
   else
-    echo "It looks like this is your first deploy"
-    prompt_and_generate_vars
+    true
   fi
 }
 
-prompt_and_generate_vars() {
+manifest_exists() {
+  [ -f deployment ] && [ -f manifest.yml ]
+}
+
+generate_deployment() {
   echo
   read -rp "What name would you like to give your deployment? (press enter for $DEPLOYMENT_NAME): " deployment_name
   DEPLOYMENT_NAME="${deployment_name:=$DEPLOYMENT_NAME}"
@@ -94,12 +72,26 @@ SERVER_PASS=$SERVER_PASS
 ERLANG_COOKIE=$ERLANG_COOKIE
 NODES_COUNT=$NODES_COUNT
 EOF
+}
 
-  echo "
-  New deploymnt file created
+generate_manifest() {
+  . deployment
+  cat - rabbitmq-server.yml > manifest.yml <<EOF
+rabbitmq_generic_unix: &rabbitmq_generic_unix $RMQ_PACKAGE
+deployment_name: &deployment_name $DEPLOYMENT_NAME
 
-  You can now deploy with script/deploy
-"
+server_host: &server_host $DEPLOYMENT_NAME.$BOSH_DIRECTOR_FQDN
+server_user: &server_user $SERVER_USER
+server_pass: &server_pass $SERVER_PASS
+
+erlang_cookie: &erlang_cookie $ERLANG_COOKIE
+
+server_count: &server_count $NODES_COUNT
+EOF
+}
+
+ok() {
+  echo "Manifest created, you can now deploy with script/deploy"
 }
 
 main

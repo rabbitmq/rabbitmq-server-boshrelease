@@ -9,12 +9,12 @@ LASTPASS_BOSH_DIRECTOR_CREDENTIALS="Shared-London Services/london-ci/bosh-env-ta
 main() {
   ensure_logged_in
   delete_deployment
-  delete_deployment_files
+  delete_manifest
 }
 
 ensure_logged_in() {
   bosh stemcells &>/dev/null ||
-  bosh login "$(bosh_username)" "$(bosh_password)"
+    bosh login "$(bosh_username)" "$(bosh_password)"
 }
 
 bosh_username() {
@@ -25,31 +25,25 @@ bosh_password() {
   lpass show --password "$LASTPASS_BOSH_DIRECTOR_CREDENTIALS"
 }
 
-deployment_exists() {
-  [ -f deployment ]
+manifest_exists() {
+  [ -f deployment ] && [ -f manifest.yml ]
 }
 
 delete_deployment() {
-  if deployment_exists
+  if manifest_exists
   then
     . deployment
-    bosh delete deployment "$DEPLOYMENT_NAME"
+    bosh delete deployment "$DEPLOYMENT_NAME" --force
   else
-    echo "It doesn't seem that you have deployed using script/create-deployment, no deployment to delete"
+    echo "It doesn't seem that you have created a manifest, you may want to first run script/create-manifest"
   fi
 }
 
-delete_deployment_files() {
-  rm -f manifest.yml
-  while true; do
-    read -p "Do you want to delete a deployment file [yn]? " yn
-    case $yn in
-      [Yy]* ) rm -f deployment
-              break;;
-      [Nn]* ) exit;;
-      * ) echo "Please answer y or n.";;
-    esac
-  done
+delete_manifest() {
+  local delete
+
+  read -rp "Do you want to delete the manifest? [yn] " delete
+  [[ ! "$delete" =~ [Yy] ]] || rm -f deployment manifest.yml
 }
 
 main

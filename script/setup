@@ -9,17 +9,17 @@ main() {
   check_bosh_cli_min_ruby_version || install_ruby
   ensure_bosh_cli_installed
   ensure_lpass_cli_installed
-  setup_complete
+  ok
 }
 
 detect_os() {
   case "$(uname)" in
     Darwin)
       check_homebrew
-      ;;
+    ;;
     *)
       manual_installation_required
-      ;;
+    ;;
   esac
 
 }
@@ -74,8 +74,8 @@ ensure_lpass_cli_installed() {
   )
 }
 
-setup_complete() {
-  echo "All dependencies installed, you might want to run: ./script/deploy"
+ok() {
+  echo "All dependencies installed, you might want to run: script/deploy"
 }
 
 main
