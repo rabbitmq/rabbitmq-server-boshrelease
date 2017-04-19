@@ -14,7 +14,7 @@ main() {
     rabbitmq_node_is_accessible
     RABBITMQ_PID="$(rabbitmq_pid)"
     stop_rabbitmq_app
-    ( stop_erlang_vm && wait_for_erlang_vm_to_stop ) || hard_kill_erlang_vm
+    ( stop_erlang_vm && wait_for_erlang_vm_to_stop ) || failed_to_stop_erlang_vm
     log "RabbitMQ node stopped"
   else
     log "There is no Erlang VM running for $RABBITMQ_NODENAME, no process to stop"
@@ -38,9 +38,9 @@ rabbitmq_pid() {
 }
 
 stop_rabbitmq_app() {
-  log "Stopping RabbitMQ app ..."
+  log "Stopping RabbitMQ app, will timeout in ${SERVICE_SHUTDOWN_TIMEOUT:?must be set}s ..."
 
-  if timeout "${SERVICE_SHUTDOWN_TIMEOUT:?must be set}" rabbitmqctl stop_app 1>>"$RABBITMQ_LOG_BASE/drain.log" 2>&1
+  if timeout "$SERVICE_SHUTDOWN_TIMEOUT" rabbitmqctl stop_app 1>>"$RABBITMQ_LOG_BASE/drain.log" 2>&1
   then
     log "RabbitMQ app successfully stopped"
   else
@@ -58,7 +58,7 @@ stop_erlang_vm() {
 }
 
 wait_for_erlang_vm_to_stop() {
-  log "Waiting for Erlang VM to stop ..."
+  log "Waiting up to ${SERVICE_SHUTDOWN_TIMEOUT}s for Erlang VM to stop ..."
   timeout "$SERVICE_SHUTDOWN_TIMEOUT" bash -c "
 while ps ${RABBITMQ_PID:?must be set}
 do
@@ -66,9 +66,19 @@ do
 done" 1>/dev/null 2>&1
 }
 
-hard_kill_erlang_vm() {
-  log "Erlang VM failed to stop cleanly, using hard kill as a last resort"
-  kill -9 "${RABBITMQ_PID:?must be set}"
+failed_to_stop_erlang_vm() {
+  log "Erlang VM failed to stop cleanly within ${SERVICE_SHUTDOWN_TIMEOUT}s, manual intervention is required:
+
+* Is there enough disk space? df -h
+* Is the Erlang node running? pgrep -a beam
+* Is the Erlang VM crashing? lsof -p \$(pgrep beam) | grep crash
+* Is the Erlang distribution in a healthy state? epmd -names
+* Is the RabbitMQ node accessible? rabbitmqctl eval 'ok.'
+* Are there any stuck processes? rabbitmqctl eval 'rabbit:maybe_stuck().'
+
+Based on the above, it might be safe to send SIGTERM to the Erlang VM process, it's a decision that can only be taken by an operator"
+
+  exit 1
 }
 
 ok_for_bosh_to_continue_with_stop() {
