@@ -53,9 +53,12 @@ stemcells: # http://bosh.io/stemcells
 # Lifecycle configurations
 #
 update:
-  canaries: 1
+  canaries: *server_count # Update the cluster as a whole
+                           #
+                           # Since RabbitMQ native clustering requires the last stopped node to start first,
+                           # we must start all nodes at once, otherwise the cluster won't form.
   canary_watch_time: &watch_time 10000-60000 # 10s - 1m
-  max_in_flight: 10
+  max_in_flight: *server_count
   serial: false
   update_watch_time: *watch_time
 
