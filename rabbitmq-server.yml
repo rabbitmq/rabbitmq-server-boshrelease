@@ -31,7 +31,7 @@ director_uuid: *bosh_director_uuid
 #
 releases: # http://bosh.io/releases
 - name: rabbitmq-server
-  version: latest
+  version: *release_version
 - name: routing
   version: 0.136.0
   url: https://bosh.io/d/github.com/cloudfoundry-incubator/cf-routing-release?v=0.136.0

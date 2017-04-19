@@ -11,6 +11,7 @@ SERVER_USER="admin"
 SERVER_PASS="InsecureDefaultPassword"
 ERLANG_COOKIE="InsecureDefaultCookie"
 BOSH_DIRECTOR_FQDN="tarantino.directors.cf-app.com"
+RELEASE_VERSION="$(awk '/ version/ { print $2 }' < releases/rabbitmq-server/index.yml | tail -n 1)"
 
 main() {
   if should_create_new_manifest
@@ -41,6 +42,10 @@ generate_deployment() {
   DEPLOYMENT_NAME="${deployment_name:=$DEPLOYMENT_NAME}"
 
   echo
+  read -rp "Which BOSH release would you like to deploy? (press enter for $RELEASE_VERSION): " release_version
+  RELEASE_VERSION="${release_version:=$RELEASE_VERSION}"
+
+  echo
   read -rp "Which RabbitMQ package do you want to deploy? (press enter for $RMQ_PACKAGE): " rmq_package
   RMQ_PACKAGE="${rmq_package:=$RMQ_PACKAGE}"
 
@@ -64,6 +69,7 @@ generate_deployment() {
 RMQ_PACKAGE=$RMQ_PACKAGE
 
 DEPLOYMENT_NAME=$DEPLOYMENT_NAME
+RELEASE_VERSION=$RELEASE_VERSION
 BOSH_DIRECTOR_FQDN=$BOSH_DIRECTOR_FQDN
 
 SERVER_USER=$SERVER_USER
@@ -79,6 +85,7 @@ generate_manifest() {
   cat - rabbitmq-server.yml > manifest.yml <<EOF
 rabbitmq_generic_unix: &rabbitmq_generic_unix $RMQ_PACKAGE
 deployment_name: &deployment_name $DEPLOYMENT_NAME
+release_version: &release_version $RELEASE_VERSION
 
 server_host: &server_host $DEPLOYMENT_NAME.$BOSH_DIRECTOR_FQDN
 server_user: &server_user $SERVER_USER
