@@ -10,12 +10,39 @@ set -e
 exec 1> >(tee -a "${RABBITMQ_LOG_BASE:?must be set}/stop.log") 2>&1
 
 main() {
-  stop
+  date
+  if rabbitmq_node_accessible
+  then
+    suggest_bosh_stop
+    new_shutdown || legacy_stop
+  fi
+  cleanup_pid
 }
 
-stop() {
-  rabbitmqctl stop || echo "RabbitMQ already stopped"
+rabbitmq_node_accessible() {
+  rabbitmqctl eval "ok."
+}
 
+suggest_bosh_stop() {
+    echo "Stopping RabbitMQ via Monit is not recommended
+RabbitMQ should be stopped via bosh stop, specifically via the drain script
+
+The monit stop command will fail if it does not complete within 30s
+We are required to statisfy the Monit contract with BOSH, but stopping RabbitMQ from Monit is a bad idea"
+}
+
+new_shutdown() {
+  echo "Performing clean RabbitMQ shutdown ..."
+  rabbitmqctl shutdown
+}
+
+legacy_stop() {
+  echo "Performing legacy RabbitMQ stop ..."
+  rabbitmqctl stop "${RABBITMQ_PID_FILE:?must be set}"
+}
+
+cleanup_pid() {
+  echo "Removing $RABBITMQ_PID_FILE ..."
   rm -f "$RABBITMQ_PID_FILE"
 }
 

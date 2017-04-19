@@ -8,17 +8,71 @@ set -e
 . /var/vcap/jobs/rabbitmq-server/env
 
 main() {
-  stop
-  echo 0
+  log "$(date)"
+  if rabbitmq_node_exists
+  then
+    rabbitmq_node_is_accessible
+    RABBITMQ_PID="$(rabbitmq_pid)"
+    stop_rabbitmq_app
+    ( stop_erlang_vm && wait_for_erlang_vm_to_stop ) || hard_kill_erlang_vm
+    log "RabbitMQ node stopped"
+  else
+    log "There is no Erlang VM running for $RABBITMQ_NODENAME, no process to stop"
+  fi
+
+  ok_for_bosh_to_continue_with_stop
 }
 
-stop() {
-  if rabbitmqctl eval "true = rabbit:is_running()." > "${RABBITMQ_LOG_BASE:?must be set}/drain.log" 2>&1
+rabbitmq_node_exists() {
+  log "Is there an Erlang VM for ${RABBITMQ_NODENAME:?must be set} ?"
+  pgrep -fa "beam.*$RABBITMQ_NODENAME" 1>>"${RABBITMQ_LOG_BASE:?must be set}/drain.log" 2>&1
+}
+
+rabbitmq_node_is_accessible() {
+  log "Prove that we communicate with the RabbitMQ Erlang VM by getting its PID"
+  rabbitmq_pid 1>>"$RABBITMQ_LOG_BASE/drain.log" 2>&1 || exit 1
+}
+
+rabbitmq_pid() {
+  rabbitmqctl eval "list_to_integer(os:getpid())."
+}
+
+stop_rabbitmq_app() {
+  log "Stopping RabbitMQ app ..."
+
+  if timeout "${SERVICE_SHUTDOWN_TIMEOUT:?must be set}" rabbitmqctl stop_app 1>>"$RABBITMQ_LOG_BASE/drain.log" 2>&1
   then
-    timeout $(( 9 * 60 )) rabbitmqctl stop "${RABBITMQ_PID_FILE:?must be set}" > "$RABBITMQ_LOG_BASE/drain.log" 2>&1
+    log "RabbitMQ app successfully stopped"
   else
-    echo "RabbitMQ not running, nothing to stop" > "$RABBITMQ_LOG_BASE/drain.log" 2>&1
+    log "RabbitMQ app failed to stop"
   fi
+}
+
+log() {
+  echo "$*" >> "$RABBITMQ_LOG_BASE/drain.log"
+}
+
+stop_erlang_vm() {
+  log "Stopping Erlang VM ..."
+  rabbitmqctl eval "init:stop()." 1>>"$RABBITMQ_LOG_BASE/drain.log" 2>&1
+}
+
+wait_for_erlang_vm_to_stop() {
+  log "Waiting for Erlang VM to stop ..."
+  timeout "$SERVICE_SHUTDOWN_TIMEOUT" bash -c "
+while ps ${RABBITMQ_PID:?must be set}
+do
+  sleep 0.5
+done" 1>/dev/null 2>&1
+}
+
+hard_kill_erlang_vm() {
+  log "Erlang VM failed to stop cleanly, using hard kill as a last resort"
+  kill -9 "${RABBITMQ_PID:?must be set}"
+}
+
+ok_for_bosh_to_continue_with_stop() {
+  echo 0
 }
 
 main
