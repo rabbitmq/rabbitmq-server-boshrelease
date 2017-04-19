@@ -14,7 +14,7 @@ To delete a deployment, run `./script/delete-deployment`.
 
 To print a deployment information, run `./script/which-deployment`.
 
-To create a new dev release, run `./script/create-dev-release`.
+To create a new dev release, run `./script/create-dev-release` and then `./script/deploy`. You will need to set the release version to a dev release (we default to final release version) when creating the manifest.
 
 When the time comes to cut a new final release, `./script/create-final-release` will do most of the heavy lifting. You will still need to create a git tag and update the `CHANGELOG.md`. It's a small price to pay for the excitement that shipping a final release brings.
 
@@ -24,7 +24,7 @@ To monitor a deployment, you can clone [the DataDog dashboard](https://app.datad
 
 You're a champ for just thinking it. Making things better is deeply rewarding, we already like you very much.
 
-When you're making local changes and want to test the release, you can use `./script/test-release`. It assumes that you have already used `./script/deploy` and have a local BOSH deployment manifest.
+When you're making local changes and want to test the release, you can use `./script/create-dev-release` and then `./script/deploy`. When creating multiple dev releases, you might want to set the release version when creating the manifest to **latest**.
 
 Any problems that you come across are bugs and should preferably be raised as Github pull requests. Github issues are OK as well, but they will take longer to action. Every little helps, we welcome all forms of contribution.
 

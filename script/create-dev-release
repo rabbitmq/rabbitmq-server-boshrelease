@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
 bosh create release --force --version "$(date +'%Y%m%d.%H%M')" "$@"
+bosh upload release
