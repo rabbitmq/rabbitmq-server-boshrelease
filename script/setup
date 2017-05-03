@@ -9,6 +9,7 @@ main() {
   check_bosh_cli_min_ruby_version || install_ruby
   ensure_bosh_cli_installed
   ensure_lpass_cli_installed
+  ensure_pwgen_installed
   ok
 }
 
@@ -21,7 +22,6 @@ detect_os() {
       manual_installation_required
     ;;
   esac
-
 }
 
 check_homebrew() {
@@ -38,6 +38,7 @@ manual_installation_required() {
   * Ruby - https://www.ruby-lang.org/en/documentation/installation/
     * gem install bosh_cli --no-document
   * lastpass-cli - https://github.com/lastpass/lastpass-cli
+  * pwgen - https://linux.die.net/man/1/pwgen
 "
   exit 1
 }
@@ -71,6 +72,14 @@ ensure_lpass_cli_installed() {
   (
     echo "Installing lpass ..."
     brew install lastpass-cli
+  )
+}
+
+ensure_pwgen_installed() {
+  which pwgen &>/dev/null ||
+  (
+    echo "Installing pwgen ..."
+    brew install pwgen
   )
 }
 

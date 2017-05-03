@@ -8,8 +8,8 @@ RMQ_PACKAGE="https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbi
 NODES_COUNT=2
 DEPLOYMENT_NAME="rmq-$USER"
 SERVER_USER="admin"
-SERVER_PASS="InsecureDefaultPassword"
-ERLANG_COOKIE="InsecureDefaultCookie"
+SERVER_PASS="$(pwgen 20 1)"
+ERLANG_COOKIE="$(pwgen 20 1)"
 BOSH_DIRECTOR_FQDN="tarantino.directors.cf-app.com"
 RELEASE_VERSION="$(awk '/ version/ { print $2 }' < releases/rabbitmq-server/index.yml | tail -n 1)"
 
