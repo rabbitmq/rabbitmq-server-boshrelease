@@ -20,8 +20,6 @@ server_route: &server_route
   port: 15672
   registration_interval: 20s
 
-vm_type: &vm_type c4.xlarge
-
 # Deployment identification
 #
 name: *deployment_name
@@ -53,12 +51,12 @@ stemcells: # http://bosh.io/stemcells
 # Lifecycle configurations
 #
 update:
-  canaries: *server_count # Update the cluster as a whole
+  canaries: *instance_count # Update the cluster as a whole
                            #
                            # Since RabbitMQ native clustering requires the last stopped node to start first,
                            # we must start all nodes at once, otherwise the cluster won't form.
   canary_watch_time: &watch_time 10000-60000 # 10s - 1m
-  max_in_flight: *server_count
+  max_in_flight: *instance_count
   serial: false
   update_watch_time: *watch_time
 
@@ -66,8 +64,8 @@ update:
 #
 instance_groups:
 - name: rmq
-  instances: *server_count
-  vm_type: *vm_type
+  instances: *instance_count
+  vm_type: *instance_type
   persistent_disk_type: 50GB
   stemcell: trusty
   jobs:

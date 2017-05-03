@@ -6,6 +6,7 @@ set -e
 
 RMQ_PACKAGE="https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_9/rabbitmq-server-generic-unix-3.6.9.tar.xz"
 NODES_COUNT=2
+NODES_TYPE="c4.xlarge"
 DEPLOYMENT_NAME="rmq-$USER"
 SERVER_USER="admin"
 SERVER_PASS="$(pwgen 20 1)"
@@ -62,8 +63,12 @@ generate_deployment() {
   ERLANG_COOKIE="${erlang_cookie:=$ERLANG_COOKIE}"
 
   echo
-  read -rp "Lastly, how many nodes should there be in this cluster? (press enter for $NODES_COUNT): " nodes_count
+  read -rp "How many nodes should there be in this cluster? (press enter for $NODES_COUNT): " nodes_count
   NODES_COUNT="${nodes_count:=$NODES_COUNT}"
+
+  echo
+  read -rp "Lastly, what instance type do you want the nodes to be? (press enter for $NODES_TYPE): " nodes_type
+  NODES_TYPE="${nodes_type:=$NODES_TYPE}"
 
   cat > deployment <<EOF
 RMQ_PACKAGE=$RMQ_PACKAGE
@@ -77,6 +82,7 @@ SERVER_PASS=$SERVER_PASS
 
 ERLANG_COOKIE=$ERLANG_COOKIE
 NODES_COUNT=$NODES_COUNT
+NODES_TYPE=$NODES_TYPE
 EOF
 }
 
@@ -93,7 +99,8 @@ server_pass: &server_pass $SERVER_PASS
 
 erlang_cookie: &erlang_cookie $ERLANG_COOKIE
 
-server_count: &server_count $NODES_COUNT
+instance_count: &instance_count $NODES_COUNT
+instance_type: &instance_type $NODES_TYPE
 EOF
 }
 
