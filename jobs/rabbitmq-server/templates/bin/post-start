@@ -36,7 +36,10 @@ ensure_admin_user_can_authenticate() {
 
 add_admin_user() {
   ensure_admin_user_can_authenticate ||
-  rabbitmqctl add_user "$RABBITMQ_ADMIN_USER" "$RABBITMQ_ADMIN_PASS"
+  (
+    rabbitmqctl add_user "$RABBITMQ_ADMIN_USER" "$RABBITMQ_ADMIN_PASS" ||
+    rabbitmqctl change_password "$RABBITMQ_ADMIN_USER" "$RABBITMQ_ADMIN_PASS"
+  )
 
   ensure_admin_user_can_authenticate
 }
