@@ -40,7 +40,7 @@ install_generic_unix_package() {
     _version="${RABBITMQ_SERVER_PACKAGE_URL##*generic-unix-}"
     package_dir="rabbitmq_server-${_version%%.tar.*z}"
 
-    cd /var/vcap/packages
+    cd /var/vcap/jobs/rabbitmq-server/packages
 
     if [ -d "$package_dir" ]
     then
