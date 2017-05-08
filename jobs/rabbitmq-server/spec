@@ -52,6 +52,7 @@ templates:
   rabbitmq.config.erb: rabbitmq.config
 
 packages:
+- erlang-18.3.4.4
 - erlang-19.2.3
 
 provides:

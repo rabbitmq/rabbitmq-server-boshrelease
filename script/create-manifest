@@ -5,6 +5,8 @@ set -e
 [ -z "$DEBUG" ] || set -x
 
 RMQ_PACKAGE="https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_9/rabbitmq-server-generic-unix-3.6.9.tar.xz"
+ERLANG_VERSION="19.2.3"
+ERLANG_VERSIONS=( packages/erlang* )
 NODES_COUNT=2
 NODES_TYPE="c4.xlarge"
 DEPLOYMENT_NAME="rmq-$USER"
@@ -19,8 +21,8 @@ main() {
   then
     generate_deployment
     generate_manifest
+    ok
   fi
-  ok
 }
 
 should_create_new_manifest() {
@@ -49,6 +51,10 @@ generate_deployment() {
   echo
   read -rp "Which RabbitMQ package do you want to deploy? (press enter for $RMQ_PACKAGE): " rmq_package
   RMQ_PACKAGE="${rmq_package:=$RMQ_PACKAGE}"
+
+  echo
+  read -rp "Which Erlang version do you want to deploy? (press enter for $ERLANG_VERSION or choose one of: ${ERLANG_VERSIONS[*]#*erlang-}): " erlang_version
+  ERLANG_VERSION="${erlang_version:=$ERLANG_VERSION}"
 
   echo
   read -rp "What username should we set for the Management UI? (press enter for $SERVER_USER): " server_user
@@ -81,6 +87,7 @@ SERVER_USER=$SERVER_USER
 SERVER_PASS=$SERVER_PASS
 
 ERLANG_COOKIE=$ERLANG_COOKIE
+ERLANG_VERSION=$ERLANG_VERSION
 NODES_COUNT=$NODES_COUNT
 NODES_TYPE=$NODES_TYPE
 EOF
@@ -99,6 +106,7 @@ server_user: &server_user $SERVER_USER
 server_pass: &server_pass $SERVER_PASS
 
 erlang_cookie: &erlang_cookie $ERLANG_COOKIE
+erlang_version: &erlang_version $ERLANG_VERSION
 
 instance_count: &instance_count $NODES_COUNT
 instance_type: &instance_type $NODES_TYPE
@@ -106,7 +114,9 @@ EOF
 }
 
 ok() {
-  echo "Manifest created, you can now deploy with script/deploy"
+  echo "
+Manifest created, you can now deploy with script/deploy
+"
 }
 
 main

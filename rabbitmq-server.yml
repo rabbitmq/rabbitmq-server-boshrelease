@@ -74,6 +74,7 @@ instance_groups:
     properties:
       erlang:
         cookie: *erlang_cookie
+        version: *erlang_version
       rabbitmq-server:
         debug: true
         generic-unix-url: *rabbitmq_generic_unix

@@ -18,7 +18,7 @@ main() {
 
 add_hostname_alias_to_etc_hosts() {
   grep "${ETC_HOSTS:?must be set}" /etc/hosts ||
-    echo "$ETC_HOSTS" >> /etc/hosts
+  echo "$ETC_HOSTS" >> /etc/hosts
 }
 
 write_erlang_cookie() {
