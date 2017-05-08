@@ -6,6 +6,7 @@ set -e
 
 if [ -f deployment ]
 then
+  # shellcheck source=/dev/null
   . deployment
 echo "
 Selected deployment $DEPLOYMENT_NAME with $NODES_COUNT node(s) of $RMQ_PACKAGE

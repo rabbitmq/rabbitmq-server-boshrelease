@@ -87,6 +87,7 @@ EOF
 }
 
 generate_manifest() {
+  # shellcheck source=/dev/null
   . deployment
   cat - rabbitmq-server.yml > manifest.yml <<EOF
 rabbitmq_generic_unix: &rabbitmq_generic_unix $RMQ_PACKAGE
