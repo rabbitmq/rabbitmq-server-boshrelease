@@ -1,3 +1,15 @@
+## 0.3.0
+
+* add option to deploy with Erlang 18.3.4.4
+* [best-practice RabbitMQ stop](https://docs.google.com/document/d/1zz6USVo-VyNeDOd8Ux1USyHsSJe8EcMef59bVq_V0vM)
+* run management commands only on the bootstrap node
+* address long names quirks ([fixed since RabbitMQ 3.6.6](https://github.com/rabbitmq/rabbitmq-server/issues/890))
+* simplify joining nodes across multiple deployments
+* automate new manifest creation, sensible defaults &amp; great choices
+* automate dev release testing
+* automate setup on OS X
+* delete deployment command
+
 ## 0.2.0
 
 * deploy any RabbitMQ 3.7 version
