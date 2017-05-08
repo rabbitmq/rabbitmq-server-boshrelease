@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 
+set -e
+
+[ -z "$DEBUG" ] || set -x
+
 bosh create release --force --version "$(date +'%Y%m%d.%H%M')" "$@"
 bosh upload release
