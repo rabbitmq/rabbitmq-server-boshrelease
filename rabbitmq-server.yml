@@ -35,9 +35,9 @@ releases: # http://bosh.io/releases
   url: https://bosh.io/d/github.com/cloudfoundry-incubator/cf-routing-release?v=0.136.0
   sha1: 422c1dc423a04d37fd88d1dbf38f56f602bc1e1e
 - name: datadog-agent
-  version: 5.8.5.4
-  url: https://github.com/onemedical/datadog-agent-boshrelease/releases/download/v5.8.5.4/datadog-agent-5.8.5.4.tgz
-  sha1: f46443088f44cd1328640215f4e5791589968091
+  version: 5.8.5.5
+  url: https://github.com/onemedical/datadog-agent-boshrelease/releases/download/v5.8.5.4/datadog-agent-5.8.5.5.tgz
+  sha1: fe8dc3e0a6dd058dfca81d2f927c3b93b4c92f80
 
 # VM base images
 #
