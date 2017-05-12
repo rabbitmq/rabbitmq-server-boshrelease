@@ -9,7 +9,7 @@ LASTPASS_BOSH_DIRECTOR_CREDENTIALS="Shared-London Services/london-ci/bosh-env-ta
 BOSH_DIRECTOR_FQDN="tarantino.directors.cf-app.com"
 
 main() {
-  ensure_logged_in
+  bosh_target
   if manifest_exists
   then
     . deployment
@@ -22,12 +22,9 @@ main() {
   fi
 }
 
-ensure_logged_in() {
-  bosh stemcells &>/dev/null ||
-  (
-    bosh target "https://$BOSH_DIRECTOR_FQDN:25555"
-    bosh login "$(bosh_username)" "$(bosh_password)"
-  )
+bosh_target() {
+  bosh target "https://$BOSH_DIRECTOR_FQDN:25555"
+  bosh login "$(bosh_username)" "$(bosh_password)"
 }
 
 bosh_username() {
