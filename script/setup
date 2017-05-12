@@ -84,7 +84,7 @@ ensure_pwgen_installed() {
 }
 
 ok() {
-  echo "All dependencies installed, you might want to run: script/deploy"
+  echo "All dependencies installed, you might want to run: script/create-manifest"
 }
 
 main
