@@ -44,9 +44,9 @@ releases: # http://bosh.io/releases
 stemcells: # http://bosh.io/stemcells
 - alias: trusty
   name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-  sha1: 3f4251c27a1173812199ae6301dc968660d8ae8b
-  url: https://bosh.io/d/stemcells/bosh-aws-xen-ubuntu-trusty-go_agent
-  version: '3363.12'
+  sha1: dc0ac0443728638e4aa1d4a8d25942989a9853d3
+  url: https://bosh.io/d/stemcells/bosh-aws-xen-hvm-ubuntu-trusty-go_agent?v=3363.20
+  version: '3363.20'
 
 # Lifecycle configurations
 #
