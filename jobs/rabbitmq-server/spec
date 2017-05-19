@@ -34,7 +34,7 @@ properties:
     default: '0.7'
   rabbitmq-server.disk_free_limit:
     description: "Minimum free disk space after which publishers are blocked"
-    default: '{mem_relative, 1.0}'
+    default: '{mem_relative, 2.0}'
 
   rabbitmq-trust-store.directory:
     description: "Location of the whitelisted certificates for Trust Store"
