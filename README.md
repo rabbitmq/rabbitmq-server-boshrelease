@@ -4,15 +4,15 @@
 
 All actions are captured in the `./script` dir.
 
-To configure all required dependencies on your system, run `./script/setup`.
+To configure all required dependencies on your system, run `./script/setup`
 
 To create a new manifest, run `./script/create-manifest`. This will write the deployment configuration to a `deployment` file and the BOSH manifest to `manifest.yml` file.
 
-To deploy an existing configuration, run `./script/deploy`.
+To deploy an existing configuration, run `./script/deploy`
 
-To delete a deployment, run `./script/delete-deployment`.
+To delete a deployment, run `./script/delete-deployment`
 
-To print a deployment information, run `./script/which-deployment`.
+To print a deployment information, run `./script/which-deployment`
 
 To create a new dev release, run `./script/create-dev-release` and then `./script/deploy`. You will need to set the release version to `latest` (we default to final release version) when creating the manifest.
 
