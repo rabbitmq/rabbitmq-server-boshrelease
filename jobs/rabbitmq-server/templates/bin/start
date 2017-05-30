@@ -48,7 +48,7 @@ increase_file_descriptor_limit() {
 }
 
 start() {
-  ERL_CRASH_DUMP="$RABBITMQ_LOG_BASE/erl_crash-$(date +'%Y%m%d.%H%M').dump" \
+  ERL_CRASH_DUMP="$RABBITMQ_LOG_BASE/erl_crash-$(date +'%Y%m%d_%H%M%S').dump" \
   RABBITMQ_IGNORE_SIGINT=false \
   RUNNING_UNDER_SYSTEMD=true \
   /sbin/start-stop-daemon \
