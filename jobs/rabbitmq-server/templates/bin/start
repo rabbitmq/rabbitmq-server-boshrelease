@@ -48,7 +48,10 @@ increase_file_descriptor_limit() {
 }
 
 start() {
-  RABBITMQ_IGNORE_SIGINT=false RUNNING_UNDER_SYSTEMD=true /sbin/start-stop-daemon \
+  ERL_CRASH_DUMP="$RABBITMQ_LOG_BASE/erl_crash-$(date +'%Y%m%d.%H%M').dump" \
+  RABBITMQ_IGNORE_SIGINT=false \
+  RUNNING_UNDER_SYSTEMD=true \
+  /sbin/start-stop-daemon \
     --pidfile "${RABBITMQ_PID_FILE:?must be set}" \
     --chuid "$SERVICE_USER":"$SERVICE_GROUP" \
     --start --oknodo --background \
