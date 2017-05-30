@@ -35,7 +35,7 @@ increase_file_descriptor_limit() {
 }
 
 start() {
-  RUNNING_UNDER_SYSTEMD=true /sbin/start-stop-daemon \
+  RABBITMQ_IGNORE_SIGINT=false RUNNING_UNDER_SYSTEMD=true /sbin/start-stop-daemon \
     --pidfile "${RABBITMQ_PID_FILE:?must be set}" \
     --chuid "$SERVICE_USER":"$SERVICE_GROUP" \
     --start --oknodo --background \
