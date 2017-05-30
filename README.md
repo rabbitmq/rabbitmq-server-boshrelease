@@ -52,20 +52,9 @@ Patch releases are not available from [erlang.org](http://www.erlang.org/downloa
 
 ### Pick Your Erlang - PYE&#8482;
 
-The Erlang version used by RabbitMQ can be defined in the deployment manifest, e.g.:
-
-```yaml
-instance_groups:
-- name: rmq
-  jobs:
-  - name: rabbitmq-server
-    release: rabbitmq-server
-    properties:
-      erlang:
-        version: 19.2.3
-```
-
 This release ships with multiple Erlang versions, all used in production. Take a look in `packages/erlang-*`
+
+The Erlang version that will be used to run RabbitMQ can be selected via `./script/create-manifest`
 
 ### Leverage remote RabbitMQ Generic UNIX artefacts
 
