@@ -1,4 +1,4 @@
-## 0.3.0
+## 0.3.0 - 2017.05.08
 
 * add option to deploy with Erlang 18.3.4.4
 * [best-practice RabbitMQ stop](https://docs.google.com/document/d/1zz6USVo-VyNeDOd8Ux1USyHsSJe8EcMef59bVq_V0vM)
@@ -10,15 +10,15 @@
 * automate setup on OS X
 * delete deployment command
 
-## 0.2.0
+## 0.2.0 - 2017.03.23
 
-* deploy any RabbitMQ 3.7 version
+* deploy any RabbitMQ v3.7 version
 * support gz generic UNIX artefacts
-* deploy any RabbitMQ 3.5 version
+* deploy any RabbitMQ v3.5 version - cluster will form but arbitrary node restarts will fail
 
-## 0.1.0
+## 0.1.0 - 2017.03.21
 
-* deploy any RabbitMQ 3.6 version, via generic UNIX xz artefact URL
-* Erlang 19.2.3, our recommended version
+* deploy any RabbitMQ v3.6 version, via generic UNIX xz artefact URL
+* Erlang 19.2.3
 * rabbitmq-server only
 * single tenant, ODB friendly
