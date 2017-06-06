@@ -4,12 +4,13 @@ set -e
 
 [ -z "$DEBUG" ] || set -x
 
-if [ -f deployment ]
-then
-  # shellcheck source=/dev/null
-  . deployment
-echo "
-Selected deployment $DEPLOYMENT_NAME with $NODES_COUNT node(s) of $RMQ_PACKAGE
+main() {
+  if manifest_exists
+  then
+    # shellcheck source=/dev/null
+    . deployment
+  echo "
+${RMQ_PACKAGE##*/} deployed on $NODES_COUNT x $NODES_TYPE
 
   URL:  https://$DEPLOYMENT_NAME.$BOSH_DIRECTOR_FQDN/#/
   USER: $SERVER_USER
@@ -21,6 +22,15 @@ To SSH into any of the RabbitMQ node(s):
   git pull
   ./ssh
 "
-else
-  echo "It doesn't seem that you have created a manifest, you may want to first run script/create-manifest"
-fi
+    bosh deployment manifest.yml
+    bosh instances --ps
+  else
+    echo "It doesn't seem that you have created a manifest, you may want to first run script/create-manifest"
+  fi
+}
+
+manifest_exists() {
+  [ -f deployment ] && [ -f manifest.yml ]
+}
+
+main
