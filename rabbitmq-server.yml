@@ -28,13 +28,13 @@ director_uuid: *bosh_director_uuid
 # Packages & processes
 #
 releases: # http://bosh.io/releases
-- name: rabbitmq-server
+- name: rabbitmq-server # https://github.com/rabbitmq/rabbitmq-server-boshrelease/releases
   version: *release_version
-- name: routing
+- name: routing # https://github.com/cloudfoundry-incubator/routing-release/releases
   version: 0.136.0
   url: https://bosh.io/d/github.com/cloudfoundry-incubator/cf-routing-release?v=0.136.0
   sha1: 422c1dc423a04d37fd88d1dbf38f56f602bc1e1e
-- name: datadog-agent
+- name: datadog-agent # https://github.com/onemedical/datadog-agent-boshrelease/releases
   version: 5.8.5.5
   url: https://github.com/onemedical/datadog-agent-boshrelease/releases/download/v5.8.5.4/datadog-agent-5.8.5.5.tgz
   sha1: fe8dc3e0a6dd058dfca81d2f927c3b93b4c92f80
