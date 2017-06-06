@@ -13,6 +13,4 @@ then
   exit 1
 fi
 
-FINAL_RELEASE_VERSION="$1"
-
-bosh create release --final --version "$FINAL_RELEASE_VERSION"
+bosh create release --final --version "$@"
