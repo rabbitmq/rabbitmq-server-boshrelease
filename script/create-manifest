@@ -50,7 +50,7 @@ manifest_exists() {
 
 generate_deployment() {
   echo
-  read -rp "What name would you like to give your deployment? (press enter for $DEPLOYMENT_NAME): " deployment_name
+  read -rp "What name would you like to give your deployment? DEPLOYMENT WILL FAIL IF IT CONTAINS . IN THE NAME (press enter for $DEPLOYMENT_NAME): " deployment_name
   DEPLOYMENT_NAME="${deployment_name:=$DEPLOYMENT_NAME}"
 
   echo
