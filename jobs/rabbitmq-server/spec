@@ -55,6 +55,7 @@ packages:
 - erlang-18.3.4.4
 - erlang-19.2.3
 - erlang-19.3
+- erlang-19.3.5
 
 provides:
 - name: rabbitmq-server
