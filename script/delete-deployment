@@ -42,8 +42,8 @@ delete_deployment() {
 delete_manifest() {
   local delete
 
-  read -rp "Do you want to delete the manifest? [yn] " delete
-  [[ ! "$delete" =~ [Yy] ]] || rm -f deployment manifest.yml
+  read -rp "Do you want to delete the manifest? (y|n) " delete
+  [[ ! "$delete" =~ ^[Yy] ]] || rm -f deployment manifest.yml
 }
 
 main

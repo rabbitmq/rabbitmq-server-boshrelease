@@ -37,8 +37,8 @@ main() {
 should_create_new_manifest() {
   if manifest_exists
   then
-    read -rp "Do you want to overwrite the existing manifest? [yn] " overwrite
-    [[ "$overwrite" =~ [Yy] ]]
+    read -rp "Do you want to overwrite the existing manifest? (y|n) " overwrite
+    [[ "$overwrite" =~ ^[Yy] ]]
   else
     true
   fi
