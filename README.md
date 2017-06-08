@@ -2,8 +2,6 @@
 
 ### How do I use this BOSH release?
 
-All actions are captured in the `./script` dir.
-
 To configure all required dependencies on your system, run `./script/setup`
 
 To create a new manifest, run `./script/create-manifest`. This will write the deployment configuration to a `deployment` file and the BOSH manifest to `manifest.yml` file.
@@ -20,14 +18,6 @@ When the time comes to cut a new final release, `./script/create-final-release` 
 
 To monitor a deployment, you can clone [the DataDog dashboard](https://app.datadoghq.com/dash/272837/rmq-deployment-example?live=true&page=0&is_auto=false&from_ts=1491812266751&to_ts=1491815866751&tile_size=m) and edit the `deployment` variable.
 
-### How can I make this BOSH release better?
-
-You're a champ for just thinking it! Making things better is deeply rewarding, we already like you very much : )
-
-When you're making local changes and want to test the release, you can use `./script/create-dev-release` and then `./script/deploy`. Remember to set the release version to `latest` when creating the manifest with `./script/create-manifest`.
-
-Any problems that you come across are bugs and should preferably be raised as Github pull requests. Github issues are OK as well, but they will take longer to action. Every little helps, we welcome all forms of contribution.
-
 ### Isn't `cf-rabbitmq-release` the official RabbitMQ BOSH release?
 
 Yes it is, and we don't expect it to change anytime soon. This BOSH release must remain private and restricted to PCF RabbitMQ & RabbitMQ Core teams only. Do not share with Pivotal Support or Sales and definitely do not mention it to any of our customers or external collaborators.
@@ -39,6 +29,14 @@ We also wanted to explore what it would look like to create a RabbitMQ BOSH rele
 For all we know, this release is just a stepping stone towards improving cf-rabbitmq-release.
 
 It is also possible that this BOSH release will one day become an official one, maintained by the RabbitMQ Core team and consumed by PCF RabbitMQ. After all, it's easier for us to learn BOSH than PCF RabbitMQ to learn the many sharp edges that both RabbitMQ and Erlang have. We are already creating RabbitMQ packages for every major OS and Linux distribution, it's only logical that we take ownership of the BOSH release as well.
+
+### How can I make this BOSH release better?
+
+You're a champ for just thinking it! Making things better is deeply rewarding, we already like you very much : )
+
+When you're making local changes and want to test the release, you can use `./script/create-dev-release` and then `./script/deploy`. Remember to set the release version to `latest` when creating the manifest with `./script/create-manifest`.
+
+Any problems that you come across are bugs and should preferably be raised as Github pull requests. Github issues are OK as well, but they will take longer to action. Every little helps, we welcome all forms of contribution.
 
 
 
