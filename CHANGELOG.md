@@ -1,3 +1,7 @@
+## 0.6.0 - 2017.06.08
+
+* Add Erlang 19.3.6
+
 ## 0.5.0 - 2017.06.08
 
 * Add option to deploy with Erlang 19.3.5
