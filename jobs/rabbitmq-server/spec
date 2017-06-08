@@ -5,7 +5,7 @@ name: rabbitmq-server
 properties:
   erlang.version:
     description: "Erlang OTP version that will be used for running RabbitMQ. We install multiple Erlang OTP versions to test compatibility. The default version is what we recommend for production deployments."
-    default: "19.3.5"
+    default: "19.3.6"
   erlang.cookie:
     description: "Erlang cookie required by the nodes and CLI tools to authenticate with one another"
     default: InsecureDefaultCookie

@@ -6,7 +6,7 @@ set -e
 
 RMQ_PACKAGE="https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_10/rabbitmq-server-generic-unix-3.6.10.tar.xz"
 
-ERLANG_VERSION="19.3.5"
+ERLANG_VERSION="19.3.6"
 ERLANG_VERSIONS=( packages/erlang* )
 ERLANG_COOKIE="$(pwgen 20 1)"
 
