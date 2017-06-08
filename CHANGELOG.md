@@ -1,3 +1,8 @@
+## 0.5.0 - 2017.06.08
+
+* Add option to deploy with Erlang 19.3.5
+* Default nodes to t2.small
+
 ## 0.4.0 - 2017.06.06
 
 * Use timestamp in ERL_CRASH_DUMP files, store them in log dir
