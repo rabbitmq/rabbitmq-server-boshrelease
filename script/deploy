@@ -13,6 +13,7 @@ main() {
   if manifest_exists
   then
     . deployment
+    upload_stemcell
     upload_latest_final_release
     bosh deployment manifest.yml
     bosh deploy --no-redact
@@ -42,6 +43,21 @@ manifest_exists() {
 suggest_creating_manifest_first() {
   echo "It doesn't seem that you have created a manifest, you may want to first run script/create-manifest"
   return 1
+}
+
+upload_stemcell() {
+  if [ -z "$BOSH_STEMCELL_NAME" ] || [ -z "$BOSH_STEMCELL_VERSION" ] || [ -z "$BOSH_STEMCELL_VERSION_SHA1" ]
+  then
+    echo "
+Deployment properties & manifests are now generated differently
+You must create a new manifest via ./script/create-manifest before you can run this script"
+    exit 1
+  else
+    bosh upload stemcell "https://bosh.io/d/stemcells/$BOSH_STEMCELL_NAME?v=$BOSH_STEMCELL_VERSION" \
+      --name "$BOSH_STEMCELL_NAME" \
+      --version "$BOSH_STEMCELL_VERSION" --sha1 "$BOSH_STEMCELL_VERSION_SHA1" \
+      --skip-if-exists
+  fi
 }
 
 upload_latest_final_release() {

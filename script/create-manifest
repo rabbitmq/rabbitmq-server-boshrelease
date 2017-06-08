@@ -7,14 +7,23 @@ set -e
 RMQ_PACKAGE="https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_10/rabbitmq-server-generic-unix-3.6.10.tar.xz"
 ERLANG_VERSION="19.3"
 ERLANG_VERSIONS=( packages/erlang* )
+ERLANG_COOKIE="$(pwgen 20 1)"
+
 NODES_COUNT=2
 NODES_TYPE="t2.small"
+
 DEPLOYMENT_NAME="rmq-$USER"
+
 SERVER_USER="admin"
 SERVER_PASS="$(pwgen 20 1)"
-ERLANG_COOKIE="$(pwgen 20 1)"
+
 BOSH_DIRECTOR_FQDN="tarantino.directors.cf-app.com"
 RELEASE_VERSION="$(awk '/ version/ { print $2 }' < releases/rabbitmq-server/index.yml | tail -n 1)"
+
+# https://bosh.io/stemcells/bosh-aws-xen-hvm-ubuntu-trusty-go_agent
+BOSH_STEMCELL_NAME=bosh-aws-xen-hvm-ubuntu-trusty-go_agent
+BOSH_STEMCELL_VERSION=3421.4
+BOSH_STEMCELL_VERSION_SHA1=c2a1be8ceb498e323ce28df885f696d35f20b70b
 
 main() {
   if should_create_new_manifest
@@ -77,19 +86,24 @@ generate_deployment() {
   NODES_TYPE="${nodes_type:=$NODES_TYPE}"
 
   cat > deployment <<EOF
-RMQ_PACKAGE=$RMQ_PACKAGE
+BOSH_DIRECTOR_FQDN=$BOSH_DIRECTOR_FQDN
+
+BOSH_STEMCELL_NAME=$BOSH_STEMCELL_NAME
+BOSH_STEMCELL_VERSION=$BOSH_STEMCELL_VERSION
+BOSH_STEMCELL_VERSION_SHA1=$BOSH_STEMCELL_VERSION_SHA1
 
 DEPLOYMENT_NAME=$DEPLOYMENT_NAME
 RELEASE_VERSION=$RELEASE_VERSION
-BOSH_DIRECTOR_FQDN=$BOSH_DIRECTOR_FQDN
+
+RMQ_PACKAGE=$RMQ_PACKAGE
+NODES_COUNT=$NODES_COUNT
+NODES_TYPE=$NODES_TYPE
 
 SERVER_USER=$SERVER_USER
 SERVER_PASS=$SERVER_PASS
 
 ERLANG_COOKIE=$ERLANG_COOKIE
 ERLANG_VERSION=$ERLANG_VERSION
-NODES_COUNT=$NODES_COUNT
-NODES_TYPE=$NODES_TYPE
 EOF
 }
 
@@ -97,9 +111,15 @@ generate_manifest() {
   # shellcheck source=/dev/null
   . deployment
   cat - rabbitmq-server.yml > manifest.yml <<EOF
-rabbitmq_generic_unix: &rabbitmq_generic_unix $RMQ_PACKAGE
+bosh_stemcell_name: &bosh_stemcell_name $BOSH_STEMCELL_NAME
+bosh_stemcell_version: &bosh_stemcell_version $BOSH_STEMCELL_VERSION
+
 deployment_name: &deployment_name $DEPLOYMENT_NAME
 release_version: &release_version $RELEASE_VERSION
+
+rabbitmq_generic_unix: &rabbitmq_generic_unix $RMQ_PACKAGE
+instance_count: &instance_count $NODES_COUNT
+instance_type: &instance_type $NODES_TYPE
 
 server_host: &server_host $DEPLOYMENT_NAME.$BOSH_DIRECTOR_FQDN
 server_user: &server_user $SERVER_USER
@@ -107,9 +127,6 @@ server_pass: &server_pass $SERVER_PASS
 
 erlang_cookie: &erlang_cookie $ERLANG_COOKIE
 erlang_version: &erlang_version $ERLANG_VERSION
-
-instance_count: &instance_count $NODES_COUNT
-instance_type: &instance_type $NODES_TYPE
 EOF
 }
 
