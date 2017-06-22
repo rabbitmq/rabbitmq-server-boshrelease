@@ -1,0 +1,45 @@
+---
+packages:
+- name: erlang-18.3.4.4
+  version: 5b82baf1b7d2ef3c7bc9d9139fcbb6e19b2749a4
+  fingerprint: 5b82baf1b7d2ef3c7bc9d9139fcbb6e19b2749a4
+  sha1: efa1770ee49621b432e96f10055493c84e8b7a1c
+  dependencies: []
+- name: erlang-19.3
+  version: 03e0933ecf701923b732f80bf72c4e49785f59b2
+  fingerprint: 03e0933ecf701923b732f80bf72c4e49785f59b2
+  sha1: d364563615cbe69cadfa392b3e1b127884cd5e87
+  dependencies: []
+- name: erlang-19.2.3
+  version: 63df64d80845d1b6724e69ac34e7d78bafc3909b
+  fingerprint: 63df64d80845d1b6724e69ac34e7d78bafc3909b
+  sha1: d2a71bea96cd9f573dfdbb0c4c342086dd67ba17
+  dependencies: []
+- name: erlang-19.3.6
+  version: 5cf15409ff157f3108187cad258f3cbcbb158c7b
+  fingerprint: 5cf15409ff157f3108187cad258f3cbcbb158c7b
+  sha1: d353fcbe6730b26a0379fa420eb9d71575134bda
+  dependencies: []
+- name: erlang-19.3.5
+  version: 0e78a975250a462cfe1210aab482af7fdfcf72a4
+  fingerprint: 0e78a975250a462cfe1210aab482af7fdfcf72a4
+  sha1: af77ba9a2bb202f50c4fe8f742a39d6bd6bbf8ca
+  dependencies: []
+- name: erlang-20.0
+  version: f3fb779fc9089f6e46bf182edd0617dcd18fb05d
+  fingerprint: f3fb779fc9089f6e46bf182edd0617dcd18fb05d
+  sha1: '097efb8cef64da476da058934c080bd90557dfb5'
+  dependencies: []
+jobs:
+- name: rabbitmq-server
+  version: fbbb8119696d371aa4a15d489719094008b7a912
+  fingerprint: fbbb8119696d371aa4a15d489719094008b7a912
+  sha1: c464a8618ab248b1e72f4fb3745f8402ce0dc434
+license:
+  version: cc1b7162294c354984aee8de84412f920d23f369
+  fingerprint: cc1b7162294c354984aee8de84412f920d23f369
+  sha1: d857eca670fade94215a4ed62345a3ba0144497c
+commit_hash: 223f64c9
+uncommitted_changes: true
+name: rabbitmq-server
+version: 0.7.0
