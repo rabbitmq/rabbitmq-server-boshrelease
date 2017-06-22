@@ -24,7 +24,7 @@ main() {
 }
 
 bosh_target() {
-  bosh target "https://$BOSH_DIRECTOR_FQDN:25555"
+  bosh -n target "https://$BOSH_DIRECTOR_FQDN:25555"
   bosh login "$(bosh_username)" "$(bosh_password)"
 }
 
