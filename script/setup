@@ -35,7 +35,7 @@ check_homebrew() {
 manual_installation_required() {
   echo "Setup has not been automated for this OS, you will need to install:
 
-  * Ruby - https://www.ruby-lang.org/en/documentation/installation/
+  * Ruby (2.3.X series required) -  https://www.ruby-lang.org/en/documentation/installation/
     * gem install bosh_cli --no-document
   * lastpass-cli - https://github.com/lastpass/lastpass-cli
   * pwgen - https://linux.die.net/man/1/pwgen
