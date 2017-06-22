@@ -4,5 +4,23 @@ set -e
 
 [ -z "$DEBUG" ] || set -x
 
-bosh create release --force --version "$(date +'%Y%m%d.%H%M')" "$@"
-bosh upload release
+LASTPASS_BOSH_DIRECTOR_CREDENTIALS="Shared-London Services/london-ci/bosh-env-tarantino"
+
+BOSH_DIRECTOR_FQDN="tarantino.directors.cf-app.com"
+
+main() {
+    bosh create release --force --version "$(date +'%Y%m%d.%H%M')" "$@"
+    bosh -n target "https://$BOSH_DIRECTOR_FQDN:25555"
+    bosh login "$(bosh_username)" "$(bosh_password)"
+    bosh upload release
+}
+
+bosh_username() {
+  lpass show --username "$LASTPASS_BOSH_DIRECTOR_CREDENTIALS"
+}
+
+bosh_password() {
+  lpass show --password "$LASTPASS_BOSH_DIRECTOR_CREDENTIALS"
+}
+
+main
