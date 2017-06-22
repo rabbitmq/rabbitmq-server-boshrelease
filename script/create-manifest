@@ -23,8 +23,8 @@ RELEASE_VERSION="$(awk '/ version/ { print $2 }' < releases/rabbitmq-server/inde
 
 # https://bosh.io/stemcells/bosh-aws-xen-hvm-ubuntu-trusty-go_agent
 BOSH_STEMCELL_NAME=bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-BOSH_STEMCELL_VERSION=3421.4
-BOSH_STEMCELL_VERSION_SHA1=c2a1be8ceb498e323ce28df885f696d35f20b70b
+BOSH_STEMCELL_VERSION=3421.9
+BOSH_STEMCELL_VERSION_SHA1=316a699d44f49d69493b1545d4addd17b78b5840
 
 main() {
   if should_create_new_manifest
