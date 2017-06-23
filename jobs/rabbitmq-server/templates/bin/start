@@ -21,24 +21,24 @@ main() {
 
 setup_run_dir() {
   mkdir -p "${RUN_DIR:?must be set}"
-  chown "${SERVICE_USER:?must be set}":"${SERVICE_GROUP:?must be set}" \
+  chown -fR "${SERVICE_USER:?must be set}":"${SERVICE_GROUP:?must be set}" \
     "$RUN_DIR"
 }
 
 setup_log_dir() {
   mkdir -p "${RABBITMQ_LOG_BASE:?must be set}"
-  chown "$SERVICE_USER":"$SERVICE_GROUP" "$RABBITMQ_LOG_BASE"
+  chown -fR "$SERVICE_USER":"$SERVICE_GROUP" "$RABBITMQ_LOG_BASE"
 }
 
 setup_mnesia_dir_and_parent_dir() {
   mkdir -p "${RABBITMQ_MNESIA_BASE:?must be set}" "${RABBITMQ_MNESIA_BASE%/*}"
-  chown "$SERVICE_USER":"$SERVICE_GROUP" \
+  chown -fR "$SERVICE_USER":"$SERVICE_GROUP" \
     "$RABBITMQ_MNESIA_BASE" "${RABBITMQ_MNESIA_BASE%/*}"
 }
 
 setup_trust_store_dir_and_parent_dir() {
   mkdir -p "${RABBITMQ_TRUST_STORE_DIR:?must be set}" "${RABBITMQ_TRUST_STORE_DIR%/*}"
-  chown "$SERVICE_USER":"$SERVICE_GROUP" \
+  chown -fR "$SERVICE_USER":"$SERVICE_GROUP" \
     "$RABBITMQ_TRUST_STORE_DIR" "${RABBITMQ_TRUST_STORE_DIR%/*}"
 }
 
