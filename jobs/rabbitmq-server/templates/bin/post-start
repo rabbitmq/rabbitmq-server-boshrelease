@@ -11,6 +11,7 @@ main() {
   date
   if [ -n "${BOOTSTRAP_NODE?must be defined}" ]
   then
+    wait_for_mnesia_tables
     set_cluster_name
     delete_guest_user
     add_admin_user
@@ -18,6 +19,10 @@ main() {
   else
     echo "$0 will only run on the bootstrap node, ${BOOTSTRAP_NODE_INSTANCE:?must be set}"
   fi
+}
+
+wait_for_mnesia_tables() {
+  rabbitmqctl wait "${RABBITMQ_PID_FILE:?must be set}"
 }
 
 set_cluster_name() {
