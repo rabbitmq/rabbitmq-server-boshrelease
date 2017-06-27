@@ -9,6 +9,9 @@ properties:
   erlang.cookie:
     description: "Erlang cookie required by the nodes and CLI tools to authenticate with one another"
     default: InsecureDefaultCookie
+  erlang.scheduler_bind_type:
+    description: "Optimizes Erlang VM schedulers spread across CPUs. The more the schedulers are spread over the hardware, the more resources are available to the runtime system: http://erlang.org/doc/man/erl.html#+sbt . RabbitMQ =< 3.6.3 is hard-coded to 'tnnps'"
+    default: "db"
 
   rabbitmq-server.debug:
     description: "Runs BOSH job scripts in debug mode"
