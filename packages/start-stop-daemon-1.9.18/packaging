@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -ex
+
+cd start-stop-daemon*
+gcc start-stop-daemon.c -o "${BOSH_INSTALL_TARGET:?must be defined}/start-stop-daemon"

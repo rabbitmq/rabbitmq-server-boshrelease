@@ -1,0 +1,4 @@
+---
+name: start-stop-daemon-1.9.18
+files:
+- start-stop-daemon-1.9.18/*

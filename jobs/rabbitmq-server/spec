@@ -55,6 +55,7 @@ templates:
   rabbitmq.config.erb: rabbitmq.config
 
 packages:
+- start-stop-daemon-1.9.18
 - erlang-18.3.4.4
 - erlang-19.2.3
 - erlang-19.3
