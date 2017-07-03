@@ -1,0 +1,4 @@
+---
+name: bindings
+files:
+- bindings/*

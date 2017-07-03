@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -e
+
+# shellcheck source=/dev/null
+. /var/vcap/jobs/rabbitmq-server/debug
+# shellcheck source=/dev/null
+. /var/vcap/jobs/rabbitmq-server/env
+# shellcheck source=/dev/null
+. /var/vcap/jobs/rabbitmq-server/bindings.env
+
+exec 1> >(tee -a "${RABBITMQ_LOG_BASE:?must be set}/post-deploy.log") 2>&1
+
+main() {
+  local queue_index
+  for queue_index in $(seq 1 "${NUMBER_OF_QUEUES:?must be set}")
+  do
+    /var/vcap/jobs/rabbitmq-server/packages/bindings/bindings --queue-name="${QUEUE_NAME:?must be set}.${queue_index}"  &
+  done
+}
+
+main
