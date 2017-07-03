@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-set -ex
-
-cp -a bindings/* "${BOSH_INSTALL_TARGET:?must be defined}/bindings"

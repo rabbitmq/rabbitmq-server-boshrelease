@@ -55,28 +55,15 @@ properties:
     description: "Location of the whitelisted certificates for Trust Store"
     default: /var/vcap/store/rabbitmq-server/trust-store/whitelist
 
-  bindings.durable_queue:
-    default: false
-  bindings.number_of_queues:
-    default: 1
-  bindings.starting_bindings:
-    default: 0
-  bindings.connection_retries:
-    default: 10
-  bindings.connection_retry_every:
-    default: 10
-
 templates:
   bin/pre-start: bin/pre-start
   bin/start: bin/start
   bin/post-start: bin/post-start
-  bin/post-deploy: bin/post-deploy
   bin/stop: bin/stop
   bin/drain: bin/drain
 
   debug.erb: debug
   env.erb: env
-  bindings.env.erb: bindings.env
   rabbitmq.config.erb: rabbitmq.config
 
 packages:
@@ -88,7 +75,6 @@ packages:
 - erlang-19.3.5
 - erlang-19.3.6
 - erlang-20.0
-- bindings
 
 provides:
 - name: rabbitmq-server

@@ -11,7 +11,6 @@ exec 1> >(tee -a "${RABBITMQ_LOG_BASE:?must be set}/stop.log") 2>&1
 
 main() {
   date
-  pkill bindings
   if rabbitmq_node_accessible
   then
     suggest_bosh_stop
