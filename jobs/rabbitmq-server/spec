@@ -9,13 +9,22 @@ properties:
   erlang.cookie:
     description: "Erlang cookie required by the nodes and CLI tools to authenticate with one another"
     default: InsecureDefaultCookie
-  erlang.scheduler_bind_type:
-    description: "Optimizes Erlang VM schedulers spread across CPUs. The more the schedulers are spread over the hardware, the more resources are available to the runtime system: http://erlang.org/doc/man/erl.html#+sbt . RabbitMQ =< 3.6.3 is hard-coded to 'tnnps'"
-    default: "db"
 
   rabbitmq-server.debug:
     description: "Runs BOSH job scripts in debug mode"
     default: false
+
+  rabbitmq-server.scheduler_bind_type:
+    description: >
+      Optimizes Erlang VM schedulers spread across CPUs
+      The more spread over the hardware the schedulers are, the more resources are available to the runtime system: http://erlang.org/doc/man/erl.html#+sbt
+      This configuration option is less important when RabbitMQ nodes have dedicated hosts, but it has a noticeable impact when competing for CPU with other processes
+      For RabbitMQ =< 3.6.3, use rabbitmq-server.additional_erlang_args to set the scheduler bind type
+      In RabbitMQ =< 3.6.3 stbt is not defined, erl defaults to 'unbound'
+    default: "db"
+  rabbitmq-server.additional_erl_args:
+    description: "Add optional erl args - good for setting flags such as scheduler bind type in =< 3.6.3"
+    default: ""
 
   rabbitmq-server.generic-unix-url:
     description: "URL to Generic UNIX RabbitMQ xz package"
