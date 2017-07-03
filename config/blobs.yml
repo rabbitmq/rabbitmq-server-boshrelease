@@ -23,3 +23,7 @@ erlang/otp-OTP-20.0.tar.gz:
   object_id: 7db7064e-49c7-4fbe-9c29-f564f1cfcb88
   sha: 9470ca947d169de7c1a9a7ed445f10a328de81e6
   size: 54379450
+erlang/otp-OTP-19.2.2.tar.gz:
+  object_id: 70f85106-13ca-4c1d-a06c-e06075c37848
+  sha: 0c5584a17e078d8d9ae87b2678971761c6d1bf80
+  size: 35669810
