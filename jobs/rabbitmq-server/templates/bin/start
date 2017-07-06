@@ -16,6 +16,8 @@ main() {
   setup_mnesia_dir_and_parent_dir
   setup_trust_store_dir_and_parent_dir
   increase_file_descriptor_limit
+  add_hostname_alias_to_etc_hosts
+  write_erlang_cookie
   start
 }
 
@@ -45,6 +47,21 @@ setup_trust_store_dir_and_parent_dir() {
 
 increase_file_descriptor_limit() {
   ulimit -n 100000
+}
+
+add_hostname_alias_to_etc_hosts() {
+  grep "${ETC_HOSTS:?must be set}" /etc/hosts ||
+  echo "$ETC_HOSTS" >> /etc/hosts
+}
+
+write_erlang_cookie() {
+  echo -n "${ERLANG_COOKIE:?must be set}" > /home/"${SERVICE_USER:?must be set}"/.erlang.cookie
+  chown "$SERVICE_USER:${SERVICE_GROUP:?must be set}" "/home/$SERVICE_USER/.erlang.cookie"
+  chmod 600 "/home/$SERVICE_USER/.erlang.cookie"
+
+  echo -n "$ERLANG_COOKIE" > /root/.erlang.cookie
+  chown root:root /root/.erlang.cookie
+  chmod 600 /root/.erlang.cookie
 }
 
 start() {
