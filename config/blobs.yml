@@ -27,3 +27,7 @@ erlang/otp-OTP-19.2.2.tar.gz:
   object_id: 70f85106-13ca-4c1d-a06c-e06075c37848
   sha: 0c5584a17e078d8d9ae87b2678971761c6d1bf80
   size: 35669810
+autotools/autoconf-2.69.tar.xz:
+  object_id: 1e3e3c95-d525-4f96-943d-5da1511e0bda
+  sha: e891c3193029775e83e0534ac0ee0c4c711f6d23
+  size: 1214744
