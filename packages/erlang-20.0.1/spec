@@ -1,0 +1,6 @@
+---
+name: erlang-20.0.1
+files:
+- erlang/otp-OTP-20.0.1.tar.gz
+dependencies:
+- autoconf-2.69
