@@ -1,4 +1,4 @@
-## 0.8.0 - 2017-07-12
+## v0.8.0 - 2017-07-12
 
 * Add Erlang 20.0.1
 * Always resolve hostnames & update Erlang cookie
@@ -8,20 +8,20 @@
 * Wait for mnesia tables before setting the cluster name
 * Change ownership recursively
 
-## 0.7.0 - 2017.06.22
+## v0.7.0 - 2017.06.22
 
 * Add Erlang 20.0
 
-## 0.6.0 - 2017.06.08
+## v0.6.0 - 2017.06.08
 
 * Add Erlang 19.3.6
 
-## 0.5.0 - 2017.06.08
+## v0.5.0 - 2017.06.08
 
 * Add option to deploy with Erlang 19.3.5
 * Default nodes to t2.small
 
-## 0.4.0 - 2017.06.06
+## v0.4.0 - 2017.06.06
 
 * Use timestamp in ERL_CRASH_DUMP files, store them in log dir
 * Fix dir permissions - erl_crash.dump could not be written
@@ -33,7 +33,7 @@
 * Update to latest stemcell, AWS Xen-HVM 3421.4
 * Update datadog-agent to 5.8.5.5
 
-## 0.3.0 - 2017.05.08
+## v0.3.0 - 2017.05.08
 
 * add option to deploy with Erlang 18.3.4.4
 * [best-practice RabbitMQ stop](https://docs.google.com/document/d/1zz6USVo-VyNeDOd8Ux1USyHsSJe8EcMef59bVq_V0vM)
@@ -45,13 +45,13 @@
 * automate setup on OS X
 * delete deployment command
 
-## 0.2.0 - 2017.03.23
+## v0.2.0 - 2017.03.23
 
 * deploy any RabbitMQ v3.7 version
 * support gz generic UNIX artefacts
 * deploy any RabbitMQ v3.5 version - cluster will form but arbitrary node restarts will fail
 
-## 0.1.0 - 2017.03.21
+## v0.1.0 - 2017.03.21
 
 * deploy any RabbitMQ v3.6 version, via generic UNIX xz artefact URL
 * Erlang 19.2.3
