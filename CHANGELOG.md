@@ -1,3 +1,13 @@
+## 0.8.0 - 2017-07-12
+
+* Add Erlang 20.0.1
+* Always resolve hostnames & update Erlang cookie
+* Add option to define scheduler bind type
+* Add Erlang 19.2.2
+* Package start-stop-daemon
+* Wait for mnesia tables before setting the cluster name
+* Change ownership recursively
+
 ## 0.7.0 - 2017.06.22
 
 * Add Erlang 20.0
