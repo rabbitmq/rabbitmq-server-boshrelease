@@ -50,6 +50,14 @@ properties:
   rabbitmq-server.disk_free_limit:
     description: "Minimum free disk space after which publishers are blocked"
     default: '{mem_relative, 2.0}'
+  rabbitmq-server.distribution_buffer_size:
+    description: >
+      Sets the distribution buffer busy limit (dist_buf_busy_limit) in kilobytes. Valid range is 1-2097151. Erlang default is 1024, RabbitMQ used to default to 32000 but has changed to 128000 since 3.6.11
+      A larger buffer limit allows processes to buffer more outgoing messages over the distribution.
+      When the buffer limit has been reached, sending processes will be suspended until the buffer size has shrunk.
+      The buffer limit is per distribution channel.
+      A higher limit gives lower latency and higher throughput at the expense of higher memory use.
+    default: 128000
 
   rabbitmq-trust-store.directory:
     description: "Location of the whitelisted certificates for Trust Store"
