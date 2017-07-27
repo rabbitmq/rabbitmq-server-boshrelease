@@ -1,3 +1,8 @@
+## v0.9.0 - 2017-07-27
+
+* Add Erlang 20.0.2
+* Make RABBITMQ_DISTRIBUTION_BUFFER_SIZE configurable
+
 ## v0.8.0 - 2017-07-12
 
 * Add Erlang 20.0.1
