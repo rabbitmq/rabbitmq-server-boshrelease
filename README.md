@@ -1,4 +1,8 @@
-## Q & A
+### Disclaimer
+
+The official RabbitMQ BOSH release is [cf-rabbitmq-release](https://github.com/pivotal-cf/cf-rabbitmq-release).
+
+This is an internal BOSH release used by the RabbitMQ team to experiment with all things RabbitMQ &amp; Erlang on GCP, AWS &amp; vSphere. This BOSH release comes comes with no support, guarantees or promises.
 
 ### How do I use this BOSH release?
 
@@ -20,7 +24,7 @@ To monitor a deployment, you can clone [the DataDog dashboard](https://app.datad
 
 ### Isn't `cf-rabbitmq-release` the official RabbitMQ BOSH release?
 
-Yes it is, and we don't expect it to change anytime soon. This BOSH release must remain private and restricted to PCF RabbitMQ & RabbitMQ Core teams only. Do not share with Pivotal Support or Sales and definitely do not mention it to any of our customers or external collaborators.
+Yes it is, and we don't expect it to change anytime soon. This BOSH release is internal and restricted to PCF RabbitMQ & RabbitMQ Core teams only.
 
 We created this BOSH release to make it easier for the RabbitMQ Core team to deploy long-running RabbitMQ environments, and ad-hoc testing environments.
 
@@ -50,7 +54,7 @@ Patch releases are not available from [erlang.org](http://www.erlang.org/downloa
 
 ### Pick Your Erlang - PYE&#8482;
 
-This release ships with multiple Erlang versions, all used in production. Take a look in `packages/erlang-*`
+This release ships with multiple Erlang versions, all used in various production environments that we've come across, mostly via escalations or support cases. Take a look in `packages/erlang-*`
 
 The Erlang version that will be used to run RabbitMQ can be selected via `./script/create-manifest`
 
