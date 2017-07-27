@@ -8,3 +8,4 @@
 /manifest.yml
 /deployment
 *.tgz
+*.sha1
