@@ -6,12 +6,12 @@ set -e
 
 LASTPASS_BOSH_DIRECTOR_CREDENTIALS="Shared-London Services/london-ci/bosh-env-tarantino"
 
-BOSH_DIRECTOR_FQDN="tarantino.directors.cf-app.com"
-
 main() {
+  lpass_login
   bosh_target
   if manifest_exists
   then
+    # shellcheck source=/dev/null
     . deployment
     upload_stemcell
     upload_latest_final_release
@@ -23,9 +23,21 @@ main() {
   fi
 }
 
+lpass_login() {
+  [[ $(lpass status) =~ Logged\ in\ as.*@pivotal.io ]] || (
+    echo "You must   lpass login   with your pivotal.io user"
+    exit 1
+  )
+}
+
 bosh_target() {
-  bosh -n target "https://$BOSH_DIRECTOR_FQDN:25555"
+  bosh -n target "https://$(bosh_host):25555"
   bosh login "$(bosh_username)" "$(bosh_password)"
+}
+
+bosh_host() {
+  lpass show --notes "$LASTPASS_BOSH_DIRECTOR_CREDENTIALS" |
+    awk '/bosh-host/ { print $2 }'
 }
 
 bosh_username() {
@@ -72,7 +84,7 @@ ok() {
   echo "
 ${RMQ_PACKAGE##*/} deployed on $NODES_COUNT x $NODES_TYPE
 
-  URL:  https://$DEPLOYMENT_NAME.$BOSH_DIRECTOR_FQDN/
+  URL:  https://$DEPLOYMENT_NAME.$(bosh_host)/
   USER: $SERVER_USER
   PASS: $SERVER_PASS
 

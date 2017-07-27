@@ -7,14 +7,29 @@ set -e
 LASTPASS_BOSH_DIRECTOR_CREDENTIALS="Shared-London Services/london-ci/bosh-env-tarantino"
 
 main() {
+  lpass_login
   ensure_logged_in
   delete_deployment
   delete_manifest
 }
 
+lpass_login() {
+  [[ $(lpass status) =~ Logged\ in\ as.*@pivotal.io ]] || (
+    echo "You must   lpass login   with your pivotal.io user"
+    exit 1
+  )
+}
+
 ensure_logged_in() {
-  bosh stemcells &>/dev/null ||
+  bosh stemcells &>/dev/null || (
+    bosh -n target "$(bosh_target)"
     bosh login "$(bosh_username)" "$(bosh_password)"
+  )
+}
+
+bosh_target() {
+  lpass show --notes "$LASTPASS_BOSH_DIRECTOR_CREDENTIALS" |
+    awk '/bosh-target/ { print $2 }'
 }
 
 bosh_username() {
@@ -32,6 +47,7 @@ manifest_exists() {
 delete_deployment() {
   if manifest_exists
   then
+    # shellcheck source=/dev/null
     . deployment
     bosh delete deployment "$DEPLOYMENT_NAME" --force
   else

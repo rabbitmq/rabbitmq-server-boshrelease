@@ -5,14 +5,36 @@ set -e
 [ -z "$DEBUG" ] || set -x
 
 LASTPASS_BOSH_DIRECTOR_CREDENTIALS="Shared-London Services/london-ci/bosh-env-tarantino"
-
-BOSH_DIRECTOR_FQDN="tarantino.directors.cf-app.com"
+PRIVATE_CONFIG_CREDENTIALS="Shared-RabbitMQ/rabbitmq-server-boshrelease/config/private.yml"
 
 main() {
-    bosh create release --force --version "$(date +'%Y%m%d.%H%M')" "$@"
-    bosh -n target "https://$BOSH_DIRECTOR_FQDN:25555"
-    bosh login "$(bosh_username)" "$(bosh_password)"
-    bosh upload release
+  lpass_login
+  ensure_private_config_exists
+  bosh create release --force --version "$(date +'%Y%m%d.%H%M')" "$@"
+  bosh -n target "$(bosh_target)"
+  bosh login "$(bosh_username)" "$(bosh_password)"
+  bosh upload release
+}
+
+lpass_login() {
+  [[ $(lpass status) =~ Logged\ in\ as.*@pivotal.io ]] || (
+    echo "You must   lpass login   with your pivotal.io user"
+    exit 1
+  )
+}
+
+ensure_private_config_exists() {
+  if [ ! -e config/private.yml ]
+  then
+    echo "You are missing credentials required to upload blobs
+Copying config/private.yml from LastPass..."
+    lpass show --note "$PRIVATE_CONFIG_CREDENTIALS" > config/private.yml
+  fi
+}
+
+bosh_target() {
+  lpass show --notes "$LASTPASS_BOSH_DIRECTOR_CREDENTIALS" |
+    awk '/bosh-target/ { print $2 }'
 }
 
 bosh_username() {
@@ -23,4 +45,4 @@ bosh_password() {
   lpass show --password "$LASTPASS_BOSH_DIRECTOR_CREDENTIALS"
 }
 
-main
+main "$@"

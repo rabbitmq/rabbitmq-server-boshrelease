@@ -18,7 +18,9 @@ DEPLOYMENT_NAME="rmq-$USER"
 SERVER_USER="admin"
 SERVER_PASS="$(pwgen 20 1)"
 
-BOSH_DIRECTOR_FQDN="tarantino.directors.cf-app.com"
+LASTPASS_DATADOG_CREDENTIALS="Shared-RabbitMQ/RabbitMQ Core Datadog"
+LASTPASS_BOSH_DIRECTOR_CREDENTIALS="Shared-London Services/london-ci/bosh-env-tarantino"
+LASTPASS_CF_CREDENTIALS="Shared-London Services/london-ci/cf-env-tarantino"
 RELEASE_VERSION="$(awk '/ version/ { print $2 }' < releases/rabbitmq-server/index.yml | tail -n 1)"
 
 # https://bosh.io/stemcells/bosh-aws-xen-hvm-ubuntu-trusty-go_agent
@@ -29,6 +31,7 @@ BOSH_STEMCELL_VERSION_SHA1=98f9b71398f0f771e8a4bbaf5531440b99bae540
 main() {
   if should_create_new_manifest
   then
+    lpass_login
     generate_deployment
     generate_manifest
     ok
@@ -47,6 +50,13 @@ should_create_new_manifest() {
 
 manifest_exists() {
   [ -f deployment ] && [ -f manifest.yml ]
+}
+
+lpass_login() {
+  [[ $(lpass status) =~ Logged\ in\ as.*@pivotal.io ]] || (
+    echo "You must   lpass login   with your pivotal.io user"
+    exit 1
+  )
 }
 
 generate_deployment() {
@@ -87,7 +97,7 @@ generate_deployment() {
   NODES_TYPE="${nodes_type:=$NODES_TYPE}"
 
   cat > deployment <<EOF
-BOSH_DIRECTOR_FQDN=$BOSH_DIRECTOR_FQDN
+BOSH_DIRECTOR_FQDN=$(bosh_host)
 
 BOSH_STEMCELL_NAME=$BOSH_STEMCELL_NAME
 BOSH_STEMCELL_VERSION=$BOSH_STEMCELL_VERSION
@@ -106,6 +116,16 @@ SERVER_PASS=$SERVER_PASS
 ERLANG_COOKIE=$ERLANG_COOKIE
 ERLANG_VERSION=$ERLANG_VERSION
 EOF
+}
+
+bosh_host() {
+  lpass show --notes "$LASTPASS_BOSH_DIRECTOR_CREDENTIALS" |
+    awk '/bosh-host/ { print $2 }'
+}
+
+bosh_uuid() {
+  lpass show --notes "$LASTPASS_BOSH_DIRECTOR_CREDENTIALS" |
+    awk '/uuid/ { print $2 }'
 }
 
 generate_manifest() {
@@ -128,7 +148,24 @@ server_pass: &server_pass $SERVER_PASS
 
 erlang_cookie: &erlang_cookie $ERLANG_COOKIE
 erlang_version: &erlang_version $ERLANG_VERSION
+
+cf_cc_url: &cf_cc_url $(cf --url)
+cf_cc_user: &cf_cc_user $(cf --user)
+cf_cc_pass: &cf_cc_pass $(cf --pass)
+
+datadog_api_key: &datadog_api_key $(datadog_api_key)
+
+bosh_director_uuid: &bosh_director_uuid $(bosh_uuid)
 EOF
+}
+
+cf() {
+  lpass show "$@" "$LASTPASS_CF_CREDENTIALS"
+}
+
+datadog_api_key() {
+  lpass show --notes "$LASTPASS_DATADOG_CREDENTIALS" |
+    awk '/bosh/ { print $2 }'
 }
 
 ok() {
