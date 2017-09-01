@@ -2,7 +2,7 @@
 
 > This BOSH release is used by the RabbitMQ team to debug all things RabbitMQ &amp; Erlang on GCP, AWS &amp; vSphere. This release is only meant to be used for debugging purposes. It comes with no guarantees or promises, it just helps us ensure RabbitMQ is stable across different IaaS platforms and BOSH-friendly.
 
-### How do I use this BOSH release?
+## How do I use this BOSH release?
 
 First, ensure the following are installed and available in `$PATH`:
 
@@ -17,7 +17,7 @@ To create a new deployment, run `deploy` . A successful deploy will store a depl
 
 To update an existing deployment, run `deploy_configuration`
 
-### How can I make this BOSH release better?
+## How can I make this BOSH release better?
 
 You're a champ for just thinking it! Making things better is deeply rewarding, we already like you very much : )
 
@@ -29,7 +29,7 @@ When the time comes to cut a new final release, `create-final-release` will do m
 
 
 
-## Learnings
+## Provisioning Erlang/OTP and RAbbitMQ
 
 ### Compiling Erlang from source
 
@@ -43,21 +43,26 @@ This release ships with multiple Erlang versions, all used in various production
 
 The Erlang version that will be used to run RabbitMQ can be selected when running `deploy`
 
-### Leverage remote RabbitMQ Generic UNIX artefacts
+### Using RabbitMQ Snapshot Releases
 
 We need to be able to deploy any RabbitMQ version, even dev releases produced by our CI.
 
 When `deploy` asks you which RabbitMQ Server release you want to deploy, you can either choose one of the existing [GitHub releases](https://github.com/rabbitmq/rabbitmq-server/releases), or you can select `OTHER` and provide Git choose `OTHER` and enter any `rabbitmq-server-generic-unix-*` package URL, such as a dev build from [Bintray](https://dl.bintray.com/just-testing/all-dev/rabbitmq-server/).
 
-RabbitMQ v3.5 generic-unix packages are not fully supported. Even though cluster formation will succeed,without the rabbitmq_clusterer plugin, arbitrary node restarts will fail. Since there is little interest in RabbitMQ v3.5, we do not plan to address this shortcoming.
+RabbitMQ v3.5 generic-unix packages are not fully supported. Even though cluster formation will succeed,without the rabbitmq_clusterer plugin, arbitrary node restarts will fail. Since RabbitMQ 3.5.x is no longer under development,
+we do not plan to address this shortcoming.
 
-### Limitations when configuring system user limits
+## Limitations and Recommended Practices
+
+### OS/User Limit Configuration Limitations
 
 The correct way of setting system user limits in Linux is through `/etc/security/limits.d`. It might also be necessary to modify `/etc/pam.d/common_session`, depending on the Linux distribution.
 
 Since we are running rabbitmq-server via `start-stop-daemon`, configuring system user limits through `/etc/security/limits.d` is not going to work. Executing `ulimits -n` just before running `start-stop-daemon` works just fine.
 
-### Template a single env file, never template scripts
+### Templating
+
+Template a single env file, never template scripts.
 
 Most BOSH releases end up templating files left, right & center. It's most unfortunate when shell scripts get templated since this breaks [shellcheck](https://www.shellcheck.net/).
 
@@ -79,15 +84,15 @@ Using a single script to both stop and start a BOSH job is guaranteed to cause m
 
 Respect the idempotency of all BOSH lifecycle events, [be aware of their limitations](https://bosh.io/docs/pre-start.html) and you are guaranteed the best BOSH experience. As all products, BOSH has its sharp edges, so don't make your life harder by ignoring this hard-earned advice.
 
-### Leverage RabbitMQ environment variables, be aware of their limitations
+### Using RabbitMQ Environment Variables
 
 RabbitMQ recognises many environment natively. We tried using `RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS` &amp; `RABBITMQ_CTL_ERL_ARGS` to configure the Erlang cookie, [but we have come across some limitations](https://github.com/rabbitmq/rabbitmq-server/issues/1206).
 
-### Always guard against missing shell variables
+### Undefined Shell Variables
 
 The first time you use an environment variable in a script, ensure that it has been defined. It's as simple as `${FOO:?must be defined}`. Don't worry about the repetition, it will save you many frustrating debugging sessions.
 
-### Prefer configuring RabbitMQ via commands
+### Configuring RabbitMQ
 
 This is most likely to stay consistent across versions. For example, RabbitMQ v3.7 will have a new configuration file format. The old one will still work, but we want to promote the new one as much as possible.
 
