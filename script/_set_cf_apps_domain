@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -o pipefail
+
+[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+CF_DEPLOYMENT="$("$SCRIPT"/_cf_deployment)"
+export CF_DEPLOYMENT
+
+if [[ "$CF_DEPLOYMENT" != "" ]]
+then
+  CF_APPS_DOMAIN="$(
+    bosh -d "$CF_DEPLOYMENT" manifest |
+    yq -r '.instance_groups[].jobs[] | select(.name == "cloud_controller_ng") | .properties.app_domains[0]'
+  )"
+  export CF_APPS_DOMAIN
+else
+  echo "Couldn't find a CloudFoundry deployment, RabbitMQ Management will not be accessible via FQDN"
+fi

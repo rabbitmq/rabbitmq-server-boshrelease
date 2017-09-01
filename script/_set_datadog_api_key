@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+read -rp "
+Do you want to emit metrics from this deployment to DataDog? (y|n) " -n 1 emit_metrics_to_datadog
+echo
+if [[ $emit_metrics_to_datadog =~ ^[Yy]$ ]]
+then
+  if [ -x "$SCRIPT"/../../rabbitmq-credentials/set_datadog_api_key ]
+  then
+    # shellcheck source=../rabbitmq-credentials/set_datadog_api_key
+    . "$SCRIPT"/../../rabbitmq-credentials/set_datadog_api_key
+  else
+    echo "
+OK, I assume that you have a DataDog API Key
+If not, create one first: https://app.datadoghq.com/account/settings#api"
+
+    while true
+    do
+      read -rp "
+Please enter the DataDog API key to use for this deployment: " DATADOG_API_KEY
+      if [[ "$DATADOG_API_KEY" = "" ]]
+      then
+        echo "'$DATADOG_API_KEY' is not a valid DataDog API Key, please try again"
+      else
+        export DATADOG_API_KEY
+        break
+      fi
+    done
+  fi
+fi

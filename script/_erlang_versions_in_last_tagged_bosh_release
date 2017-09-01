@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -o pipefail
+
+[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+yq -r '.packages[].name' < "$SCRIPT/../releases/rabbitmq-server/rabbitmq-server-$("$SCRIPT"/_last_final_tagged_release).yml" |
+  awk -F"erlang-" '/erlang-/ { print $2 }' |
+  sort -r

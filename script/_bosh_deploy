@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+DEPLOYMENT_CONFIGURATION="${DEPLOYMENT_CONFIGURATION:?must be defined}"
+BOSH_DEPLOYMENT="${BOSH_DEPLOYMENT:?must be defined}"
+
+declare -a BOSH_OPERATIONS
+if [[ "$(yq -r '.datadog_api_key' < "$DEPLOYMENT_CONFIGURATION")" != null ]]
+then
+  BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/add-datadog-agent.yml")
+fi
+
+if [[ "$(yq -r '.cf_apps_domain' < "$DEPLOYMENT_CONFIGURATION")" != null ]]
+then
+  BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/register-management-route.yml")
+fi
+
+bosh --deployment="$BOSH_DEPLOYMENT" deploy --no-redact \
+  "${BOSH_OPERATIONS[@]}" \
+  --vars-file="$SCRIPT/../deployment_configurations/$BOSH_DEPLOYMENT.yml" \
+  rabbitmq-server-deployment-template.yml

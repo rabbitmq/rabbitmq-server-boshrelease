@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+separator() {
+  printf "%0.1s%0.1s%0.1s%0.1s%0.1s" "+" "-"{1..32} "+" "-"{1..62} "+"
+  echo
+}
+
+row() {
+  printf "| %-30s | %-60s |\n" "$1" "$2"
+}
+
+separator
+
+[ -z "$CF_APPS_DOMAIN" ] ||
+  row "RMQ MANAGEMENT URL" "https://$BOSH_DEPLOYMENT.$CF_APPS_DOMAIN"
+
+row "RMQ ADMIN USER" "$RMQ_SERVER_ADMIN_USER"
+row "RMQ ADMIN PASS" "$RMQ_SERVER_ADMIN_PASS"
+separator
+row "RMQ SERVER RELEASE" "$RMQ_SERVER_RELEASE"
+row "ERLANG VERSION" "$ERLANG_VERSION"
+separator
+row "RMQ NODES" "$RMQ_NODES_COUNT"
+row "RMQ VM TYPE" "$RMQ_VM_TYPE"
+row "RMQ VM PERSISTENT DISK" "$RMQ_PERSISTENT_DISK_TYPE"
+separator
+row "BOSH RELEASE VERSION" "$RMQ_BOSH_RELEASE_VERSION"
+
+separator

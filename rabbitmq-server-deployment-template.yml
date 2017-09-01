@@ -1,0 +1,53 @@
+# Deployment identification
+#
+name: ((bosh_deployment))
+
+# Packages & processes
+#
+releases: # http://bosh.io/releases
+- name: rabbitmq-server
+  version: ((bosh_release_version))
+
+# VM base images
+#
+stemcells: # http://bosh.io/stemcells
+- name: ((bosh_stemcell_name))
+  version: ((bosh_stemcell_version))
+  alias: ((bosh_stemcell_name))
+
+# Lifecycle configurations
+#
+update:
+  canaries: ((rmq_nodes_count))  # Update the cluster as a whole
+                                 #
+                                 # Since RabbitMQ native clustering requires the last stopped node to start first,
+                                 # we must start all nodes at once, otherwise the cluster won't form.
+  canary_watch_time: &watch_time 10000-60000 # 10s - 1m
+  max_in_flight: ((rmq_nodes_count))
+  serial: false
+  update_watch_time: *watch_time
+
+# VM groups
+#
+instance_groups:
+- name: rmq
+  instances: ((rmq_nodes_count))
+  vm_type: ((rmq_vm_type))
+  persistent_disk_type: ((rmq_persistent_disk_type))
+  stemcell: ((bosh_stemcell_name))
+  jobs:
+  - name: rabbitmq-server
+    release: rabbitmq-server
+    properties:
+      erlang:
+        cookie: ((erlang_cookie))
+        version: ((erlang_version))
+      rabbitmq-server:
+        debug: true
+        generic-unix-url: ((rmq_server_package))
+        admin_user: ((rmq_server_admin_user))
+        admin_pass: ((rmq_server_admin_pass))
+  networks:
+  - name: ((rmq_network))
+  azs:
+  - ((rmq_az))

@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -e
+
+SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+pushd "$SCRIPT"/../deployment_configurations &> /dev/null
+  shopt -s nullglob
+  deployment_configurations=( *.yml )
+  if [ ${#deployment_configurations[@]} != 0 ]
+  then
+    echo "Which configuration do you want to deploy?"
+    select deployment_configuration in "${deployment_configurations[@]}"
+    do
+      DEPLOYMENT_CONFIGURATION="$SCRIPT"/../deployment_configurations/"$deployment_configuration"
+      BOSH_DEPLOYMENT="${deployment_configuration/.yml}"
+      export DEPLOYMENT_CONFIGURATION BOSH_DEPLOYMENT
+      break
+    done
+  else
+    echo "There are no deployment configurations, you can create one by running: deploy"
+    exit 1
+  fi
+popd &> /dev/null
+
+# shellcheck source=script/_bosh_deploy
+. "$SCRIPT"/_bosh_deploy

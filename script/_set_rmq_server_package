@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -o pipefail
+
+[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+RMQ_SERVER_RELEASE="${RMQ_SERVER_RELEASE:?must be set}"
+
+while true
+do
+  if [ "$RMQ_SERVER_RELEASE" = OTHER ]
+  then
+    read -rp "
+Enter URL for RabbitMQ Server generic-unix package to deploy: " RMQ_SERVER_PACKAGE
+  else
+    RMQ_SERVER_PACKAGE="$(
+      "$SCRIPT"/_rmq_server_releases_github |
+        jq -r '.[] | select(.tag_name=="'"$RMQ_SERVER_RELEASE"'") | .assets[] | select(.name | contains("generic-unix"))| .browser_download_url | select(. | contains("asc") | not)'
+    )"
+  fi
+
+  if ! [[ "$RMQ_SERVER_PACKAGE" =~ ^http.+rabbitmq-server-generic-unix.+$ ]]
+  then
+    echo "Sorry, '$RMQ_SERVER_PACKAGE' doesn't look like a valid RabbitMQ generic-unix package URL, please try again"
+  else
+    export RMQ_SERVER_PACKAGE
+    break
+  fi
+done

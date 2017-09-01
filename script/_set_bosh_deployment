@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+BOSH_DEPLOYMENT="rmq-$USER-$(date +'%Y%m%d')"
+bosh_deployment=""
+
+while true
+do
+  read -rp "
+Deployment name (press enter for $BOSH_DEPLOYMENT): " bosh_deployment
+  if [[ "$bosh_deployment" =~ \. ]]
+  then
+    echo "Deployment name will fail if it contains '.'"
+  else
+    BOSH_DEPLOYMENT="${bosh_deployment:=$BOSH_DEPLOYMENT}"
+    export BOSH_DEPLOYMENT
+    break
+  fi
+done

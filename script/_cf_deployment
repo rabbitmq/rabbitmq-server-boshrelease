@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -o pipefail
+
+bosh deployments --column=name |
+  awk '/^cf-/ { print $1 }'

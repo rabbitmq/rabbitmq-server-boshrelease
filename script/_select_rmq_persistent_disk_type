@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+echo "
+Persistent disk type for RabbitMQ nodes:"
+select RMQ_PERSISTENT_DISK_TYPE in $("$SCRIPT"/_disk_types)
+do
+  export RMQ_PERSISTENT_DISK_TYPE
+  break
+done

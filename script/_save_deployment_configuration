@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+DEPLOYMENT_CONFIGURATION="$SCRIPT/../deployment_configurations/${BOSH_DEPLOYMENT}.yml"
+export DEPLOYMENT_CONFIGURATION
+
+cat > "$DEPLOYMENT_CONFIGURATION" <<EOF
+---
+bosh_deployment: $BOSH_DEPLOYMENT
+bosh_release_url: $RMQ_BOSH_RELEASE_URL
+bosh_release_version: $RMQ_BOSH_RELEASE_VERSION
+bosh_stemcell_name: $BOSH_STEMCELL_NAME
+bosh_stemcell_version: $BOSH_STEMCELL_VERSION
+
+rmq_vm_type: $RMQ_VM_TYPE
+rmq_persistent_disk_type: $RMQ_PERSISTENT_DISK_TYPE
+rmq_nodes_count: $RMQ_NODES_COUNT
+rmq_network: $RMQ_NETWORK
+rmq_az: $RMQ_AZ
+
+rmq_server_release: $RMQ_SERVER_RELEASE
+rmq_server_package: $RMQ_SERVER_PACKAGE
+rmq_server_admin_user: $RMQ_SERVER_ADMIN_USER
+rmq_server_admin_pass: $RMQ_SERVER_ADMIN_PASS
+
+cf_deployment: $CF_DEPLOYMENT
+cf_apps_domain: $CF_APPS_DOMAIN
+
+erlang_version: $ERLANG_VERSION
+erlang_cookie: $ERLANG_COOKIE
+
+datadog_api_key: $DATADOG_API_KEY
+EOF
+
+echo "
+$BOSH_DEPLOYMENT configuration saved to $DEPLOYMENT_CONFIGURATION
+"

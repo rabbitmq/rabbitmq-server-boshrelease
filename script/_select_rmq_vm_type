@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+echo "
+VM type for RabbitMQ nodes:"
+select RMQ_VM_TYPE in $("$SCRIPT"/_vm_types)
+do
+  export RMQ_VM_TYPE
+  break
+done

@@ -2,99 +2,39 @@
 
 set -e
 
-[ -z "$DEBUG" ] || set -x
+SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-LASTPASS_BOSH_DIRECTOR_CREDENTIALS="Shared-London Services/london-ci/bosh-env-tarantino"
-
-main() {
-  lpass_login
-  bosh_target
-  if manifest_exists
-  then
-    # shellcheck source=/dev/null
-    . deployment
-    upload_stemcell
-    upload_latest_final_release
-    bosh deployment manifest.yml
-    bosh deploy --no-redact
-    ok
-  else
-    suggest_creating_manifest_first
-  fi
-}
-
-lpass_login() {
-  [[ $(lpass status) =~ Logged\ in\ as.*@pivotal.io ]] || (
-    echo "You must   lpass login   with your pivotal.io user"
-    exit 1
-  )
-}
-
-bosh_target() {
-  bosh -n target "https://$(bosh_host):25555"
-  bosh login "$(bosh_username)" "$(bosh_password)"
-}
-
-bosh_host() {
-  lpass show --notes "$LASTPASS_BOSH_DIRECTOR_CREDENTIALS" |
-    awk '/bosh-host/ { print $2 }'
-}
-
-bosh_username() {
-  lpass show --username "$LASTPASS_BOSH_DIRECTOR_CREDENTIALS"
-}
-
-bosh_password() {
-  lpass show --password "$LASTPASS_BOSH_DIRECTOR_CREDENTIALS"
-}
-
-manifest_exists() {
-  [ -f deployment ] && [ -f manifest.yml ]
-}
-
-suggest_creating_manifest_first() {
-  echo "It doesn't seem that you have created a manifest, you may want to first run script/create-manifest"
-  return 1
-}
-
-upload_stemcell() {
-  if [ -z "$BOSH_STEMCELL_NAME" ] || [ -z "$BOSH_STEMCELL_VERSION" ] || [ -z "$BOSH_STEMCELL_VERSION_SHA1" ]
-  then
-    echo "
-Deployment properties & manifests are now generated differently
-You must create a new manifest via ./script/create-manifest before you can run this script"
-    exit 1
-  else
-    bosh upload stemcell "https://bosh.io/d/stemcells/$BOSH_STEMCELL_NAME?v=$BOSH_STEMCELL_VERSION" \
-      --name "$BOSH_STEMCELL_NAME" \
-      --version "$BOSH_STEMCELL_VERSION" --sha1 "$BOSH_STEMCELL_VERSION_SHA1" \
-      --skip-if-exists
-  fi
-}
-
-upload_latest_final_release() {
-  local final_releases latest_final_release_manifest
-  final_releases=(releases/*/*.yml)
-  latest_final_release_manifest="${final_releases[*]: -1}"
-
-  bosh upload release "$latest_final_release_manifest"
-}
-
-ok() {
-  echo "
-${RMQ_PACKAGE##*/} deployed on $NODES_COUNT x $NODES_TYPE
-
-  URL:  https://$DEPLOYMENT_NAME.$(bosh_host)/
-  USER: $SERVER_USER
-  PASS: $SERVER_PASS
-
-To SSH into any of the RabbitMQ node(s):
-
-  cd ../rabbitmq-credentials/bosh
-  git pull
-  ./ssh
-"
-  bosh instances --ps
-}
-
-main
+# shellcheck source=script/_confirm_bosh_environment
+. "$SCRIPT"/_confirm_bosh_environment
+# shellcheck source=script/_set_datadog_api_key
+. "$SCRIPT"/_set_datadog_api_key
+# shellcheck source=script/_set_bosh_deployment
+. "$SCRIPT"/_set_bosh_deployment
+# shellcheck source=script/_set_rmq_bosh_release
+. "$SCRIPT"/_set_rmq_bosh_release
+# shellcheck source=script/_select_rmq_server_release
+. "$SCRIPT"/_select_rmq_server_release
+# shellcheck source=script/_set_rmq_server_package
+. "$SCRIPT"/_set_rmq_server_package
+# shellcheck source=script/_set_rmq_server_admin_credentials
+. "$SCRIPT"/_set_rmq_server_admin_credentials
+# shellcheck source=script/_select_erlang_version
+. "$SCRIPT"/_select_erlang_version
+# shellcheck source=script/_set_erlang_cookie
+. "$SCRIPT"/_set_erlang_cookie
+# shellcheck source=script/_select_rmq_vm_type
+. "$SCRIPT"/_set_rmq_nodes_count
+# shellcheck source=script/_select_rmq_network
+. "$SCRIPT"/_select_rmq_vm_type
+# shellcheck source=script/_select_rmq_persistent_disk_type
+. "$SCRIPT"/_select_rmq_persistent_disk_type
+# shellcheck source=script/_set_rmq_nodes_count
+. "$SCRIPT"/_select_rmq_network
+# shellcheck source=script/_select_rmq_az
+. "$SCRIPT"/_select_rmq_az
+# shellcheck source=script/_select_stemcell
+. "$SCRIPT"/_select_stemcell
+# shellcheck source=script/_set_cf_apps_domain
+. "$SCRIPT"/_set_cf_apps_domain
+# shellcheck source=script/_confirm_deployment
+. "$SCRIPT"/_confirm_deployment

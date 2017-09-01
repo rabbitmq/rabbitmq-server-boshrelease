@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+echo "
+RabbitMQ will use Erlang version:"
+select ERLANG_VERSION in $("$SCRIPT"/_erlang_versions_in_last_tagged_bosh_release)
+do
+  export ERLANG_VERSION
+  break
+done

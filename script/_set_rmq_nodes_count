@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+RMQ_NODES_COUNT=2
+
+while true
+do
+  read -rp "
+Number of RabbitMQ nodes to deploy (press enter for $RMQ_NODES_COUNT): " rmq_nodes_count
+  if ! [[ $rmq_nodes_count =~ ^[0-9]*$ ]]
+  then
+    echo "'$rmq_nodes_count' is not a valid number of RabbitMQ nodes, please try again"
+  else
+    RMQ_NODES_COUNT="${rmq_nodes_count:=$RMQ_NODES_COUNT}"
+    export RMQ_NODES_COUNT
+    break
+  fi
+done

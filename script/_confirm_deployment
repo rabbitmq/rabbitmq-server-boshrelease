@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# shellcheck source=script/_save_deployment_configuration
+. "$SCRIPT/_save_deployment_configuration"
+# shellcheck source=script/_bosh_deploy
+. "$SCRIPT/_bosh_deploy"
+# shellcheck source=script/_save_deployment_configuration
+. "$SCRIPT/_save_deployment_configuration"
+# shellcheck source=script/_print_deployment_configuration
+. "$SCRIPT/_print_deployment_configuration"

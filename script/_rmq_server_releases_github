@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+GITHUB_CONNECT_TIMEOUT_IN_SECONDS=3
+
+echo "
+Fetching RabbitMQ Server releases from GitHub..." > /dev/stderr
+
+curl --fail --silent --location \
+  --connect-timeout "$GITHUB_CONNECT_TIMEOUT_IN_SECONDS" \
+  https://api.github.com/repos/rabbitmq/rabbitmq-server/releases ||
+echo "Failed to fetch RabbitMQ Server releases from GitHub" > /dev/stderr

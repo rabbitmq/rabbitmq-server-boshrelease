@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -o pipefail
+
+bosh cloud-config |
+  yq -r '.vm_types[].name'

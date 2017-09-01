@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+bosh environment
+
+read -rp "
+Is this the BOSH director that you want to deploy to? (y|n) " -n 1
+echo
+if ! [[ $REPLY =~ ^[Yy]$ ]]
+then
+  echo "
+OK, I'll let you setup your env with a different BOSH director
+This might help: https://bosh.io/docs/cli-global-flags.html
+
+This is the .env that the RabbitMQ Core team uses:
+
+    #!/usr/bin/env bash
+
+    pushd \"\${BASH_SOURCE[0]%/*}\" 1>/dev/null
+      BOSH_CLIENT=\"\$(bbl director-username)\"
+      BOSH_CLIENT_SECRET=\"\$(bbl director-password)\"
+      BOSH_CA_CERT=\"\$(bbl director-ca-cert)\"
+      BOSH_ENVIRONMENT=\"\$(bbl director-address)\"
+    popd 1>/dev/null
+    export BOSH_CLIENT BOSH_CLIENT_SECRET BOSH_CA_CERT BOSH_ENVIRONMENT
+"
+  exit 1
+fi

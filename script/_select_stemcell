@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+echo "
+BOSH stemcell for RabbitMQ nodes:"
+select bosh_stemcell in $("$SCRIPT"/_stemcells)
+do
+  BOSH_STEMCELL_NAME="${bosh_stemcell%:*}"
+  BOSH_STEMCELL_VERSION="${bosh_stemcell#*:}"
+  export BOSH_STEMCELL_NAME BOSH_STEMCELL_VERSION
+  break
+done

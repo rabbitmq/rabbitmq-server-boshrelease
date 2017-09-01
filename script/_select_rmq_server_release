@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+rmq_server_releases=( $("$SCRIPT"/_rmq_server_releases) OTHER )
+
+echo "
+RabbitMQ Server release to deploy:"
+
+select RMQ_SERVER_RELEASE in "${rmq_server_releases[@]}"
+do
+  export RMQ_SERVER_RELEASE
+  break
+done

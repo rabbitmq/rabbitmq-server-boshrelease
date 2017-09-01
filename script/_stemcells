@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -o pipefail
+
+bosh stemcells --column=name --column=version |
+  awk '{
+    name = $1
+    version = $2
+
+    gsub(/\*$/, "", version)
+
+    print(name ":" version)
+  }'

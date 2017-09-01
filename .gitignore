@@ -9,3 +9,4 @@
 /deployment
 *.tgz
 *.sha1
+/deployment_configurations/*

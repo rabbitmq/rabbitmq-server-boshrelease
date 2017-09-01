@@ -1,46 +1,31 @@
-### Disclaimer
+> The official RabbitMQ BOSH release is [cf-rabbitmq-release](https://github.com/pivotal-cf/cf-rabbitmq-release)
 
-The official RabbitMQ BOSH release is [cf-rabbitmq-release](https://github.com/pivotal-cf/cf-rabbitmq-release).
-
-This is an internal BOSH release used by the RabbitMQ team to experiment with all things RabbitMQ &amp; Erlang on GCP, AWS &amp; vSphere. This BOSH release comes comes with no support, guarantees or promises.
+> This BOSH release is used by the RabbitMQ team to debug all things RabbitMQ &amp; Erlang on GCP, AWS &amp; vSphere. This release is only meant to be used for debugging purposes. It comes with no guarantees or promises, it just helps us ensure RabbitMQ is stable across different IaaS platforms and BOSH-friendly.
 
 ### How do I use this BOSH release?
 
-To configure all required dependencies on your system, run `./script/setup`
+First, ensure the following are installed and available in `$PATH`:
 
-To create a new manifest, run `./script/create-manifest`. This will write the deployment configuration to a `deployment` file and the BOSH manifest to `manifest.yml` file.
+* [bosh cli v2](https://bosh.io/docs/cli-v2.html)
+* [jq](https://github.com/stedolan/jq)
+* [yq](https://github.com/abesto/yq)
+* [lpass cli](https://github.com/lastpass/lastpass-cli)
 
-To deploy an existing configuration, run `./script/deploy`
+For the RabbitMQ Core team, ensure [rabbitmq/rabbitmq-credentials](https://github.com/rabbitmq/rabbitmq-credentials) is cloned alongside this repo, then `cd rabbitmq-server-boshrelease && . .env`
 
-To delete a deployment, run `./script/delete-deployment`
+To create a new deployment, run `deploy` . A successful deploy will store a deployment configuration file in `deployment_configurations`.
 
-To print a deployment information, run `./script/which-deployment`
-
-To create a new dev release, run `./script/create-dev-release` and then `./script/deploy`. You will need to set the release version to `latest` (we default to final release version) when creating the manifest.
-
-When the time comes to cut a new final release, `./script/create-final-release` will do most of the heavy lifting. You will still need to create a git tag and update the `CHANGELOG.md`. It's a small price to pay for the excitement that shipping a final release brings.
-
-To monitor a deployment, you can clone [the DataDog dashboard](https://app.datadoghq.com/dash/272837/rmq-deployment-example?live=true&page=0&is_auto=false&from_ts=1491812266751&to_ts=1491815866751&tile_size=m) and edit the `deployment` variable.
-
-### Isn't `cf-rabbitmq-release` the official RabbitMQ BOSH release?
-
-Yes it is, and we don't expect it to change anytime soon. This BOSH release is internal and restricted to PCF RabbitMQ & RabbitMQ Core teams only.
-
-We created this BOSH release to make it easier for the RabbitMQ Core team to deploy long-running RabbitMQ environments, and ad-hoc testing environments.
-
-We also wanted to explore what it would look like to create a RabbitMQ BOSH release from scratch, with all the learnings from [cf-rabbitmq-release](https://github.com/pivotal-cf/cf-rabbitmq-release).
-
-For all we know, this release is just a stepping stone towards improving cf-rabbitmq-release.
-
-It is also possible that this BOSH release will one day become an official one, maintained by the RabbitMQ Core team and consumed by PCF RabbitMQ. After all, it's easier for us to learn BOSH than PCF RabbitMQ to learn the many sharp edges that both RabbitMQ and Erlang have. We are already creating RabbitMQ packages for every major OS and Linux distribution, it's only logical that we take ownership of the BOSH release as well.
+To update an existing deployment, run `deploy_configuration`
 
 ### How can I make this BOSH release better?
 
 You're a champ for just thinking it! Making things better is deeply rewarding, we already like you very much : )
 
-When you're making local changes and want to test the release, you can use `./script/create-dev-release` and then `./script/deploy`. Remember to set the release version to `latest` when creating the manifest with `./script/create-manifest`.
+When you're making local changes and want to test the release, you can use `create-dev-release` and then `deploy` - remember to select the `LATEST` BOSH release version
 
-Any problems that you come across are bugs and should preferably be raised as Github pull requests. Github issues are OK as well, but they will take longer to action. Every little helps, we welcome all forms of contribution.
+To create a new BOSH dev release, run `create-dev-release` and then `deploy`. You will need to set the release version to `latest` (we default to final release version) when creating the manifest.
+
+When the time comes to cut a new final release, `create-final-release` will do most of the heavy lifting. You will still need to create a git tag and update the `CHANGELOG.md`. It's a small price to pay for the excitement that shipping a final release brings.
 
 
 
@@ -56,13 +41,13 @@ Patch releases are not available from [erlang.org](http://www.erlang.org/downloa
 
 This release ships with multiple Erlang versions, all used in various production environments that we've come across, mostly via escalations or support cases. Take a look in `packages/erlang-*`
 
-The Erlang version that will be used to run RabbitMQ can be selected via `./script/create-manifest`
+The Erlang version that will be used to run RabbitMQ can be selected when running `deploy`
 
 ### Leverage remote RabbitMQ Generic UNIX artefacts
 
 We need to be able to deploy any RabbitMQ version, even dev releases produced by our CI.
 
-When `./script/create-manifest` asks you which RabbitMQ package you want to deploy, feel free to provide any `rabbitmq-server-generic-unix-*`, either from [GitHub releases](https://github.com/rabbitmq/rabbitmq-server/releases) or [Bintray](https://dl.bintray.com/just-testing/all-dev/rabbitmq-server/).
+When `deploy` asks you which RabbitMQ Server release you want to deploy, you can either choose one of the existing [GitHub releases](https://github.com/rabbitmq/rabbitmq-server/releases), or you can select `OTHER` and provide Git choose `OTHER` and enter any `rabbitmq-server-generic-unix-*` package URL, such as a dev build from [Bintray](https://dl.bintray.com/just-testing/all-dev/rabbitmq-server/).
 
 RabbitMQ v3.5 generic-unix packages are not fully supported. Even though cluster formation will succeed,without the rabbitmq_clusterer plugin, arbitrary node restarts will fail. Since there is little interest in RabbitMQ v3.5, we do not plan to address this shortcoming.
 

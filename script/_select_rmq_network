@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+echo "
+Network to deploy RabbitMQ in:"
+select RMQ_NETWORK in $("$SCRIPT"/_networks)
+do
+  export RMQ_NETWORK
+  break
+done
