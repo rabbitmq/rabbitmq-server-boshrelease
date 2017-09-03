@@ -8,7 +8,7 @@ export DEPLOYMENT_CONFIGURATION
 cat > "$DEPLOYMENT_CONFIGURATION" <<EOF
 ---
 bosh_deployment: $BOSH_DEPLOYMENT
-bosh_release_url: $RMQ_BOSH_RELEASE_URL
+bosh_release_manifest: $RMQ_BOSH_RELEASE_MANIFEST
 bosh_release_version: $RMQ_BOSH_RELEASE_VERSION
 bosh_stemcell_name: $BOSH_STEMCELL_NAME
 bosh_stemcell_version: $BOSH_STEMCELL_VERSION

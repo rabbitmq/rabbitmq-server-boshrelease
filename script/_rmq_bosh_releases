@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -o pipefail
+
+[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+find "$SCRIPT"/../{dev_releases,releases}/rabbitmq-server -type f -name 'rabbitmq-server-*.yml' |
+  sort -r |
+  while read -r rmq_bosh_release
+  do
+    rmq_bosh_release_no_ext="${rmq_bosh_release%.yml}"
+    echo "${rmq_bosh_release_no_ext##*/rabbitmq-server-}"
+  done

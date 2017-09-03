@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+echo "
+BOSH release to deploy (latest non-dev release is the safest choice) :"
+select RMQ_BOSH_RELEASE_VERSION in $("$SCRIPT/_rmq_bosh_releases")
+do
+  RMQ_BOSH_RELEASE_MANIFEST="$(find "$SCRIPT/"../{releases,dev_releases} -name "rabbitmq-server-$RMQ_BOSH_RELEASE_VERSION.yml")"
+  export RMQ_BOSH_RELEASE_VERSION RMQ_BOSH_RELEASE_MANIFEST
+  break
+done

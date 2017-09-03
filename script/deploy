@@ -10,8 +10,8 @@ SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 . "$SCRIPT"/_set_datadog_api_key
 # shellcheck source=script/_set_bosh_deployment
 . "$SCRIPT"/_set_bosh_deployment
-# shellcheck source=script/_set_rmq_bosh_release
-. "$SCRIPT"/_set_rmq_bosh_release
+# shellcheck source=script/_select_rmq_bosh_release
+. "$SCRIPT"/_select_rmq_bosh_release
 # shellcheck source=script/_select_rmq_server_release
 . "$SCRIPT"/_select_rmq_server_release
 # shellcheck source=script/_set_rmq_server_package

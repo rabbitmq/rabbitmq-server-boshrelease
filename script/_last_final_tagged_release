@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-last_git_tag="$("$SCRIPT"/_last_git_tag)"
-echo "${last_git_tag/v}"
-

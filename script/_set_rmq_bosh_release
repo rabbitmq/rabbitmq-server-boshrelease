@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-RMQ_BOSH_RELEASE_VERSION="$("$SCRIPT"/_last_final_tagged_release)"
-RMQ_BOSH_RELEASE_URL="https://github.com/rabbitmq/rabbitmq-server-boshrelease/releases/download/$("$SCRIPT"/_last_git_tag)/rabbitmq-server-${RMQ_BOSH_RELEASE_VERSION}.tgz"
-export RMQ_BOSH_RELEASE_VERSION RMQ_BOSH_RELEASE_URL
