@@ -14,6 +14,7 @@ pushd "$SCRIPT"/../deployment_configurations &> /dev/null
     do
       DEPLOYMENT_CONFIGURATION="$SCRIPT"/../deployment_configurations/"$deployment_configuration"
       BOSH_DEPLOYMENT="${deployment_configuration/.yml}"
+      RMQ_BOSH_RELEASE_MANIFEST="$(yq -r '.bosh_release_manifest' < "$DEPLOYMENT_CONFIGURATION")"
       export DEPLOYMENT_CONFIGURATION BOSH_DEPLOYMENT
       break
     done

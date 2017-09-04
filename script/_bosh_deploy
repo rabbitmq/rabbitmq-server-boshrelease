@@ -4,6 +4,9 @@ SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 DEPLOYMENT_CONFIGURATION="${DEPLOYMENT_CONFIGURATION:?must be defined}"
 BOSH_DEPLOYMENT="${BOSH_DEPLOYMENT:?must be defined}"
+RMQ_BOSH_RELEASE_MANIFEST="${RMQ_BOSH_RELEASE_MANIFEST:?must be defined}"
+
+bosh upload-release "$RMQ_BOSH_RELEASE_MANIFEST"
 
 declare -a BOSH_OPERATIONS
 if [[ "$(yq -r '.datadog_api_key' < "$DEPLOYMENT_CONFIGURATION")" != null ]]
