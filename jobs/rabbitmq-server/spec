@@ -64,9 +64,7 @@ properties:
     default: /var/vcap/store/rabbitmq-server/trust-store/whitelist
 
 templates:
-  bin/pre-start: bin/pre-start
   bin/start: bin/start
-  bin/post-start: bin/post-start
   bin/stop: bin/stop
   bin/drain: bin/drain
 

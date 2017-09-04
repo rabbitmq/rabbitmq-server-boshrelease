@@ -1,5 +1,5 @@
 check process rabbitmq-server
   with pidfile /var/vcap/sys/run/rabbitmq-server/pid
-  start program /var/vcap/jobs/rabbitmq-server/bin/start
+  start program /var/vcap/jobs/rabbitmq-server/bin/start with timeout 90 seconds
   stop program /var/vcap/jobs/rabbitmq-server/bin/stop
   group vcap

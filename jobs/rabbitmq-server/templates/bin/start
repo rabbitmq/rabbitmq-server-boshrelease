@@ -11,6 +11,7 @@ exec 1> >(tee -a "${RABBITMQ_LOG_BASE:?must be set}/start.log") 2>&1
 
 main() {
   date
+
   setup_run_dir
   setup_log_dir
   setup_mnesia_dir_and_parent_dir
@@ -18,7 +19,33 @@ main() {
   increase_file_descriptor_limit
   add_hostname_alias_to_etc_hosts
   write_erlang_cookie
+  add_rabbitmq_server_env_to_global_shell_profile
+
+  install_generic_unix_package
+  enable_management_plugin
   start
+  enable_all_plugins
+
+  if [ -n "${BOOTSTRAP_NODE?must be defined}" ]
+  then
+    wait_for_mnesia_tables
+    set_cluster_name
+    delete_guest_user
+    add_admin_user
+    grant_privileges_to_admin_user
+  else
+    echo "$0 will only run on the bootstrap node, ${BOOTSTRAP_NODE_INSTANCE:?must be set}"
+  fi
+}
+
+#
+# Pre-start
+#
+
+add_rabbitmq_server_env_to_global_shell_profile() {
+  cat > /etc/profile.d/rabbitmq-server-env.sh <<EOF
+. /var/vcap/jobs/rabbitmq-server/env
+EOF
 }
 
 setup_run_dir() {
@@ -64,6 +91,47 @@ write_erlang_cookie() {
   chmod 600 /root/.erlang.cookie
 }
 
+#
+# Start
+#
+
+install_generic_unix_package() {
+  true "${RABBITMQ_SERVER_PACKAGE_URL:?must be set}"
+  true "${MONIT_START_TIMEOUT:?must be set}"
+
+  (
+    local archive package_dir _version
+    archive="${RABBITMQ_SERVER_PACKAGE_URL##*/}"
+    _version="${RABBITMQ_SERVER_PACKAGE_URL##*generic-unix-}"
+    package_dir="rabbitmq_server-${_version%%.tar.*z}"
+
+    cd /var/vcap/jobs/rabbitmq-server/packages
+
+    if [ -d "$package_dir" ]
+    then
+      echo "$package_dir already exists, nothing to download"
+    else
+      [ -f "$archive" ] ||
+        curl --connect-timeout 3 --max-time "$((MONIT_START_TIMEOUT/2))" -svL -o "$archive" "$RABBITMQ_SERVER_PACKAGE_URL"
+
+      case "$archive" in
+        *.tar.gz)
+          tar xzf "$archive"
+        ;;
+        *.tar.xz)
+          tar xJf "$archive"
+        ;;
+        *)
+          echo "$archive is not supported"
+          return 1
+        ;;
+      esac
+    fi
+
+    ln -nsf "$package_dir" "${RABBITMQ_SERVER_PACKAGE:?must be set}"
+  )
+}
+
 start() {
   ERL_CRASH_DUMP="$RABBITMQ_LOG_BASE/erl_crash-$(date +'%Y%m%d_%H%M%S').dump" \
   RABBITMQ_IGNORE_SIGINT=false \
@@ -74,5 +142,63 @@ start() {
     --start --oknodo --background \
     --exec "${RABBITMQ_SERVER_PACKAGE:?must be set}/sbin/rabbitmq-server" --name beam
 }
+
+list_available_plugins() {
+  for _ in {1..10}
+  do
+      rabbitmq-plugins list -m && break
+      sleep 1
+  done
+}
+
+enable_management_plugin() {
+  rabbitmq-plugins enable rabbitmq_management --offline
+}
+
+enable_all_plugins() {
+  # shellcheck disable=SC2046
+  rabbitmq-plugins enable $(list_available_plugins)
+}
+
+#
+# Post-start
+#
+
+wait_for_mnesia_tables() {
+  rabbitmqctl wait "${RABBITMQ_PID_FILE:?must be set}"
+}
+
+set_cluster_name() {
+  rabbitmqctl set_cluster_name "${RABBITMQ_CLUSTER_NAME:?must be set}"
+}
+
+delete_guest_user() {
+  rabbitmqctl delete_user guest || true
+}
+
+ensure_admin_user_can_authenticate() {
+  rabbitmqctl authenticate_user \
+    "${RABBITMQ_ADMIN_USER:?must be set}" \
+    "${RABBITMQ_ADMIN_PASS:?must be set}"
+}
+
+add_admin_user() {
+  ensure_admin_user_can_authenticate ||
+  (
+    rabbitmqctl add_user "$RABBITMQ_ADMIN_USER" "$RABBITMQ_ADMIN_PASS" ||
+    rabbitmqctl change_password "$RABBITMQ_ADMIN_USER" "$RABBITMQ_ADMIN_PASS"
+  )
+
+  ensure_admin_user_can_authenticate
+}
+
+grant_privileges_to_admin_user() {
+  rabbitmqctl set_user_tags "$RABBITMQ_ADMIN_USER" administrator
+  rabbitmqctl set_permissions -p / "$RABBITMQ_ADMIN_USER" ".*" ".*" ".*"
+}
+
+#
+# Main
+#
 
 main
