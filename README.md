@@ -45,9 +45,12 @@ The Erlang version that will be used to run RabbitMQ can be selected when runnin
 
 ### Using RabbitMQ Snapshot Releases
 
-We need to be able to deploy any RabbitMQ version, even dev releases produced by our CI.
+We need to be able to deploy any RabbitMQ version, even dev releases produced by our CI. To obtain a
+GA version of RabbitMQ, see [RabbitMQ releases on GitHub](https://github.com/rabbitmq/rabbitmq-server/releases).
+Snapshot builds are [available from Bintray](https://dl.bintray.com/just-testing/all-dev/rabbitmq-server/).
 
-When `deploy` asks you which RabbitMQ Server release you want to deploy, you can either choose one of the existing [GitHub releases](https://github.com/rabbitmq/rabbitmq-server/releases), or you can select `OTHER` and provide Git choose `OTHER` and enter any `rabbitmq-server-generic-unix-*` package URL, such as a dev build from [Bintray](https://dl.bintray.com/just-testing/all-dev/rabbitmq-server/).
+When `deploy` asks you which RabbitMQ Server release you want to deploy. Select `OTHER` if you need to provide
+an arbitrary `rabbitmq-server-generic-unix-*` package URL, e.g. a snapshot build from the Bintray repo mentioned above.
 
 RabbitMQ v3.5 generic-unix packages are not fully supported. Even though cluster formation will succeed,without the rabbitmq_clusterer plugin, arbitrary node restarts will fail. Since RabbitMQ 3.5.x is no longer under development,
 we do not plan to address this shortcoming.
