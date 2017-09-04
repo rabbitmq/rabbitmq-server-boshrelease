@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -ex
+
+cd rabbitmq-collect-env
+cp rabbitmq-collect-env "${BOSH_INSTALL_TARGET:?must be defined}/rabbitmq-collect-env"

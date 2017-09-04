@@ -1,0 +1,4 @@
+---
+name: rabbitmq-collect-env
+files:
+- rabbitmq-collect-env/*
