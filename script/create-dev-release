@@ -1,10 +1,30 @@
 #!/usr/bin/env bash
 
+PRIVATE_CONFIG_CREDENTIALS="Shared-RabbitMQ/rabbitmq-server-boshrelease/config/private.yml"
+
 set -e
 
 main() {
+  lpass_login
+  ensure_private_config_exists
   bosh create-release --force --timestamp-version "$@"
   bosh upload-release
+}
+
+lpass_login() {
+  [[ $(lpass status) =~ Logged\ in\ as.*@pivotal.io ]] || (
+    echo "You must   lpass login   with your pivotal.io user"
+    exit 1
+  )
+}
+
+ensure_private_config_exists() {
+  if [ ! -e config/private.yml ]
+  then
+    echo "You are missing credentials required to upload blobs
+Copying config/private.yml from LastPass..."
+    lpass show --note "$PRIVATE_CONFIG_CREDENTIALS" > config/private.yml
+  fi
 }
 
 main "$@"
