@@ -31,7 +31,6 @@ set +e
 verbose=0
 hostname="$(hostname)"
 
-script_dir="$(dirname "$0")"
 output_dir='output_dir_init'
 system_output_dir='system_output_dir_init'
 rabbitmq_output_dir='rabbitmq_output_dir_init'
@@ -475,11 +474,11 @@ build_output_archive()
 {
     if [ $verbose -gt 2 ]
     then
-        echo "[DEBUG] running command 'tar -C \"$output_dir\" -zcf \"$script_dir/rabbitmq-env-$hostname.tgz\"'"
+        echo "[DEBUG] running command 'tar -C \"$output_dir\" -zcf \"$RABBITMQ_LOG_BASE/rabbitmq-env-$hostname.tgz\"'"
     else
         printf '.'
     fi
-    output_archive="$script_dir/rabbitmq-env-$hostname-$(date '+%Y%m%d-%H%M%S').tgz"
+    output_archive="$RABBITMQ_LOG_BASE/rabbitmq-env-$hostname-$(date '+%Y%m%d-%H%M%S').tgz"
     tar -C "$output_dir" -zcf "$output_archive" .
     printf "\n[INFO] output archive: '%s'\n" "$output_archive"
 }
