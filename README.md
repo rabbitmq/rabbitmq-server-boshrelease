@@ -26,7 +26,7 @@ configuration file in `deployment_configurations`.
 
 ### Upgrading
 
-To update an existing deployment, run `deploy_configuration`
+To update an existing deployment, run `deploy-configuration`
 
 ## How can I make this BOSH release better?
 
