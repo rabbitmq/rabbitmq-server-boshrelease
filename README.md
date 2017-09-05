@@ -1,8 +1,14 @@
-> The official RabbitMQ BOSH release is [cf-rabbitmq-release](https://github.com/pivotal-cf/cf-rabbitmq-release)
+# RabbitMQ BOSH Release for Development, Troubleshooting and QA
 
-> This BOSH release is used by the RabbitMQ team to debug all things RabbitMQ &amp; Erlang on GCP, AWS &amp; vSphere. This release is only meant to be used for debugging purposes. It comes with no guarantees or promises, it just helps us ensure RabbitMQ is stable across different IaaS platforms and BOSH-friendly.
+## This is NOT the Official RabbitMQ BOSH Release
 
-## How do I use this BOSH release?
+The official RabbitMQ BOSH release is at [cf-rabbitmq-release](https://github.com/pivotal-cf/cf-rabbitmq-release).
+
+This BOSH release is used by the RabbitMQ team to debug all things RabbitMQ &amp; Erlang on GCP, AWS &amp; vSphere.
+This release is only meant to be used for debugging purposes. It comes with no guarantees or promises,
+it just helps us ensure RabbitMQ is stable across different IaaS platforms and BOSH-friendly.
+
+## Prerequisites
 
 First, ensure the following are installed and available in `$PATH`:
 
@@ -13,7 +19,12 @@ First, ensure the following are installed and available in `$PATH`:
 
 For the RabbitMQ Core team, ensure [rabbitmq/rabbitmq-credentials](https://github.com/rabbitmq/rabbitmq-credentials) is cloned alongside this repo, then `cd rabbitmq-server-boshrelease && . .env`
 
-To create a new deployment, run `deploy` . A successful deploy will store a deployment configuration file in `deployment_configurations`.
+### Initial Deployment
+
+To create a new deployment, run `deploy` . A successful deploy will store a deployment
+configuration file in `deployment_configurations`.
+
+### Upgrading
 
 To update an existing deployment, run `deploy_configuration`
 
