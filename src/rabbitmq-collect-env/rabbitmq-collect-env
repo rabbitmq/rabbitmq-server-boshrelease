@@ -300,7 +300,7 @@ collect_system_info()
     collect_system df_h         df -h
     collect_system df_i         df -i
     collect_system dmesg        dmesg
-    collect_system dmesg_t      dmesg -T # NB. This will fail on most systems.
+    collect_system dmesg_t      dmesg -T # NB: This will fail on most systems.
     collect_system dmidecode    dmidecode
     collect_system dpkg         dpkg -l
     collect_system printenv     printenv
@@ -329,6 +329,7 @@ collect_system_info()
     collect_system sestatus     sestatus -v
     collect_system sysctl       sysctl -a
     collect_system uname        uname -a
+    collect_system uptime       uptime
     collect_system vmstat       vmstat -S M 1 10
     collect_system w            w
     collect_system zfs_list     zfs list
