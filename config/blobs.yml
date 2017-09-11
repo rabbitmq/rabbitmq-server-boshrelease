@@ -6,6 +6,10 @@ erlang/OTP-19.3.6.1.tar.gz:
   size: 34002295
   object_id: b7f77d70-296d-4abf-7c95-3dce2bf4c2de
   sha: 9f2eafef7c130423b749731166f340858ea1bb48
+erlang/OTP-19.3.6.2.tar.gz:
+  size: 34000315
+  object_id: 414371e4-89d0-421f-5b94-d00f5a0efbd5
+  sha: 48186302a5031033aad4e1b8b7a676554d4c3bbb
 erlang/OTP-20.0.2.tar.gz:
   size: 52809801
   object_id: 2ef8579e-a200-4c81-9a45-a9cc082e82f7
