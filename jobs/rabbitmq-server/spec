@@ -76,17 +76,8 @@ packages:
 - start-stop-daemon-1.9.18
 - rabbitmq-collect-env
 - rabbitmq-plugins
-- erlang-18.3.4.4
-- erlang-19.2.3
-- erlang-19.2.2
-- erlang-19.3
-- erlang-19.3.5
-- erlang-19.3.6
 - erlang-19.3.6.1
 - erlang-19.3.6.2
-- erlang-20.0
-- erlang-20.0.1
-- erlang-20.0.2
 - erlang-20.0.4
 
 provides:

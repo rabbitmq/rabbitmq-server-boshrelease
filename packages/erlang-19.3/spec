@@ -1,5 +1,0 @@
----
-name: erlang-19.3
-files:
-- erlang/otp-OTP-19.3.tgz
-dependencies: []

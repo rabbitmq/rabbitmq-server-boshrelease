@@ -1,5 +1,0 @@
----
-name: erlang-18.3.4.4
-files:
-- erlang/otp_src_oss_18.3.4.4.tgz
-dependencies: []

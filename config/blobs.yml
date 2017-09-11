@@ -10,46 +10,10 @@ erlang/OTP-19.3.6.2.tar.gz:
   size: 34000315
   object_id: 414371e4-89d0-421f-5b94-d00f5a0efbd5
   sha: 48186302a5031033aad4e1b8b7a676554d4c3bbb
-erlang/OTP-20.0.2.tar.gz:
-  size: 52809801
-  object_id: 2ef8579e-a200-4c81-9a45-a9cc082e82f7
-  sha: f66689fd9b170671c89a44c36ef5998e926d0116
 erlang/OTP-20.0.4.tar.gz:
   size: 52809104
   object_id: f35eb621-1516-4198-72c2-41b121b58d0f
   sha: 587952f217d6781c9a0afd92e589b2a1493f9e32
-erlang/otp-OTP-19.2.2.tar.gz:
-  size: 35669810
-  object_id: 70f85106-13ca-4c1d-a06c-e06075c37848
-  sha: 0c5584a17e078d8d9ae87b2678971761c6d1bf80
-erlang/otp-OTP-19.2.3.tar.xz:
-  size: 25284832
-  object_id: 4cc36fc3-3f1c-4e6a-b556-5cddc9ad39f6
-  sha: 29c62a3982f41e8465c937604e2596bbc6d34e43
-erlang/otp-OTP-19.3.5.tar.gz:
-  size: 35739581
-  object_id: 3b1f28ba-178c-4286-95fd-174b0379af5b
-  sha: bb7976be80a445b99a439f4dc4dfb325aeed3913
-erlang/otp-OTP-19.3.6.tar.gz:
-  size: 35743701
-  object_id: 8ce0738e-d4b4-4790-b253-ad70e21b0984
-  sha: a630b6c62238e4ef8624dc3d996fc55f75f92de7
-erlang/otp-OTP-19.3.tgz:
-  size: 67714693
-  object_id: d04eb8cf-f964-4ba6-87d0-8978d5577c0f
-  sha: 20fdcf30bf58f8950399223c399461130c104497
-erlang/otp-OTP-20.0.1.tar.gz:
-  size: 52813358
-  object_id: 9cf4f3c4-83df-4519-983b-59920d0a4548
-  sha: 91be7a60a61d69631b627937b49d72139dbaf03f
-erlang/otp-OTP-20.0.tar.gz:
-  size: 54379450
-  object_id: 7db7064e-49c7-4fbe-9c29-f564f1cfcb88
-  sha: 9470ca947d169de7c1a9a7ed445f10a328de81e6
-erlang/otp_src_oss_18.3.4.4.tgz:
-  size: 35429734
-  object_id: 0849c0f8-a1df-45de-9f8f-f6b2203e1f60
-  sha: 0de974b4309cb59103a1feb6912e4c90fd509f4b
 rabbitmq-plugins/rabbitmq_random_exchange-0.9.0.ez:
   size: 5546
   object_id: 73c72bae-e79c-494d-42a0-6da2561fa288

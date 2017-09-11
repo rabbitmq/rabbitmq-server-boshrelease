@@ -1,5 +1,0 @@
----
-name: erlang-20.0
-files:
-- erlang/otp-OTP-20.0.tar.gz
-dependencies: []
