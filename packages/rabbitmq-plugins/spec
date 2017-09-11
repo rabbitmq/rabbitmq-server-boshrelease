@@ -1,0 +1,4 @@
+---
+name: rabbitmq-plugins
+files:
+- rabbitmq-plugins/*

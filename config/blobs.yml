@@ -46,3 +46,7 @@ erlang/otp_src_oss_18.3.4.4.tgz:
   size: 35429734
   object_id: 0849c0f8-a1df-45de-9f8f-f6b2203e1f60
   sha: 0de974b4309cb59103a1feb6912e4c90fd509f4b
+rabbitmq-plugins/rabbitmq_random_exchange-0.9.0.ez:
+  size: 5546
+  object_id: 73c72bae-e79c-494d-42a0-6da2561fa288
+  sha: 4ffb0081be9b63c40a16b9ee42223461a1fcd9df
