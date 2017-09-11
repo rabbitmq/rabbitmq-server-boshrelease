@@ -5,7 +5,6 @@ PRIVATE_CONFIG_CREDENTIALS="Shared-RabbitMQ/rabbitmq-server-boshrelease/config/p
 set -e
 
 main() {
-  lpass_login
   ensure_private_config_exists
   bosh create-release --force --timestamp-version "$@"
   bosh upload-release
@@ -21,6 +20,7 @@ lpass_login() {
 ensure_private_config_exists() {
   if [ ! -e config/private.yml ]
   then
+    lpass_login
     echo "You are missing credentials required to upload blobs
 Copying config/private.yml from LastPass..."
     lpass show --note "$PRIVATE_CONFIG_CREDENTIALS" > config/private.yml
