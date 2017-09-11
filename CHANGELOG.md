@@ -1,3 +1,15 @@
+## v0.10.0 - 2017-09-11
+
+* Make release bosh cli v2 compatible
+* Anyone with a BOSH v2 Director can now deploy custom RMQ clusters using this release - just run `./script/deploy`
+* Add rabbitmq-collect-env script
+* Add rabbitmq_random_exchange v0.9.0 plugin
+* Fix enabling all plugins on RabbitMQ 3.7 - `rabbitmq-plugins list` command returns a non-0 exit status on RabbitMQ 3.7
+* Add Erlang 19.6.3.1
+* Add Erlang 19.3.6.2
+* Add Erlang 20.0.4
+* Remove all unused Erlang versions - they were pre-compiled using Docker and were not as useful anymore
+
 ## v0.9.0 - 2017-07-27
 
 * Add Erlang 20.0.2

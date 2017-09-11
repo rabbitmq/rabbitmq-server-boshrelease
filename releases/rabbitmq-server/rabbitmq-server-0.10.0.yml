@@ -1,0 +1,52 @@
+name: rabbitmq-server
+version: 0.10.0
+commit_hash: 5220f48
+uncommitted_changes: false
+jobs:
+- name: rabbitmq-server
+  version: 6507c095efb35e1d5057414ae4644235bc683795
+  fingerprint: 6507c095efb35e1d5057414ae4644235bc683795
+  sha1: bdfe2a25539c36486404dc16d2bba1cca77521f3
+packages:
+- name: autoconf-2.69
+  version: d8c90e698c7a32927162d0b95cd5da6ea43b6c6d
+  fingerprint: d8c90e698c7a32927162d0b95cd5da6ea43b6c6d
+  sha1: 75c19db7d23f2efb227415b34527e8e06e770a38
+  dependencies: []
+- name: erlang-19.3.6.1
+  version: e9fa21388e6727b724770d5bcebe4c69bea9a3da
+  fingerprint: e9fa21388e6727b724770d5bcebe4c69bea9a3da
+  sha1: 0e7e229c63acff03a6e0e538acdbe8f08b1691c2
+  dependencies:
+  - autoconf-2.69
+- name: erlang-19.3.6.2
+  version: 38727e8d3ac26bcd702fa1b093453c4f49f57db7
+  fingerprint: 38727e8d3ac26bcd702fa1b093453c4f49f57db7
+  sha1: e7dd03438edc1a6a3a3c190dcb574c960da26e56
+  dependencies:
+  - autoconf-2.69
+- name: erlang-20.0.4
+  version: cf79f9e49f98d534cb3f9c5c059be9c54e8e0236
+  fingerprint: cf79f9e49f98d534cb3f9c5c059be9c54e8e0236
+  sha1: 34ed6f3b6bcd6f18afa17ea9ec4db7d9558bc44b
+  dependencies:
+  - autoconf-2.69
+- name: rabbitmq-collect-env
+  version: 9151255e48cbd58176c38bba5da756cd3a845433
+  fingerprint: 9151255e48cbd58176c38bba5da756cd3a845433
+  sha1: d84701125300cb19705689ea313d34467f47c42c
+  dependencies: []
+- name: rabbitmq-plugins
+  version: a874b356cebc8a80c3d36614281d62180a67403c
+  fingerprint: a874b356cebc8a80c3d36614281d62180a67403c
+  sha1: 9dcb403ae0b81502c238f64c82d595e03aeec38d
+  dependencies: []
+- name: start-stop-daemon-1.9.18
+  version: 43052792ef81b051d7d1387a13b0716264a8982b
+  fingerprint: 43052792ef81b051d7d1387a13b0716264a8982b
+  sha1: e739da95c3a546bb14e53da89c8a7c52b499d0f8
+  dependencies: []
+license:
+  version: cc1b7162294c354984aee8de84412f920d23f369
+  fingerprint: cc1b7162294c354984aee8de84412f920d23f369
+  sha1: d857eca670fade94215a4ed62345a3ba0144497c
