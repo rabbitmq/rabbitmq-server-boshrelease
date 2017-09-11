@@ -2,13 +2,23 @@
 
 set -e
 
+[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 if [ -z "$1" ]
 then
-  echo "First argument must be the release version"
-  echo "Release versions that already exist:"
-  cd releases/rabbitmq-server/
-  ls rabbitmq-server-*.yml
+  echo "First argument must be the final release version to create
+Final release versions that already exist:
+"
+  # shellcheck source=script/_rmq_bosh_releases
+  . "$SCRIPT/_rmq_bosh_releases" "$SCRIPT"/../releases/rabbitmq-server
+  echo
   exit 1
 fi
 
-bosh create-release --with-tarball --final --version "$@"
+rmq_bosh_release_version="$1"
+shift
+
+bosh create-release --final \
+  --version="$rmq_bosh_release_version" \
+  --tarball=releases/rabbitmq-server/rabbitmq-server-"$rmq_bosh_release_version.tgz" \
+  "$@"

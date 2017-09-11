@@ -4,7 +4,13 @@ set -o pipefail
 
 [ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-find "$SCRIPT"/../{dev_releases,releases}/rabbitmq-server -type f -name 'rabbitmq-server-*.yml' |
+releases_path="$1"
+if [ ! -d "$releases_path" ]
+then
+  releases_path=("$SCRIPT"/../{dev_releases,releases}/rabbitmq-server)
+fi
+
+find "${releases_path[@]}" -type f -name 'rabbitmq-server-*.yml' |
   sort -r |
   while read -r rmq_bosh_release
   do
