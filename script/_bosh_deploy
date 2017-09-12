@@ -22,4 +22,4 @@ fi
 bosh --deployment="$BOSH_DEPLOYMENT" deploy --no-redact \
   "${BOSH_OPERATIONS[@]}" \
   --vars-file="$SCRIPT/../deployment_configurations/$BOSH_DEPLOYMENT.yml" \
-  rabbitmq-server-deployment-template.yml
+  rabbitmq-server-deployment-template.yml "$@"
