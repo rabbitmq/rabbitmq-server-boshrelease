@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -e
+
+if which mandb && [ -d /usr/local/share/man ]
+then
+  (
+    cd /var/vcap/jobs/rabbitmq-server/packages/rabbitmq-server/share/man
+    for _man in man*
+    do
+      mkdir -p "/usr/local/share/man/$_man"
+      cp "$_man"/* "/usr/local/share/man/$_man/"
+    done
+    mandb
+  )
+else
+  echo "mandb & /usr/local/share/man don't seem to be setup correctly, skipping RabbitMQ man pages setup"
+fi

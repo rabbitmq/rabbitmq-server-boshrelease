@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -e
+
+mkdir -p "${RUN_DIR:?must be set}"
+chown -fR "${SERVICE_USER:?must be set}":"${SERVICE_GROUP:?must be set}" "$RUN_DIR"

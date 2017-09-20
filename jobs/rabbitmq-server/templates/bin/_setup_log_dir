@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -e
+
+mkdir -p "${RABBITMQ_LOG_BASE:?must be set}"
+chown -fR "${SERVICE_USER:?must be set}":"${SERVICE_GROUP:?must be set}" "$RABBITMQ_LOG_BASE"

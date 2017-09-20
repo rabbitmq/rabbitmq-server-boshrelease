@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -e
+
+ERL_CRASH_DUMP="${RABBITMQ_LOG_BASE:?must be set}/erl_crash-$(date +'%Y%m%d_%H%M%S').dump" \
+RABBITMQ_IGNORE_SIGINT=false \
+RUNNING_UNDER_SYSTEMD=true \
+/var/vcap/jobs/rabbitmq-server/packages/start-stop-daemon*/start-stop-daemon \
+  --pidfile "${RABBITMQ_PID_FILE:?must be set}" \
+  --chuid "${SERVICE_USER:?must be set}":"${SERVICE_GROUP:?must be set}" \
+  --start --oknodo --background \
+  --exec "${RABBITMQ_SERVER_PACKAGE:?must be set}/sbin/rabbitmq-server" --name beam

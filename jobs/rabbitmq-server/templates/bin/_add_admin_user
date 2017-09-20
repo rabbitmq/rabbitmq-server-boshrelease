@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -e
+
+ensure_admin_user_can_authenticate() {
+  rabbitmqctl authenticate_user \
+    "${RABBITMQ_ADMIN_USER:?must be set}" \
+    "${RABBITMQ_ADMIN_PASS:?must be set}"
+}
+
+
+ensure_admin_user_can_authenticate ||
+  (
+    rabbitmqctl add_user "$RABBITMQ_ADMIN_USER" "$RABBITMQ_ADMIN_PASS" ||
+      rabbitmqctl change_password "$RABBITMQ_ADMIN_USER" "$RABBITMQ_ADMIN_PASS"
+  )
+
+ensure_admin_user_can_authenticate

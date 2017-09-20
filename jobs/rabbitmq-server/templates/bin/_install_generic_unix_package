@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+set -e
+
+true "${RABBITMQ_SERVER_PACKAGE_URL:?must be set}"
+true "${MONIT_START_TIMEOUT:?must be set}"
+
+(
+  declare -r archive="${RABBITMQ_SERVER_PACKAGE_URL##*/}"
+  declare -r version="${RABBITMQ_SERVER_PACKAGE_URL##*generic-unix-}"
+  declare -r package_dir="rabbitmq_server-${version%%.tar.*z}"
+
+  cd /var/vcap/jobs/rabbitmq-server/packages
+
+  if [ -d "$package_dir" ]
+  then
+    echo "$package_dir already exists, nothing to download"
+  else
+    [ -f "$archive" ] ||
+      curl --connect-timeout 3 --max-time "$((MONIT_START_TIMEOUT/2))" -svL -o "$archive" "$RABBITMQ_SERVER_PACKAGE_URL"
+
+    case "$archive" in
+      *.tar.gz)
+        tar xzf "$archive"
+      ;;
+      *.tar.xz)
+        tar xJf "$archive"
+      ;;
+      *)
+        echo "$archive is not supported"
+        return 1
+      ;;
+    esac
+  fi
+
+  ln -nsf "$package_dir" "${RABBITMQ_SERVER_PACKAGE:?must be set}"
+)

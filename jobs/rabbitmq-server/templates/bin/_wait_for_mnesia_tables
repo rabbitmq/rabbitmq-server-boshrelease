@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -e
+
+rabbitmqctl wait "${RABBITMQ_PID_FILE:?must be set}"

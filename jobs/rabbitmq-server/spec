@@ -219,6 +219,24 @@ templates:
   bin/start: bin/start
   bin/stop: bin/stop
   bin/drain: bin/drain
+  bin/_add_admin_user: bin/_add_admin_user
+  bin/_add_hostname_alias_to_etc_hosts: bin/_add_hostname_alias_to_etc_hosts
+  bin/_add_man_pages: bin/_add_man_pages
+  bin/_add_rabbitmq_server_env_to_global_shell_profile: bin/_add_rabbitmq_server_env_to_global_shell_profile
+  bin/_delete_guest_user: bin/_delete_guest_user
+  bin/_enable_all_plugins: bin/_enable_all_plugins
+  bin/_enable_rabbitmq_management_before_rabbitmq_starts: bin/_enable_rabbitmq_management_before_rabbitmq_starts
+  bin/_grant_admin_privileges_to_admin_user: bin/_grant_admin_privileges_to_admin_user
+  bin/_increase_file_descriptor_limit: bin/_increase_file_descriptor_limit
+  bin/_install_generic_unix_package: bin/_install_generic_unix_package
+  bin/_set_cluster_name: bin/_set_cluster_name
+  bin/_setup_log_dir: bin/_setup_log_dir
+  bin/_setup_mnesia_dir_and_parent_dir: bin/_setup_mnesia_dir_and_parent_dir
+  bin/_setup_run_dir: bin/_setup_run_dir
+  bin/_setup_trust_store_dir_and_parent_dir: bin/_setup_trust_store_dir_and_parent_dir
+  bin/_start-stop-daemon_rabbitmq-server: bin/_start-stop-daemon_rabbitmq-server
+  bin/_wait_for_mnesia_tables: bin/_wait_for_mnesia_tables
+  bin/_write_erlang_cookie: bin/_write_erlang_cookie
 
   debug.erb: debug
   env.erb: env

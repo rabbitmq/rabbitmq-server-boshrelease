@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -e
+
+list_available_plugins() {
+  # After RabbitMQ starts, it needs to check what plugins it knows about before it can list them
+  # Retry up to 10 times, wait 1 second before retrying
+  for _ in {1..10}
+  do
+      rabbitmq-plugins list -m && break
+      sleep 1
+  done
+}
+
+# shellcheck disable=SC2046
+rabbitmq-plugins enable $(list_available_plugins)

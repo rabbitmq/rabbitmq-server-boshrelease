@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -e
+
+rabbitmqctl set_cluster_name "${RABBITMQ_CLUSTER_NAME:?must be set}"
