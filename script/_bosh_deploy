@@ -19,6 +19,8 @@ then
   BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/register-management-route.yml")
 fi
 
+BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/add-tmux.yml")
+
 bosh --deployment="$BOSH_DEPLOYMENT" deploy --no-redact \
   "${BOSH_OPERATIONS[@]}" \
   --vars-file="$SCRIPT/../deployment_configurations/$BOSH_DEPLOYMENT.yml" \
