@@ -1,12 +1,12 @@
-# RabbitMQ BOSH Release for Development, Troubleshooting and QA
+# A BOSH Release for Development, Troubleshooting and QA
 
 ## This is NOT the Official RabbitMQ BOSH Release
 
-The official RabbitMQ BOSH release is at [cf-rabbitmq-release](https://github.com/pivotal-cf/cf-rabbitmq-release).
+The official RabbitMQ BOSH release is [cf-rabbitmq-release](https://github.com/pivotal-cf/cf-rabbitmq-release)
 
 This BOSH release is used by the RabbitMQ team to debug all things RabbitMQ &amp; Erlang on GCP, AWS &amp; vSphere.
 This release is only meant to be used for debugging purposes. It comes with no guarantees or promises,
-it just helps us ensure RabbitMQ is stable across different IaaS platforms and BOSH-friendly.
+it just helps us ensure RabbitMQ is stable across different IaaS platforms, and is BOSH-friendly.
 
 ## Prerequisites
 
