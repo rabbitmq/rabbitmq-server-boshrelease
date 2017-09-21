@@ -223,6 +223,7 @@ templates:
   bin/_add_hostname_alias_to_etc_hosts: bin/_add_hostname_alias_to_etc_hosts
   bin/_add_man_pages: bin/_add_man_pages
   bin/_add_rabbitmq_server_env_to_global_shell_profile: bin/_add_rabbitmq_server_env_to_global_shell_profile
+  bin/_delete_guest_user: bin/_delete_guest_user
   bin/_enable_all_plugins: bin/_enable_all_plugins
   bin/_enable_rabbitmq_management_before_rabbitmq_starts: bin/_enable_rabbitmq_management_before_rabbitmq_starts
   bin/_grant_admin_privileges_to_admin_user: bin/_grant_admin_privileges_to_admin_user

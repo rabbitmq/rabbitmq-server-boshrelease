@@ -181,8 +181,8 @@ log_levels = p("rabbitmq-server.log_levels")
    %% information about vhosts and access control.
    %%
    %% {default_vhost,       <<"/">>},
-   %% {default_user,        <<"guest">>},
-   %% {default_pass,        <<"guest">>},
+   {default_user, <%= p("rabbitmq-server.admin_user") %>},
+   {default_pass, <%= p("rabbitmq-server.admin_pass") %>},
    %% {default_permissions, [<<".*">>, <<".*">>, <<".*">>]},
 
    %% Tags for default user
