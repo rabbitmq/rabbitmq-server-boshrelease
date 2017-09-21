@@ -16,10 +16,11 @@ fi
 
 if [[ "$(yq -r '.cf_apps_domain' < "$DEPLOYMENT_CONFIGURATION")" != null ]]
 then
-  BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/register-management-route.yml")
+  BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/register-routes.yml")
 fi
 
 BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/add-tmux.yml")
+BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/add-netdata.yml")
 
 bosh --deployment="$BOSH_DEPLOYMENT" deploy --no-redact \
   "${BOSH_OPERATIONS[@]}" \

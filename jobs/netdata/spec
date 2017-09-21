@@ -1,0 +1,10 @@
+# vim: set filetype=yaml :
+---
+name: netdata
+
+templates:
+  bin/pre-start: bin/pre-start
+  bin/_use_rabbitmq_nodename_for_hostname: bin/_use_rabbitmq_nodename_for_hostname
+
+packages: []
+properties: {}

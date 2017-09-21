@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -e
+
+[ -d /opt/netdata ] ||
+  bash <(curl -Ss https://my-netdata.io/kickstart-static64.sh) --non-interactive
+
+PATH=/var/vcap/jobs/netdata/bin:$PATH
+
+_use_rabbitmq_nodename_for_hostname
