@@ -9,7 +9,7 @@ then
     for _man in man*
     do
       mkdir -p "/usr/local/share/man/$_man"
-      cp "$_man"/* "/usr/local/share/man/$_man/"
+      cp -f "$_man"/* "/usr/local/share/man/$_man/"
     done
     mandb
   )
