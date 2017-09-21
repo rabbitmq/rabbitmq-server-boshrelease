@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+set -e
+
+rabbitmq_api_is_available() {
+  curl --fail --connect-timeout 1 --max-time 1 --silent --output /dev/null \
+    127.0.0.1:15672/api
+}
+
+true "${NETDATA_RABBITMQ_API_AVAILABLE_RETRIES:?must be set}"
+true "${NETDATA_RABBITMQ_API_AVAILABLE_RETRY_INTERVAL:?must be set}"
+
+for (( i = 0; i <= NETDATA_RABBITMQ_API_AVAILABLE_RETRIES; i++ ))
+do
+  if rabbitmq_api_is_available
+  then
+    echo "RabbitMQ API available, carry on"
+    exit 0
+  else
+    echo "RabbitMQ API not available yet, retrying in $NETDATA_RABBITMQ_API_AVAILABLE_RETRY_INTERVAL seconds ..."
+    sleep "$NETDATA_RABBITMQ_API_AVAILABLE_RETRY_INTERVAL"
+  fi
+done
+
+echo "RabbitMQ API did not become available after $((NETDATA_RABBITMQ_API_AVAILABLE_RETRIES * NETDATA_RABBITMQ_API_AVAILABLE_RETRY_INTERVAL)) seconds ¯\_(ツ)_/¯"

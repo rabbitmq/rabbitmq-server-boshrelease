@@ -253,6 +253,9 @@ packages:
 provides:
 - name: rabbitmq-server
   type: rabbitmq-server
+  properties:
+  - rabbitmq-server.admin_user
+  - rabbitmq-server.admin_pass
 
 consumes:
 - name: rabbitmq-server

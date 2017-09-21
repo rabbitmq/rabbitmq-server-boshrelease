@@ -3,8 +3,20 @@
 name: netdata
 
 templates:
-  bin/pre-start: bin/pre-start
+  bin/_add_rabbitmq_to_apps_groups: bin/_add_rabbitmq_to_apps_groups
+  bin/_configure_rabbitmq_plugin: bin/_configure_rabbitmq_plugin
+  bin/_install_netdata: bin/_install_netdata
+  bin/_reload_netdata: bin/_reload_netdata
   bin/_use_rabbitmq_nodename_for_hostname: bin/_use_rabbitmq_nodename_for_hostname
+  bin/_wait_for_rabbitmq_api_to_become_available: bin/_wait_for_rabbitmq_api_to_become_available
+  bin/post-start: bin/post-start
+  bin/pre-start: bin/pre-start
+
+  env.erb: env
 
 packages: []
 properties: {}
+
+consumes:
+- name: rabbitmq-server
+  type: rabbitmq-server

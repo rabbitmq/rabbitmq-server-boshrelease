@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 
+set -e
+
+[ -d "${NETDATA_CONF_DIR:?must be set}" ] || (
+  echo "$NETDATA_CONF_DIR doesn't exist - did netdata install correctly?"
+  exit 1
+)
+
 [ -f /var/vcap/jobs/rabbitmq-server/env ] || (
   echo "/var/vcap/jobs/rabbitmq-server/env doesn't exist, cannot load RABBITMQ_NODENAME"
   exit 0
 )
 
-[ -d /opt/netdata/etc/netdata ] || (
-  echo "/opt/netdata/etc/netdata doesn't exist, nothing to configure"
-  exit 0
-)
-
 # shellcheck source=/dev/null
 . /var/vcap/jobs/rabbitmq-server/env
-grep hostname /opt/netdata/etc/netdata/netdata.conf || (
-  cat > /opt/netdata/etc/netdata/netdata.conf <<EOF
+
+cat > "${NETDATA_CONF:?must be set}" <<EOF
 [global]
   hostname = ${RABBITMQ_NODENAME#*@}
 EOF
-  service netdata restart
-)

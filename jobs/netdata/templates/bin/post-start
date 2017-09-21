@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -e
+
+# shellcheck source=/dev/null
+. /var/vcap/jobs/netdata/env
+
+_add_rabbitmq_to_apps_groups
+_use_rabbitmq_nodename_for_hostname
+_configure_rabbitmq_plugin
+_wait_for_rabbitmq_api_to_become_available
+_reload_netdata

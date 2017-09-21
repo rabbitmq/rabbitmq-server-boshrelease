@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -e
+
+[ -f "${NETDATA_RABBITMQ_CONF:?must be set}" ] || (
+  echo "$NETDATA_RABBITMQ_CONF doesn't exist - did netdata install correctly?"
+  exit 1
+)
+
+[ -f /var/vcap/jobs/rabbitmq-server/env ] || (
+  echo "/var/vcap/jobs/rabbitmq-server/env doesn't exist, cannot load RABBITMQ_NODENAME"
+  exit 0
+)
+
+# shellcheck source=/dev/null
+. /var/vcap/jobs/rabbitmq-server/env
+
+cat > "$NETDATA_RABBITMQ_CONF" <<EOF
+${RABBITMQ_NODENAME#*@}:
+  host: '127.0.0.1'
+  user: '${NETDATA_RABBITMQ_API_USER:?must be set}'
+  pass: '${NETDATA_RABBITMQ_API_PASS:?must be set}'
+  retries: ${NETDATA_RABBITMQ_API_RETRIES:?must be set}
+EOF
