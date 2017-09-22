@@ -8,28 +8,28 @@ properties:
       Erlang OTP version that will be used for running RabbitMQ.
       We install multiple Erlang OTP versions to test compatibility.
       The default version is what we recommend for production deployments.
-    default: "20.0.4"
+    default: '20.0.4'
   erlang.cookie:
-    description: "Erlang cookie required by the nodes and CLI tools to authenticate with one another"
+    description: 'Erlang cookie required by the nodes and CLI tools to authenticate with one another'
     default: InsecureDefaultCookie
 
   rabbitmq-server.debug:
-    description: "Runs BOSH job scripts in debug mode"
+    description: 'Runs BOSH job scripts in debug mode'
     default: false
 
   rabbitmq-server.generic-unix-url:
-    description: "URL to Generic UNIX RabbitMQ xz package"
+    description: 'URL to Generic UNIX RabbitMQ xz package'
     default: https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_10/rabbitmq-server-generic-unix-3.6.10.tar.xz
 
   rabbitmq-server.admin_user:
-    description: "Admin user with full privileges"
+    description: 'Admin user with full privileges'
     default: admin
   rabbitmq-server.admin_pass:
-    description: "Admin user password"
+    description: 'Admin user password'
     default: InsecureDefaultPassword
 
   rabbitmq-server.mnesia_base:
-    description: "All persistent data will be stored here"
+    description: 'All persistent data will be stored here'
     default: /var/vcap/store/rabbitmq-server/mnesia
 
   rabbitmq-server.collect_statistics:
@@ -41,7 +41,7 @@ properties:
         * fine (also emit per-message statistics)
     default: none
   rabbitmq-server.collect_statistics_interval:
-    description: "Statistics collection interval in milliseconds"
+    description: 'Statistics collection interval in milliseconds'
     default: 5000
 
   rabbitmq-server.log_levels:
@@ -103,24 +103,24 @@ properties:
        See https://github.com/rabbitmq/rabbitmq-server/issues/98
     default: true
   rabbitmq-server.vm_memory_high_watermark:
-    description: "Maximum memory footprint after which publishers are blocked"
-    default: '0.5'
+    description: 'Maximum memory footprint after which publishers are blocked'
+    default: 0.5
   rabbitmq-server.vm_memory_high_watermark_paging_ratio:
-    description: "Fraction of the high watermark limit at which queues start to page messages out to disc to free up memory"
-    default: '0.5'
+    description: 'Fraction of the high watermark limit at which queues start to page messages out to disc to free up memory'
+    default: 0.5
   rabbitmq-server.disk_free_limit:
-    description: "Minimum free disk space after which publishers are blocked"
-    default: '{mem_relative, 2.0}'
+    description: 'Minimum free disk space after which publishers are blocked'
+    default: '{mem_relative, 1.0}'
   rabbitmq-server.scheduler_bind_type:
     description: >
       Optimizes Erlang VM schedulers spread across CPUs
       The more spread over the hardware the schedulers are, the more resources are available to the runtime system http://erlang.org/doc/man/erl.html#+sbt
       For RabbitMQ =< 3.6.3, use rabbitmq-server.additional_erlang_args to set the scheduler bind type
       In RabbitMQ =< 3.6.3 stbt is not defined, erl defaults to 'unbound'
-    default: "db"
+    default: db
   rabbitmq-server.additional_erl_args:
-    description: "Add optional erl args - good for setting flags such as scheduler bind type in =< 3.6.3"
-    default: ""
+    description: 'Add optional erl args - good for setting flags such as scheduler bind type in =< 3.6.3'
+    default: ''
   rabbitmq-server.distribution_buffer_size:
     description: >
       Sets the distribution buffer busy limit (dist_buf_busy_limit) in kilobytes.
@@ -167,26 +167,26 @@ properties:
        Learn more about credit flow https://www.rabbitmq.com/blog/2015/10/06/new-credit-flow-settings-on-rabbitmq-3-5-5/
        This value only takes effect when messages are persisted to the message store.
        If messages are embedded on the queue index, then modifying this setting has no effect because credit_flow is NOT used when writing to the queue index.
-    default: "{4000, 800}"
+    default: '{4000, 800}'
   rabbitmq-server.msg_store_io_batch_size:
     description: >
        Minimum number of messages with their queue position held in RAM required to trigger writing their queue position to disk.
        This value MUST be higher than the initial msg_store_credit_disc_bound value, otherwise paging performance may worsen.
     default: 4096
   rabbitmq-server.msg_store_file_size_limit:
-    description: "File size in bytes used for persisting messages"
+    description: 'File size in bytes used for persisting messages'
     default: 16777216
   rabbitmq-server.credit_flow_default_credit:
     description: >
        Number of credits that a connection, channel or queue are given
        By default, every connection, channel or queue is given 400 credits, and then 200 for every 200 messages that it processes
        See https://www.rabbitmq.com/blog/2015/10/06/new-credit-flow-settings-on-rabbitmq-3-5-5/
-    default: "{400, 200}"
+    default: '{400, 200}'
   rabbitmq-server.fhc_read_buffering:
-    description: "Whether or not to enable read file handle cache buffering"
+    description: 'Whether or not to enable read file handle cache buffering'
     default: false
   rabbitmq-server.fhc_write_buffering:
-    description: "Whether or not to enable write file handle cache buffering"
+    description: 'Whether or not to enable write file handle cache buffering'
     default: true
   rabbitmq-server.lazy_queue_explicit_gc_run_operation_threshold:
     description: >
@@ -212,7 +212,7 @@ properties:
     default: basic
 
   rabbitmq-trust-store.directory:
-    description: "Location of the whitelisted certificates for Trust Store"
+    description: 'Location of the whitelisted certificates for Trust Store'
     default: /var/vcap/store/rabbitmq-server/trust-store/whitelist
 
 templates:
