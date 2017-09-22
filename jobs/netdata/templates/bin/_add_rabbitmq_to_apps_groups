@@ -2,10 +2,10 @@
 
 set -e
 
-[ -d "${NETDATA_CONF_DIR:?must be set}" ] || (
-  echo "$NETDATA_CONF_DIR doesn't exist - did netdata install correctly?"
+[ -f "${NETDATA_APPS_GROUPS_CONF:?must be set}" ] || (
+  echo "$NETDATA_APPS_GROUPS_CONF doesn't exist - did netdata install correctly?"
   exit 1
 )
 
-grep rabbitmq "$NETDATA_CONF_DIR/apps_groups.conf" >/dev/null ||
-  echo 'rabbitmq: *rabbitmq*' >> "$NETDATA_CONF_DIR/apps_groups.conf"
+grep rabbitmq "$NETDATA_APPS_GROUPS_CONF" >/dev/null ||
+  echo 'rabbitmq: *rabbitmq*' >> "$NETDATA_APPS_GROUPS_CONF"

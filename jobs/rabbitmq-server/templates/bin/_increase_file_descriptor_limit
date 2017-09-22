@@ -1,5 +1,3 @@
 #!/usr/bin/env bash
 
-set -e
-
-ulimit -n 100000
+ulimit -n <%= p("rabbitmq-server.file_descriptor_limit") %>

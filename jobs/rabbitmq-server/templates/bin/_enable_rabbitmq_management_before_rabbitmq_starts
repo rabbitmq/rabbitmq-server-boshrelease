@@ -1,5 +1,3 @@
 #!/usr/bin/env bash
 
-set -e
-
 rabbitmq-plugins enable rabbitmq_management --offline

@@ -2,20 +2,20 @@
 
 set -e
 
-[ -d "${NETDATA_CONF_DIR:?must be set}" ] || (
-  echo "$NETDATA_CONF_DIR doesn't exist - did netdata install correctly?"
+[ -f "${NETDATA_CONF:?must be set}" ] || (
+  echo "$NETDATA_CONF doesn't exist - did netdata install correctly?"
   exit 1
 )
 
-[ -f /var/vcap/jobs/rabbitmq-server/env ] || (
-  echo "/var/vcap/jobs/rabbitmq-server/env doesn't exist, cannot load RABBITMQ_NODENAME"
+[ -f "${RABBITMQ_ENV:?must be set}" ] || (
+  echo "$RABBITMQ_ENV doesn't exist, cannot load RABBITMQ_NODENAME"
   exit 0
 )
 
 # shellcheck source=/dev/null
-. /var/vcap/jobs/rabbitmq-server/env
+. "$RABBITMQ_ENV"
 
-cat > "${NETDATA_CONF:?must be set}" <<EOF
+cat > "$NETDATA_CONF" <<EOF
 [global]
   hostname = ${RABBITMQ_NODENAME#*@}
 EOF

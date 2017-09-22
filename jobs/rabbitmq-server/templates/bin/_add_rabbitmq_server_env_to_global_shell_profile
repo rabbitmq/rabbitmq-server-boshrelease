@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -e
-
 cat > /etc/profile.d/rabbitmq-server-env.sh <<EOF
 . /var/vcap/jobs/rabbitmq-server/env
 EOF
