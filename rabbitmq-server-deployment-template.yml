@@ -55,7 +55,7 @@ instance_groups:
         cluster_keepalive_interval: 10000
         mnesia_table_loading_retry_limit: 10
         mnesia_table_loading_retry_timeout: 30000
-        queue_master_locator: '<<"client-local">>'
+        queue_master_locator: client-local
         mirroring_sync_batch_size: 4096
         mirroring_flow_control: true
         vm_memory_high_watermark: 0.5

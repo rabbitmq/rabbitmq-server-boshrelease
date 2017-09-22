@@ -54,7 +54,7 @@ log_levels = p("rabbitmq-server.log_levels")
    %%   * 'none'
    %%  Defaults to '{connection, info}'
    %%
-   {log_levels, [{channel,<%= log_levels %>},{connection, <%= log_levels %>},{federation,<%= log_levels %>},{mirroring,<%= log_levels %>}]},
+   {log_levels, [{channel, <%= log_levels %>}, {connection, <%= log_levels %>}, {federation, <%= log_levels %>}, {mirroring, <%= log_levels %>}]},
 
    %% Set to 'true' to perform reverse DNS lookups when accepting a
    %% connection. Hostnames will then be shown instead of IP addresses
@@ -181,8 +181,8 @@ log_levels = p("rabbitmq-server.log_levels")
    %% information about vhosts and access control.
    %%
    %% {default_vhost,       <<"/">>},
-   {default_user, <%= p("rabbitmq-server.admin_user") %>},
-   {default_pass, <%= p("rabbitmq-server.admin_pass") %>},
+   {default_user, <<"<%= p("rabbitmq-server.admin_user") %>">>},
+   {default_pass, <<"<%= p("rabbitmq-server.admin_pass") %>">>},
    %% {default_permissions, [<<".*">>, <<".*">>, <<".*">>]},
 
    %% Tags for default user
@@ -311,7 +311,7 @@ log_levels = p("rabbitmq-server.log_levels")
    %%   * <<"random">>
    %% See https://www.rabbitmq.com/ha.html#queue-master-location
    %%
-   {queue_master_locator, <%= p("rabbitmq-server.queue_master_locator") %>},
+   {queue_master_locator, <<"<%= p("rabbitmq-server.queue_master_locator") %>">>},
 
    %% Batch size of messages to synchronise between queue mirrors
    %% See https://www.rabbitmq.com/ha.html#batch-sync

@@ -83,10 +83,10 @@ properties:
   rabbitmq-server.queue_master_locator:
     description: >
       Queue master location strategy
-        * <<"min-masters">>
-        * <<"client-local">>
-        * <<"random">>
-    default: '<<"client-local">>'
+        * min-masters
+        * client-local
+        * random
+    default: client-local
   rabbitmq-server.mirroring_sync_batch_size:
     description: >
        Since RabbitMQ 3.6.0, masters perform synchronisation in batches.
