@@ -255,7 +255,6 @@ packages:
 - rabbitmq-collect-env
 - rabbitmq-plugins
 - erlang-19.3.6.2
-- erlang-20.0.4
 - erlang-20.0.5
 - erlang-20.1
 
