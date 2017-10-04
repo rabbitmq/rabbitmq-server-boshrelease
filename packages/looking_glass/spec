@@ -1,0 +1,10 @@
+---
+name: looking_glass
+
+files:
+- looking_glass/**/*
+
+# We compile looking_glass against the oldest Erlang version included in this
+# release so that it works with all newer Erlang versions (in this release)
+dependencies:
+- erlang-19.3.6.2

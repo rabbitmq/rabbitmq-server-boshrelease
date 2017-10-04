@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -ex
+
+ERLANG_PATH=/var/vcap/packages/erlang-19.3.6.2
+
+export PATH=$ERLANG_PATH/bin:$PATH
+export CFLAGS="-I $ERLANG_PATH/lib/erlang/usr/include"
+export LDFLAGS="-L $ERLANG_PATH/lib/erlang/usr/lib"
+# erl (1) / erlc (1) require $HOME to be set
+export HOME=/tmp
+
+cd looking_glass
+make
+cp -r ./* "${BOSH_INSTALL_TARGET:?must be defined}"

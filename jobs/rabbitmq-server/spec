@@ -254,6 +254,7 @@ packages:
 - start-stop-daemon-1.9.18
 - rabbitmq-collect-env
 - rabbitmq-plugins
+- looking_glass
 - erlang-19.3.6.2
 - erlang-20.1
 
