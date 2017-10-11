@@ -33,6 +33,7 @@ instance_groups:
 - name: rmq
   instances: ((rmq_nodes_count))
   vm_type: ((rmq_vm_type))
+  vm_extensions: [preemptible]
   persistent_disk_type: ((rmq_persistent_disk_type))
   stemcell: ((bosh_stemcell_name))
   jobs:
