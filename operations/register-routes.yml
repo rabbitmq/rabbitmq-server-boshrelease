@@ -23,9 +23,9 @@
           - ((bosh_deployment)).((cf_apps_domain))
           port: 15672
           registration_interval: 30s
-        - name: ((bosh_deployment))-netdata
+        - name: netdata-((bosh_deployment))
           uris:
-          - ((bosh_deployment))-netdata.((cf_apps_domain))
+          - netdata-((bosh_deployment)).((cf_apps_domain))
           port: 19999
           registration_interval: 30s
           prepend_instance_index: true
