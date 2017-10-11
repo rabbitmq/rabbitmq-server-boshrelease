@@ -1,3 +1,20 @@
+## v0.11.0 - 2017-10-11
+
+* Allow deployment configurations to be deployed directly, e.g. `./script/deploy-configuration deployment_configurations/rmq-lg.yml`
+* Expose [all RabbitMQ configurations](https://github.com/rabbitmq/rabbitmq-server/blob/stable/docs/rabbitmq.config.example) via rabbitmq-server job properties
+* Add [rabbitmq-support-tools](https://github.com/rabbitmq/support-tools), various support tools not yet ready to be included in the RabbitMQ distribution
+* Install [RabbitMQ man pages](https://github.com/rabbitmq/rabbitmq-server/tree/master/docs), e.g. `man rabbitmqctl`
+* Add [looking_glass](https://github.com/rabbitmq/looking_glass), an Erlang/Elixir/BEAM profiler tool developed by @essen for RabbitMQ
+* Add [netdata](https://github.com/firehol/netdata) &amp; integrate with RabbitMQ - available at `https://[INDEX]-netdata-[DEPLOYMENT].[CF_APPS_DOMAIN]`
+* Update [rabbitmq_random_exchange](https://github.com/rabbitmq/rabbitmq-random-exchange) plugin to 0.10.0
+* Add Erlang 20.1.1
+* Add Erlang 20.1
+* Remove Erlang 20.0.5
+* Remove Erlang 20.0.4
+* Remove Erlang 19.3.6.1
+* Add tmux to all deployments
+* Make all VMs preemptible (saves about ~70% on cost)
+
 ## v0.10.0 - 2017-09-11
 
 * Make release bosh cli v2 compatible
