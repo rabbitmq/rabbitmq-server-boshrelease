@@ -1,0 +1,3 @@
+[submodule "src/support-tools"]
+	path = src/support-tools
+	url = https://github.com/rabbitmq/support-tools
