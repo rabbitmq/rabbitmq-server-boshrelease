@@ -14,6 +14,10 @@ erlang/OTP-20.1.tar.gz:
   size: 52734233
   object_id: 864907dc-acba-4e83-50e1-c76760c5f5e0
   sha: 24b9c16343a7552d5d379519a44b11200c8590ba
+erlang/OTP-R16B03-1.tar.gz:
+  size: 32821912
+  object_id: e9af9f9a-ce56-4623-63da-227843523655
+  sha: a52b93ce3faa4be148b0b5b2f4fc51093f0813bc
 rabbitmq-plugins/rabbitmq_random_exchange-0.10.0.ez:
   size: 5489
   object_id: c523e729-f5d8-4bb8-4563-06bc56da729b

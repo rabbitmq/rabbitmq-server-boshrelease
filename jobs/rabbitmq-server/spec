@@ -255,6 +255,7 @@ packages:
 - rabbitmq-plugins
 - rabbitmq-support-tools
 - looking_glass
+- erlang-R16B03
 - erlang-19.3.6.2
 - erlang-20.1
 - erlang-20.1.1
