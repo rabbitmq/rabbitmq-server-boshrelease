@@ -10,6 +10,8 @@ SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 . "$SCRIPT"/_confirm_bosh_environment
 # shellcheck source=script/_set_bosh_deployment
 . "$SCRIPT"/_set_bosh_deployment
+# shellcheck source=script/_ensure_releases_dirs_exist
+. "$SCRIPT"/_ensure_releases_dirs_exist
 # shellcheck source=script/_select_rmq_bosh_release
 . "$SCRIPT"/_select_rmq_bosh_release
 # shellcheck source=script/_select_rmq_server_release

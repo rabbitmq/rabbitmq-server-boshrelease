@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+mkdir -p "$SCRIPT"/../{dev_releases,releases}/rabbitmq-server
