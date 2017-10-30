@@ -228,6 +228,7 @@ templates:
   bin/stop: bin/stop
   bin/drain: bin/drain
   bin/_add_admin_user: bin/_add_admin_user
+  bin/_add_external_plugins: bin/_add_external_plugins
   bin/_add_hostname_alias_to_etc_hosts: bin/_add_hostname_alias_to_etc_hosts
   bin/_add_man_pages: bin/_add_man_pages
   bin/_add_rabbitmq_server_env_to_global_shell_profile: bin/_add_rabbitmq_server_env_to_global_shell_profile

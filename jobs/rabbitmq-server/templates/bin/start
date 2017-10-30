@@ -28,6 +28,7 @@ _add_hostname_alias_to_etc_hosts
 _write_erlang_cookie
 _add_rabbitmq_server_env_to_global_shell_profile
 _install_generic_unix_package
+_add_external_plugins
 _enable_rabbitmq_management_before_rabbitmq_starts
 
 _start-stop-daemon_rabbitmq-server

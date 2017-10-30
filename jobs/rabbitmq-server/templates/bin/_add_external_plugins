@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -e
+
+cp -r "${RABBITMQ_THIRD_PARTY_PLUGINS_DIR:?must be set}"/* "${RABBITMQ_PLUGINS_DIR:?must be set}"
