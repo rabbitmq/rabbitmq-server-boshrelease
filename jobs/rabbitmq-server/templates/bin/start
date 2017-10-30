@@ -20,7 +20,10 @@ echo "
 # RabbitMQ pre-requisites (a.k.a. pre-start)
 _setup_mnesia_dir_and_parent_dir
 _setup_trust_store_dir_and_parent_dir
-_increase_file_descriptor_limit
+# Modify file descriptor limit for THIS shell session, which includes all following commands
+# Script must be sourced. Executing it will spawn another shell session, and the file descriptor change will only apply to that shell session.
+# shellcheck source=/dev/null
+. _increase_file_descriptor_limit
 _add_hostname_alias_to_etc_hosts
 _write_erlang_cookie
 _add_rabbitmq_server_env_to_global_shell_profile
