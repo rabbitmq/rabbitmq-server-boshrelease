@@ -13,9 +13,9 @@ _setup_log_dir
 exec 1> >(tee -a "${RABBITMQ_LOG_BASE:?must be set}/start.log") 2>&1
 
 echo "
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-> Starting rabbitmq-server BOSH job: $(date)
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+> $(date) ::: v${BOSH_RELEASE_VERSION:?must be set} ::: Starting rabbitmq-server BOSH job
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 
 # RabbitMQ pre-requisites (a.k.a. pre-start)
 _setup_mnesia_dir_and_parent_dir
@@ -50,6 +50,6 @@ fi
 _add_man_pages
 
 echo "
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-< rabbitmq-server BOSH job completed successfully: $(date)
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+< $(date) ::: v$BOSH_RELEASE_VERSION ::: rabbitmq-server BOSH job completed successfully
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"

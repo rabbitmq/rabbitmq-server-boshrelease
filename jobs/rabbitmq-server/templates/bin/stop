@@ -10,7 +10,7 @@ set -e
 exec 1> >(tee -a "${RABBITMQ_LOG_BASE:?must be set}/stop.log") 2>&1
 
 main() {
-  date
+  echo "$(date) ::: v${BOSH_RELEASE_VERSION:?must be set}"
   if rabbitmq_node_accessible
   then
     suggest_bosh_stop
