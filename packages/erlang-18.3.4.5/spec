@@ -1,0 +1,6 @@
+---
+name: erlang-18.3.4.5
+files:
+- erlang/OTP-18.3.4.5.tar.gz
+dependencies:
+- autoconf-2.69
