@@ -28,7 +28,7 @@ true "${MONIT_START_TIMEOUT:?must be set}"
       ;;
       *)
         echo "$archive is not supported"
-        return 1
+        exit 1
       ;;
     esac
   fi
