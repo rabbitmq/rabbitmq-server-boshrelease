@@ -19,6 +19,14 @@ First, ensure the following are installed and available in `$PATH`:
 
 For the RabbitMQ Core team, ensure [rabbitmq/rabbitmq-credentials](https://github.com/rabbitmq/rabbitmq-credentials) is cloned alongside this repo, then `cd rabbitmq-server-boshrelease && . .env`
 
+## Submodules
+
+Don't forget to initialize this repository's submodules:
+
+```
+git submodule update --init
+```
+
 ### Initial Deployment
 
 To create a new deployment, run `deploy` . A successful deploy will store a deployment
