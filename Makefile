@@ -1,4 +1,5 @@
 .ONESHELL:# single shell invocation for all lines in the recipe
+.PHONY: deps deploy help dev final update
 
 .DEFAULT_GOAL = help
 
