@@ -1,0 +1,74 @@
+name: rabbitmq-server
+version: 0.12.0
+commit_hash: 91654c8
+uncommitted_changes: false
+jobs:
+- name: netdata
+  version: 30d5563f2859e96a8edf6a6dc0ab51077b3e9fe1
+  fingerprint: 30d5563f2859e96a8edf6a6dc0ab51077b3e9fe1
+  sha1: 06f76ca704cee797f3987e37d72527f43e146006
+- name: rabbitmq-server
+  version: 564a81a90b82fd44bd4d65033272856e6939af95
+  fingerprint: 564a81a90b82fd44bd4d65033272856e6939af95
+  sha1: 78f9bd34f89c69e8394ff24bc3acb5b99978a38f
+packages:
+- name: autoconf-2.69
+  version: d8c90e698c7a32927162d0b95cd5da6ea43b6c6d
+  fingerprint: d8c90e698c7a32927162d0b95cd5da6ea43b6c6d
+  sha1: 75c19db7d23f2efb227415b34527e8e06e770a38
+  dependencies: []
+- name: erlang-17.5.6.9
+  version: cd116ccb6092c52dbbded4aa02611838cd83a95e
+  fingerprint: cd116ccb6092c52dbbded4aa02611838cd83a95e
+  sha1: 2341c14561e5238b8882416055735287d4d430a7
+  dependencies:
+  - autoconf-2.69
+- name: erlang-18.3.4.7
+  version: cda8775a70e99bc209263af2541a7e06e676da81
+  fingerprint: cda8775a70e99bc209263af2541a7e06e676da81
+  sha1: fe92979910d1e3b1b4d94af2f5b8020f9dee0a6a
+  dependencies:
+  - autoconf-2.69
+- name: erlang-19.3.6.4
+  version: 53fa7ffc2d510aaeb1a4783c0f90693c7f11ef08
+  fingerprint: 53fa7ffc2d510aaeb1a4783c0f90693c7f11ef08
+  sha1: 8501cc51848f3a38bc15744f53d63a1325ba43d5
+  dependencies:
+  - autoconf-2.69
+- name: erlang-20.1.7
+  version: 4f84b34dde721b008cfdb96d373dba29bee24c4f
+  fingerprint: 4f84b34dde721b008cfdb96d373dba29bee24c4f
+  sha1: c23664f21748c56e4f411a6b6647a63c205515f8
+  dependencies:
+  - autoconf-2.69
+- name: erlang-R16B03
+  version: ba15f033b0ae6895b26c8224ae3abd344b4ce823
+  fingerprint: ba15f033b0ae6895b26c8224ae3abd344b4ce823
+  sha1: 3d25fc1bc877f9cd1c57a16f2cddf360ceddf105
+  dependencies:
+  - autoconf-2.69
+- name: looking_glass
+  version: 76a0c7b5c336cdd6d19e78e3a3bef71ce29686ac
+  fingerprint: 76a0c7b5c336cdd6d19e78e3a3bef71ce29686ac
+  sha1: e2c0f6d85100303e36753e1b1ab02a79a14a8f56
+  dependencies:
+  - erlang-19.3.6.4
+- name: rabbitmq-plugins
+  version: fc718d959ca2d1a32849359e4ed706c363a70526
+  fingerprint: fc718d959ca2d1a32849359e4ed706c363a70526
+  sha1: f6f80650351d8a16d0d70e05fe69e725b9c9fbab
+  dependencies: []
+- name: rabbitmq-support-tools
+  version: 3da6475f0f36800d48d7eaee3112680a3a720aa8
+  fingerprint: 3da6475f0f36800d48d7eaee3112680a3a720aa8
+  sha1: 5e67d0929cdf0405fd9f69038ce9bacbcba37a96
+  dependencies: []
+- name: start-stop-daemon-1.9.18
+  version: 43052792ef81b051d7d1387a13b0716264a8982b
+  fingerprint: 43052792ef81b051d7d1387a13b0716264a8982b
+  sha1: e739da95c3a546bb14e53da89c8a7c52b499d0f8
+  dependencies: []
+license:
+  version: cc1b7162294c354984aee8de84412f920d23f369
+  fingerprint: cc1b7162294c354984aee8de84412f920d23f369
+  sha1: d857eca670fade94215a4ed62345a3ba0144497c

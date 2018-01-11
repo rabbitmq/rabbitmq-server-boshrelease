@@ -1,3 +1,26 @@
+## v0.12.0 - 2018-01-11
+
+* Add a single point of entry to all scripts: `make` (GNU preferred)
+* Default RabbitMQ to 3.7.2
+* Add support for RabbitMQ versions that do not handle multiple plugin dirs
+* Capture BOSH release version when rabbitmq-server job starts/stops
+* Increase the max wait time for downloading generic unix packages
+* Fail rabbitmq-server job if `install_generic_unix_package` fails
+* Fix file descriptor limit increase
+* Ensure releases dirs exist, otherwise deploy might fail
+* Add new Erlang versions
+  * **20.1.7** - default
+  * 19.3.6.4
+  * 18.3.4.7
+  * 17.5.6.9
+  * R16B03
+* Remove superseded Erlang versions
+  * 20.1.1
+  * 20.1
+  * 19.3.6.2
+  * 18.3.4.5
+
+
 ## v0.11.0 - 2017-10-11
 
 * Allow deployment configurations to be deployed directly, e.g. `./script/deploy-configuration deployment_configurations/rmq-lg.yml`
