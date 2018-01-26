@@ -3,4 +3,4 @@
 set -e
 
 mkdir -p "${RABBITMQ_MNESIA_BASE:?must be set}" "${RABBITMQ_MNESIA_BASE%/*}"
-chown -fR "${SERVICE_USER:?must be set}":"${SERVICE_GROUP:?must be set}" "$RABBITMQ_MNESIA_BASE" "${RABBITMQ_MNESIA_BASE%/*}"
+chown -fR "${RABBITMQ_SERVICE_USER:?must be set}":"${RABBITMQ_SERVICE_GROUP:?must be set}" "$RABBITMQ_MNESIA_BASE" "${RABBITMQ_MNESIA_BASE%/*}"

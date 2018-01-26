@@ -2,9 +2,9 @@
 
 set -e
 
-echo -n "${ERLANG_COOKIE:?must be set}" > /home/"${SERVICE_USER:?must be set}"/.erlang.cookie
-chown "$SERVICE_USER:${SERVICE_GROUP:?must be set}" "/home/$SERVICE_USER/.erlang.cookie"
-chmod 600 "/home/$SERVICE_USER/.erlang.cookie"
+echo -n "${ERLANG_COOKIE:?must be set}" > /home/"${RABBITMQ_SERVICE_USER:?must be set}"/.erlang.cookie
+chown "$RABBITMQ_SERVICE_USER:${RABBITMQ_SERVICE_GROUP:?must be set}" "/home/$RABBITMQ_SERVICE_USER/.erlang.cookie"
+chmod 600 "/home/$RABBITMQ_SERVICE_USER/.erlang.cookie"
 
 echo -n "$ERLANG_COOKIE" > /root/.erlang.cookie
 chown root:root /root/.erlang.cookie

@@ -2,11 +2,13 @@
 
 set -e
 
+# There will only ever be one start-stop-daemon, ignore the glob
+# shellcheck disable=SC2211
 ERL_CRASH_DUMP="${RABBITMQ_LOG_BASE:?must be set}/erl_crash-$(date +'%Y%m%d_%H%M%S').dump" \
 RABBITMQ_IGNORE_SIGINT=false \
 RUNNING_UNDER_SYSTEMD=true \
 /var/vcap/jobs/rabbitmq-server/packages/start-stop-daemon*/start-stop-daemon \
   --pidfile "${RABBITMQ_PID_FILE:?must be set}" \
-  --chuid "${SERVICE_USER:?must be set}":"${SERVICE_GROUP:?must be set}" \
+  --chuid "${RABBITMQ_SERVICE_USER:?must be set}":"${RABBITMQ_SERVICE_GROUP:?must be set}" \
   --start --oknodo --background \
   --exec "${RABBITMQ_SERVER_PACKAGE:?must be set}/sbin/rabbitmq-server" --name beam

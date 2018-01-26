@@ -3,4 +3,4 @@
 set -e
 
 mkdir -p "${RABBITMQ_LOG_BASE:?must be set}"
-chown -fR "${SERVICE_USER:?must be set}":"${SERVICE_GROUP:?must be set}" "$RABBITMQ_LOG_BASE"
+chown -fR "${RABBITMQ_SERVICE_USER:?must be set}":"${RABBITMQ_SERVICE_GROUP:?must be set}" "$RABBITMQ_LOG_BASE"
