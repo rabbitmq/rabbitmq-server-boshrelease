@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -e
+
+__periodic_shutdown-log "shutdown_rabbitmq_nodes_every_n_seconds" "RUNNING"
+
+while true
+do
+  for _rabbitmq_node in ${RABBITMQ_NODES:?must be set}
+  do
+    __periodic_shutdown-log "shutdown_rabbitmq_nodes_every_n_seconds" \
+      "$_rabbitmq_node will be shutdown in ${PERIODIC_SHUTDOWN_INTERVAL_IN_SECONDS:?must be set} seconds"
+    sleep "$PERIODIC_SHUTDOWN_INTERVAL_IN_SECONDS"
+    __periodic_shutdown-log "shutdown_rabbitmq_nodes_every_n_seconds" \
+      "$(rabbitmqctl -n "$_rabbitmq_node" stop)"
+  done
+done
+
+__periodic_shutdown-log "shutdown_rabbitmq_nodes_every_n_seconds" "OK"

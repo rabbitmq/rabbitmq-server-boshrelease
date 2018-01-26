@@ -1,0 +1,29 @@
+# vim: set filetype=yaml :
+---
+name: periodic_shutdown
+
+templates:
+  bin/__periodic_shutdown-setup_run_dir: bin/__periodic_shutdown-setup_run_dir
+  bin/__periodic_shutdown-setup_log_dir: bin/__periodic_shutdown-setup_log_dir
+  bin/__periodic_shutdown-shutdown_rabbitmq_nodes_every_n_seconds: bin/__periodic_shutdown-shutdown_rabbitmq_nodes_every_n_seconds
+  bin/__periodic_shutdown-log: bin/__periodic_shutdown-log
+  bin/start: bin/start
+  bin/stop: bin/stop
+
+  debug.erb: debug
+  env.erb: env
+
+packages: []
+
+properties:
+  periodic_shutdown.interval_in_seconds:
+    description: 'Number of seconds to wait before shutting down the next RabbitMQ node in the cluster'
+    default: 600
+  periodic_shutdown.debug:
+    description: 'Runs BOSH job scripts in debug mode'
+    default: false
+
+
+consumes:
+- name: rabbitmq-server
+  type: rabbitmq-server

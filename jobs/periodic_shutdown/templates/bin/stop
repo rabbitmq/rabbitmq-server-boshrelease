@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+set -e
+
+# shellcheck source=/dev/null
+. /var/vcap/jobs/periodic_shutdown/debug
+# shellcheck source=/dev/null
+. /var/vcap/jobs/periodic_shutdown/env
+# shellcheck source=/dev/null
+. "$RABBITMQ_ENV"
+
+# log stderr
+exec 2> >(tee -a "${PERIODIC_SHUTDOWN_LOG_DIR:?must be set}/messages.log")
+
+__periodic_shutdown-log "stop" "RUNNING"
+
+if [ -f "${PERIODIC_SHUTDOWN_PID_FILE:?must be set}" ]
+then
+  _pid="$(cat "$PERIODIC_SHUTDOWN_PID_FILE")"
+  if [ -n "$_pid" ] && ps "$_pid" &>/dev/null
+  then
+    if [ -n "${BOOTSTRAP_NODE?must be defined}" ]
+    then
+      # shellcheck disable=SC2046
+      pkill --pgroup $(ps eo pgrp= "$_pid")
+    else
+      kill -CONT "$_pid"
+    fi
+  fi
+fi
+
+rm -f "$PERIODIC_SHUTDOWN_PID_FILE"
+
+__periodic_shutdown-log "stop" "OK"

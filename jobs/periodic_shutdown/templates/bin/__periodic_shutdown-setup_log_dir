@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -e
+
+mkdir -p "${PERIODIC_SHUTDOWN_LOG_DIR:?must be set}"
+chown -fR "${RABBITMQ_SERVICE_USER:?must be set}":"${RABBITMQ_SERVICE_GROUP:?must be set}" "$PERIODIC_SHUTDOWN_LOG_DIR"
