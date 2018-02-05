@@ -252,15 +252,15 @@ templates:
   rabbitmq.config.erb: rabbitmq.config
 
 packages:
-- start-stop-daemon-1.9.18
-- rabbitmq-plugins
-- rabbitmq-support-tools
-- looking_glass
-- erlang-R16B03
 - erlang-17.5.6.9
 - erlang-18.3.4.7
 - erlang-19.3.6.4 # 19.3.6.5
 - erlang-20.2.2
+- erlang-R16B03
+- looking_glass
+- rabbitmq-plugins
+- rabbitmq-support-tools
+- start-stop-daemon-1.9.18
 
 provides:
 - name: rabbitmq-server
@@ -274,3 +274,6 @@ provides:
 consumes:
 - name: rabbitmq-server
   type: rabbitmq-server
+- name: observer_cli
+  type: observer_cli
+  optional: true
