@@ -37,6 +37,8 @@ instance_groups:
   persistent_disk_type: ((rmq_persistent_disk_type))
   stemcell: ((bosh_stemcell_name))
   jobs:
+  - name: observer_cli
+    release: rabbitmq-server
   - name: rabbitmq-server
     release: rabbitmq-server
     properties:
