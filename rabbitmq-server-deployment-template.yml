@@ -51,6 +51,7 @@ instance_groups:
         admin_user: ((rmq_server_admin_user))
         admin_pass: ((rmq_server_admin_pass))
         mnesia_base: /var/vcap/store/rabbitmq-server/mnesia
+        channel_max: 1000
         collect_statistics: none
         collect_statistics_interval: 5000
         log_levels: info

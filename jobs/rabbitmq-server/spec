@@ -40,6 +40,12 @@ properties:
     description: 'Maximum number of OS open files (including sockets) that RabbitMQ is allowed'
     default: 100000
 
+  rabbitmq-server.channel_max:
+    description: >
+      Maximum number of channels allowed per AMQP connection
+      Use values higher than 1k with care, misbehaving clients are known to have crashed RabbitMQ nodes through channel churn
+    default: 1000
+
   rabbitmq-server.tcp_listen_options:
     description:
       Customise TCP socket options

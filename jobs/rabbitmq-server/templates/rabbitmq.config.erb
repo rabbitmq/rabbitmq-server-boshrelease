@@ -213,7 +213,7 @@ log_levels = p("rabbitmq-server.log_levels")
    %% Set the max permissible number of channels per connection.
    %% 0 means "no limit".
    %%
-   %% {channel_max, 0},
+   {channel_max, <%= p("rabbitmq-server.channel_max") %> },
 
    %% Customising Socket Options.
    %%
