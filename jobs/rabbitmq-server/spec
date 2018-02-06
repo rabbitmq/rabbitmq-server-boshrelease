@@ -40,6 +40,13 @@ properties:
     description: 'Maximum number of OS open files (including sockets) that RabbitMQ is allowed'
     default: 100000
 
+  rabbitmq-server.tcp_listen_options:
+    description:
+      Customise TCP socket options
+      http://erlang.org/doc/man/inet.html#setopts-2
+      '{sndbuf, 4096}, {recbuf, 4096}' has been observed to reduce memory usage by 58% on a RabbitMQ node with 20k connections
+    default: ''
+
   rabbitmq-server.collect_statistics:
     description: >
       Statistics collection mode.

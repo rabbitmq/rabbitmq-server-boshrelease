@@ -223,6 +223,7 @@ log_levels = p("rabbitmq-server.log_levels")
    %% {tcp_listen_options, [{backlog,       128},
    %%                       {nodelay,       true},
    %%                       {exit_on_close, false}]},
+   {tcp_listen_options, [<%= p("rabbitmq-server.tcp_listen_options") %>]},
 
    %%
    %% Resource Limits & Flow Control

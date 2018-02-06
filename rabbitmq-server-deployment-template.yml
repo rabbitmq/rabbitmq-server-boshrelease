@@ -69,6 +69,7 @@ instance_groups:
         distribution_buffer_size: 128000
         hipe_compile: false
         num_tcp_acceptors: 10
+        tcp_listen_options: ''
         delegate_count: 16
         queue_index_embed_msgs_below: 4096
         msg_store_credit_disc_bound: '{4000, 800}'
