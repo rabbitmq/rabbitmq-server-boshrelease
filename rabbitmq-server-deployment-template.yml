@@ -44,6 +44,7 @@ instance_groups:
     properties:
       erlang:
         cookie: ((erlang_cookie))
+        lock_counting: false
         version: ((erlang_version))
       rabbitmq-server:
         additional_erl_args: ''

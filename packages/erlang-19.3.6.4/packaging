@@ -36,6 +36,7 @@ compile() {
   # shellcheck disable=2086
   ./configure --prefix="${BOSH_INSTALL_TARGET:?must be defined}" \
     --enable-hipe \
+    --enable-lock-counter \
     --disable-sctp \
     $configure_flags
   make -j "$(getconf _NPROCESSORS_ONLN)"

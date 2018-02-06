@@ -12,6 +12,11 @@ properties:
   erlang.cookie:
     description: 'Erlang cookie required by the nodes and CLI tools to authenticate with one another'
     default: InsecureDefaultCookie
+  erlang.lock_counting:
+    description: >
+      Enable Erlang VM lock counting
+      http://erlang.org/doc/apps/tools/lcnt_chapter.html
+    default: false
 
   rabbitmq-server.debug:
     description: 'Runs BOSH job scripts in debug mode'
