@@ -4,15 +4,8 @@ set -ex
 
 cd /var/vcap/jobs/observer_cli/packages/observer_cli-*/
 
-ln -s "$PWD" /var/vcap/packages/observer_cli
+ln -sf "$PWD" /var/vcap/packages/observer_cli
 
 cat > /etc/profile.d/observer_cli.sh <<EOF
-rabbitmq-observe() {
-  echo "When Erlang shell starts, run the following command: observer_cli:start()."
-  echo "To quit the Erlang shell without affecting the RabbitMQ node, type: ^g q Enter - CTRL+g q Enter"
-
-  # One would think that observer_cli:start/2 is a better option
-  # In practice, shortcuts aren't properly propagated to observer_cli, it just doesn't work
-  erl -sname observer_cli -hidden -remsh \$RABBITMQ_NODENAME
-}
+export PATH="/var/vcap/jobs/observer_cli/bin:\$PATH"
 EOF

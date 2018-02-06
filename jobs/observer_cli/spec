@@ -4,6 +4,7 @@ name: observer_cli
 
 templates:
   bin/post-start: bin/post-start
+  bin/rabbitmq-observe: bin/rabbitmq-observe
 
 packages:
 - observer_cli-1.2.1
