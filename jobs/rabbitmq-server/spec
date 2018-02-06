@@ -162,10 +162,8 @@ properties:
       This will increase server throughput at the cost of increased startup time.
       You might see 20-50% better performance at the cost of a few minutes delay at startup.
       These figures are highly workload- and hardware-dependent.
-      HiPE support may not be compiled into your Erlang installation.
-      If it is not, enabling this option will just cause a warning message to be displayed and startup will proceed as normal.
-      For example, Debian / Ubuntu users will need to install the erlang-base-hipe package.
-      HiPE has known issues in Erlang/OTP versions prior to 17.5. Using a recent Erlang/OTP version is highly recommended for HiPE.
+      HiPE has known issues in Erlang/OTP versions prior to 17.5.
+      Using a recent Erlang/OTP version is highly recommended for HiPE.
     default: false
   rabbitmq-server.num_tcp_acceptors:
     description: >
