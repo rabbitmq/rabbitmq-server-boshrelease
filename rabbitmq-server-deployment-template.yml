@@ -62,6 +62,7 @@ instance_groups:
         distribution_buffer_size: 128000
         fhc_read_buffering: false
         fhc_write_buffering: true
+        file_descriptor_limit: 100000
         generic-unix-url: ((rmq_server_package))
         hipe_compile: false
         lazy_queue_explicit_gc_run_operation_threshold: 1000
