@@ -145,7 +145,10 @@ properties:
       In RabbitMQ =< 3.6.3 stbt is not defined, erl defaults to 'unbound'
     default: db
   rabbitmq-server.additional_erl_args:
-    description: 'Add optional erl args - good for setting flags such as scheduler bind type in =< 3.6.3. Remember to use `-` instead of `+` when defining flags - beam vs erl.'
+    description: >
+      Add optional erl args - good for setting flags such as scheduler bind type in =< 3.6.3.
+      Remember that init flags use '-' while emulator flags use '+'.
+      For more info, see http://erlang.org/doc/man/erl.html
     default: ''
   rabbitmq-server.distribution_buffer_size:
     description: >
