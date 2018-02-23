@@ -159,6 +159,23 @@ properties:
       The buffer limit is per distribution channel.
       A higher limit gives lower latency and higher throughput at the expense of higher memory use.
     default: 128000
+  rabbitmq-server.max_erlang_processes:
+    description: >
+      Sets the maximum number of Erlang processes.
+      Recent versions of RabbitMQ default to 1048576, which should be sufficient for most scenarios.
+      Nodes that service many clients (e.g. ~100k), or have many queues (e.g. ~50k), are known to require a higher value (e.g. 2000000).
+      A process uses 338 words when spawned (2704 bytes on 64bit architectures), including a heap of 233 words.
+      The actual maximum chosen may be much larger than the Number passed.
+      Currently the runtime system often, but not always, chooses a value that is a power of 2.
+      For more info, see http://erlang.org/doc/man/erl.html#max_processes & http://erlang.org/doc/efficiency_guide/advanced.html
+    default: 1048576
+  rabbitmq-server.max_erlang_atoms:
+    description: >
+      Sets the maximum number of Erlang atoms.
+      Recent versions of RabbitMQ default to 5000000, which should be sufficient in almost all scenarios.
+      It's unlikely that this value will need to be increased, it's exposed for consistency & transparency.
+      For more info, see http://erlang.org/doc/man/erl.html#+t & http://erlang.org/doc/efficiency_guide/advanced.html
+    default: 5000000
   rabbitmq-server.hipe_compile:
     description: >
       Set to true to precompile parts of RabbitMQ with HiPE, a just-in-time compiler for Erlang.

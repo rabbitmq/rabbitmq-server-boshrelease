@@ -67,6 +67,8 @@ instance_groups:
         hipe_compile: false
         lazy_queue_explicit_gc_run_operation_threshold: 1000
         log_levels: info
+        max_erlang_atoms: 5000000
+        max_erlang_processes: 1048576
         mirroring_flow_control: true
         mirroring_sync_batch_size: 4096
         mnesia_base: /var/vcap/store/rabbitmq-server/mnesia
