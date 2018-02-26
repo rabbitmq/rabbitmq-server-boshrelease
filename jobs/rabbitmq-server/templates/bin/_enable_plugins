@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+set -e
+
+list_available_plugins_with_retry() {
+  # Just in case RabbitMQ is booting
+  # and hasn't discovered all plugins yet,
+  # retry a couple of times
+  for _ in {1..10}
+  do
+      rabbitmq-plugins list -m && return 0 # success
+      sleep 1
+  done
+  return 1 # fail
+}
+
+only_specific_plugins_should_be_enabled() {
+  [ -n "${RABBITMQ_ONLY_ENABLE_THESE_PLUGINS?must be defined}" ]
+}
+
+enable_specific_plugins() {
+  # shellcheck disable=SC2086
+  rabbitmq-plugins enable $RABBITMQ_ONLY_ENABLE_THESE_PLUGINS
+}
+
+enable_all_available_plugins() {
+  # shellcheck disable=SC2046
+  rabbitmq-plugins enable $(list_available_plugins_with_retry)
+}
+
+if only_specific_plugins_should_be_enabled
+then
+  enable_specific_plugins
+else
+  enable_all_available_plugins
+fi

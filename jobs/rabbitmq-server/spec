@@ -41,6 +41,15 @@ properties:
     description: 'File that stores all RabbitMQ ENV vars'
     default: /var/vcap/jobs/rabbitmq-server/env
 
+  rabbitmq-server.only_enable_these_plugins:
+    description: >
+      List of plugins that will be explicitly enabled.
+      By default, all plugins that RabbitMQ ships with will be enabled.
+      This default is great for QA & test environments, but not so good when benchmarking RabbitMQ.
+      rabbitmq_management will always be enabled since it's used by all systems that poll RabbitMQ API for metrics.
+      As a result, the leanest deployment will have `rabbitmq-server.only_enable_these_plugins: [rabbitmq_management]`.
+    default: []
+
   rabbitmq-server.file_descriptor_limit:
     description: 'Maximum number of OS open files (including sockets) that RabbitMQ is allowed'
     default: 100000
@@ -276,7 +285,7 @@ templates:
   bin/_add_man_pages: bin/_add_man_pages
   bin/_add_rabbitmq_server_env_to_global_shell_profile: bin/_add_rabbitmq_server_env_to_global_shell_profile
   bin/_delete_guest_user: bin/_delete_guest_user
-  bin/_enable_all_plugins: bin/_enable_all_plugins
+  bin/_enable_plugins: bin/_enable_plugins
   bin/_enable_rabbitmq_management_before_rabbitmq_starts: bin/_enable_rabbitmq_management_before_rabbitmq_starts
   bin/_grant_admin_privileges_to_admin_user: bin/_grant_admin_privileges_to_admin_user
   bin/_increase_file_descriptor_limit: bin/_increase_file_descriptor_limit

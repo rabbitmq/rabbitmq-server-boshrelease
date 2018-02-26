@@ -2,4 +2,12 @@
 
 set -e
 
-cp -r "${RABBITMQ_THIRD_PARTY_PLUGINS_DIR:?must be set}"/* "${RABBITMQ_PLUGINS_DIR:?must be set}"
+only_specific_plugins_should_be_enabled() {
+  [ -n "${RABBITMQ_ONLY_ENABLE_THESE_PLUGINS?must be defined}" ]
+}
+
+add_external_plugins() {
+  cp -r "${RABBITMQ_THIRD_PARTY_PLUGINS_DIR:?must be set}"/* "${RABBITMQ_PLUGINS_DIR:?must be set}"
+}
+
+only_specific_plugins_should_be_enabled || add_external_plugins

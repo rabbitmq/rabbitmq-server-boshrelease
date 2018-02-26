@@ -32,7 +32,7 @@ _start-stop-daemon_rabbitmq-server
 
 # Operations that require RabbitMQ to have started (a.k.a. post-start)
 _wait_for_mnesia_tables
-_enable_all_plugins
+_enable_plugins
 
 if [ -n "${BOOTSTRAP_NODE?must be defined}" ]
 then
