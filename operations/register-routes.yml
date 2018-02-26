@@ -30,5 +30,8 @@
           uris:
           - netdata-((bosh_deployment)).((cf_apps_domain))
           port: 19999
-          registration_interval: 30s
+          registration_interval: 10s
+          health_check:
+            name: netdata-((bosh_deployment))
+            script_path: /var/vcap/jobs/netdata/bin/netdata_http_ok
           prepend_instance_index: true
