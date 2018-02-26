@@ -260,9 +260,16 @@ properties:
     default: /var/vcap/store/rabbitmq-server/trust-store/whitelist
 
 templates:
+  debug.erb: debug
+  env.erb: env
+  rabbitmq.config.erb: rabbitmq.config
+
+  bin/drain: bin/drain
   bin/start: bin/start
   bin/stop: bin/stop
-  bin/drain: bin/drain
+
+  bin/rabbitmq_management_http_ok: bin/rabbitmq_management_http_ok
+
   bin/_add_admin_user: bin/_add_admin_user
   bin/_add_external_plugins: bin/_add_external_plugins
   bin/_add_hostname_alias_to_etc_hosts: bin/_add_hostname_alias_to_etc_hosts
@@ -282,10 +289,6 @@ templates:
   bin/_start-stop-daemon_rabbitmq-server: bin/_start-stop-daemon_rabbitmq-server
   bin/_wait_for_mnesia_tables: bin/_wait_for_mnesia_tables
   bin/_write_erlang_cookie: bin/_write_erlang_cookie
-
-  debug.erb: debug
-  env.erb: env
-  rabbitmq.config.erb: rabbitmq.config
 
 packages:
 - erlang-17.5.6.9

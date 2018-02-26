@@ -18,11 +18,14 @@
     properties:
       route_registrar:
         routes:
-        - name: ((bosh_deployment))
+        - name: rabbitmq_management-((bosh_deployment))
           uris:
           - ((bosh_deployment)).((cf_apps_domain))
           port: 15672
-          registration_interval: 30s
+          registration_interval: 10s
+          health_check:
+            name: rabbitmq_management-((bosh_deployment))
+            script_path: /var/vcap/jobs/rabbitmq-server/bin/rabbitmq_management_http_ok
         - name: netdata-((bosh_deployment))
           uris:
           - netdata-((bosh_deployment)).((cf_apps_domain))
