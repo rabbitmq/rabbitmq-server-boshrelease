@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+set -e
+
+authenticate_user() {
+  rabbitmqctl authenticate_user \
+    "${RABBITMQ_USER:?must be set}" "${RABBITMQ_PASS:?must be set}"
+}
+
+create_user() {
+  rabbitmqctl add_user "$RABBITMQ_USER" "$RABBITMQ_PASS"
+}
+
+set_user_role() {
+  rabbitmqctl set_user_tags "$RABBITMQ_USER" "${RABBITMQ_USER_ROLE:?must be set}"
+}
+
+reset_user_pass() {
+  rabbitmqctl change_password "$RABBITMQ_USER" "$RABBITMQ_PASS"
+}
+
+set_vhost_permissions() {
+  rabbitmqctl set_permissions \
+    -p "${RABBITMQ_VHOST:-/}" "$RABBITMQ_USER" \
+    "${RABBITMQ_VHOST_CONF-.*}" \
+    "${RABBITMQ_VHOST_WRITE-.*}" \
+    "${RABBITMQ_VHOST_READ-.*}"
+}
+
+authenticate_user || (
+  create_user || reset_user_pass
+  authenticate_user
+)
+set_user_role
+set_vhost_permissions

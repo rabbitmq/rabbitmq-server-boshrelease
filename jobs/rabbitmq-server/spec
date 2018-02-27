@@ -33,6 +33,13 @@ properties:
     description: 'Admin user password'
     default: InsecureDefaultPassword
 
+  rabbitmq-server.create_demo_user:
+    description: >
+      Create demo user with password demo that has read-only access to the / vhost.
+      This is useful when sharing RabbitMQ environments with a wider audience that is not known ahead of time,
+      such as debugging, benchmarking or demonstrating features.
+    default: false
+
   rabbitmq-server.mnesia_base:
     description: 'All persistent data will be stored here'
     default: /var/vcap/store/rabbitmq-server/mnesia
@@ -279,7 +286,7 @@ templates:
 
   bin/rabbitmq_management_http_ok: bin/rabbitmq_management_http_ok
 
-  bin/_add_admin_user: bin/_add_admin_user
+  bin/_add_user: bin/_add_user
   bin/_add_external_plugins: bin/_add_external_plugins
   bin/_add_hostname_alias_to_etc_hosts: bin/_add_hostname_alias_to_etc_hosts
   bin/_add_man_pages: bin/_add_man_pages
@@ -287,7 +294,6 @@ templates:
   bin/_delete_guest_user: bin/_delete_guest_user
   bin/_enable_plugins: bin/_enable_plugins
   bin/_enable_rabbitmq_management_before_rabbitmq_starts: bin/_enable_rabbitmq_management_before_rabbitmq_starts
-  bin/_grant_admin_privileges_to_admin_user: bin/_grant_admin_privileges_to_admin_user
   bin/_increase_file_descriptor_limit: bin/_increase_file_descriptor_limit
   bin/_install_generic_unix_package: bin/_install_generic_unix_package
   bin/_set_cluster_name: bin/_set_cluster_name

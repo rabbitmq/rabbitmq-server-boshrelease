@@ -38,8 +38,14 @@ if [ -n "${BOOTSTRAP_NODE?must be defined}" ]
 then
   _set_cluster_name
   _delete_guest_user
-  _add_admin_user
-  _grant_admin_privileges_to_admin_user
+
+  RABBITMQ_USER="${RABBITMQ_ADMIN_USER:?must be set}" \
+    RABBITMQ_PASS="${RABBITMQ_ADMIN_PASS:?must be set}" \
+    RABBITMQ_USER_ROLE="administrator" _add_user
+
+  [ "$RABBITMQ_CREATE_DEMO_USER" == "false" ] ||
+    RABBITMQ_USER="demo" RABBITMQ_PASS="demo" RABBITMQ_USER_ROLE="monitoring" \
+      RABBITMQ_VHOST_CONF="" RABBITMQ_VHOST_WRITE="" _add_user
 else
   echo "$0 will only run on the bootstrap node, ${BOOTSTRAP_NODE_INSTANCE:?must be set}"
 fi
