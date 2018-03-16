@@ -14,7 +14,7 @@ First, ensure the following are installed and available in `$PATH`:
 
 * [bosh cli v2](https://bosh.io/docs/cli-v2.html)
 * [jq](https://github.com/stedolan/jq)
-* [yq](https://github.com/abesto/yq)
+* [yq](https://github.com/kislyuk/yq)
 * [lpass cli](https://github.com/lastpass/lastpass-cli)
 
 For the RabbitMQ Core team, ensure [rabbitmq/rabbitmq-credentials](https://github.com/rabbitmq/rabbitmq-credentials) is cloned alongside this repo, then `cd rabbitmq-server-boshrelease && . .env`
