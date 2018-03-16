@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+echo "
+Select CloudFoundry in which to register RabbitMQ Management URL route:"
+select CF_DEPLOYMENT in $("$SCRIPT"/_cf_deployments)
+do
+  export CF_DEPLOYMENT
+  break
+done

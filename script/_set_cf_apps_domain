@@ -4,8 +4,8 @@ set -o pipefail
 
 [ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-CF_DEPLOYMENT="$("$SCRIPT"/_cf_deployment)"
-export CF_DEPLOYMENT
+# shellcheck source=script/_select_cf_deployment
+. "$SCRIPT"/_select_cf_deployment
 
 if [[ "$CF_DEPLOYMENT" != "" ]]
 then

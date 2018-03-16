@@ -3,4 +3,4 @@
 set -o pipefail
 
 bosh deployments --column=name |
-  awk '/^cf-/ { print $1 }'
+  awk '/^cf/ { print $1 }'
