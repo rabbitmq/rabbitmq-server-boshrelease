@@ -57,26 +57,22 @@ erlang_tgz: erlang_version tmp
 	  https://github.com/erlang/otp/archive/$(ERLANG_TGZ)
 
 add_erlang: list_erlangs erlang_tgz ## Add new Erlang package
-	@bosh add-blob tmp/$(ERLANG_TGZ) erlang/$(ERLANG_TGZ) && \
+	@bosh add-blob tmp/$(ERLANG_TGZ) erlang/$(ERLANG_TGZ) && echo && \
 	[ -d packages/erlang-$(ERLANG_VERSION) ] || \
-	  cp -r $(shell ls -d packages/erlang-2* | tail -n 1) packages/erlang-$(ERLANG_VERSION) ; \
+	  cp -r $(shell ls -d packages/erlang-2* | tail -n 1) packages/erlang-$(ERLANG_VERSION) ; echo ; \
 	gsed --in-place --regexp-extended --expression \
 	  's/erlang-.+/erlang-$(ERLANG_VERSION)/g ; s/OTP-.*.tar.gz/$(ERLANG_TGZ)/g' \
 	  packages/erlang-$(ERLANG_VERSION)/spec && echo && \
-	git add -r packages/erlang-$(ERLANG_VERSION) && \
-	read -rp "1/5 $(BOLD)erlang-$(ERLANG_VERSION)$(NORMAL) added to $(BOLD)packages:$(NORMAL) in $(BOLD)jobs/rabbitmq-server/spec$(NORMAL) $(CONFIRM)" -n 1 && \
-	read -rp "2/5 $(BOLD)erlang.version$(NORMAL) property default maybe updated to $(BOLD)'$(ERLANG_VERSION)'$(NORMAL) in $(BOLD)jobs/rabbitmq-server/spec$(NORMAL) $(CONFIRM)" -n 1 && \
-	gmake dev && \
-	gmake deploy && \
-	read -rp "3/5 $(BOLD)Erlang $(ERLANG_VERSION)$(NORMAL) confirmed via RabbitMQ Management UI $(CONFIRM)" -n 1 && \
-	read -rp "4/5 Deployment deletes gracefully, e.g. $(BOLD)bosh -d DEPLOYMENT deld$(NORMAL) $(CONFIRM)" -n 1 && \
-	bosh upload-blobs && \
-	read -rp "5/5 All changes committed & pushed $(CONFIRM)" -n 1 && \
+	git add packages/erlang-$(ERLANG_VERSION) && echo && \
+	read -rp "1/8 $(BOLD)erlang-$(ERLANG_VERSION)$(NORMAL) added to $(BOLD)packages:$(NORMAL) in $(BOLD)jobs/rabbitmq-server/spec$(NORMAL) $(CONFIRM)" -n 1 && \
+	read -rp "2/8 Maybe update $(BOLD)erlang.version$(NORMAL) property default to $(BOLD)'$(ERLANG_VERSION)'$(NORMAL) in $(BOLD)jobs/rabbitmq-server/spec$(NORMAL) $(CONFIRM)" -n 1 && \
+	read -rp "3/8 $(BOLD)gmake dev$(NORMAL) succeeded $(CONFIRM)" -n 1 && \
+	read -rp "4/8 $(BOLD)gmake deploy$(NORMAL) with Erlang $(ERLANG_VERSION) succeeded $(CONFIRM)" -n 1 && \
+	read -rp "5/8 $(BOLD)Erlang $(ERLANG_VERSION)$(NORMAL) confirmed via RabbitMQ Management UI $(CONFIRM)" -n 1 && \
+	read -rp "6/8 Deployment deletes gracefully, e.g. $(BOLD)bosh -d DEPLOYMENT deld$(NORMAL) $(CONFIRM)" -n 1 && \
+	read -rp "7/8 $(BOLD)bosh upload-blobs$(NORMAL) succeeded $(CONFIRM)" -n 1 && \
+	read -rp "7/8 All changes committed & pushed $(CONFIRM)" -n 1 && \
 	echo -e "\nYou might want to run $(BOLD)gmake remove_erlang$(NORMAL)\n"
-
-	# read -rp "3/8 $(BOLD)gmake dev$(NORMAL) succeeded $(CONFIRM)" -n 1 && \
-	# read -rp "4/8 $(BOLD)gmake deploy$(NORMAL) with Erlang $(ERLANG_VERSION) succeeded $(CONFIRM)" -n 1 && \
-	# read -rp "7/8 $(BOLD)bosh upload-blobs$(NORMAL) succeeded $(CONFIRM)" -n 1 && \
 
 remove_erlang::
 ifndef ERLANG_PACKAGE
@@ -88,12 +84,12 @@ ifndef ERLANG_PACKAGE
 endif
 	$(eval ERLANG_VERSION = $(subst erlang-,,$(ERLANG_PACKAGE)))
 remove_erlang:: ## Remove superseded Erlang package
-	@bosh remove-blob erlang/OTP-$(ERLANG_VERSION).tar.gz && \
+	@bosh remove-blob erlang/OTP-$(ERLANG_VERSION).tar.gz && echo && \
 	git rm -r packages/$(ERLANG_PACKAGE) && echo && \
-	read -rp "1/3 Remove package from $(BOLD)jobs/rabbitmq-server/spec$(NORMAL) $(CONFIRM)" -n 1 && \
-	read -rp "2/3 Maybe update package dependency in $(BOLD)packages/looking_glass/spec$(NORMAL) $(CONFIRM)" -n 1 && \
-	gmake dev && \
-	read -rp "3/3 All changes committed & pushed $(CONFIRM)" -n 1
+	read -rp "1/4 Remove package from $(BOLD)jobs/rabbitmq-server/spec$(NORMAL) $(CONFIRM)" -n 1 && \
+	read -rp "2/4 Maybe update package dependency in $(BOLD)packages/looking_glass/spec$(NORMAL) $(CONFIRM)" -n 1 && \
+	read -rp "3/4 $(BOLD)gmake dev$(NORMAL) succeeded $(CONFIRM)" -n 1 && \
+	read -rp "4/4 All changes committed & pushed $(CONFIRM)" -n 1
 
 clean: 	## Clean all dev releases
 	@rm -fr dev_releases
