@@ -3,21 +3,24 @@
 set -e
 
 # shellcheck source=/dev/null
-. /var/vcap/jobs/rabbitmq-server/debug
-# shellcheck source=/dev/null
 . /var/vcap/jobs/rabbitmq-server/env
+[ -z "$DEBUG" ] || set -x
 
 exec 1> >(tee -a "${RABBITMQ_LOG_BASE:?must be set}/stop.log") 2>&1
 
 main() {
-  echo ">>> $(date) ::: v${BOSH_RELEASE_VERSION:?must be set} ::: Stopping rabbitmq-server BOSH job"
+  # shellcheck source=jobs/rabbitmq-server/templates/bin/_end
+  . _begin "Stopping rabbitmq-server BOSH job"
   if rabbitmq_node_accessible
   then
     suggest_bosh_stop
     new_shutdown || legacy_stop
   fi
   cleanup_pid
-  echo "<<< $(date) ::: v$BOSH_RELEASE_VERSION ::: rabbitmq-server BOSH job stopped"
+  # shellcheck source=jobs/rabbitmq-server/templates/bin/_stop_epmd
+  . _stop_epmd
+  # shellcheck source=jobs/rabbitmq-server/templates/bin/_end
+  . _end "rabbitmq-server BOSH job stopped"
 }
 
 rabbitmq_node_accessible() {

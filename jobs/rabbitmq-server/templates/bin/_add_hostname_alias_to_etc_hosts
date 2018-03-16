@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-set -e
-
-grep "${ETC_HOSTS:?must be set}" /etc/hosts ||
-  echo "$ETC_HOSTS" >> /etc/hosts

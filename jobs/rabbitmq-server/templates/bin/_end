@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "<<< $(date) ::: v${BOSH_RELEASE_VERSION:?must be set} ::: $*"

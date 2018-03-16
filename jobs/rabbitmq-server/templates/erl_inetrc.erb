@@ -1,0 +1,7 @@
+% Use host data retrieved from system configuration files and/or the user configuration file,
+% fallback to native system calls if node names fail be resolve
+% http://erlang.org/doc/apps/erts/inet_cfg.html#id99395
+{lookup, [file, native]}.
+<% link("rabbitmq-server").instances.each do |i| %>
+{host, {<%= i.address.gsub(".", ",") %>}, ["<%= "#{i.name}#{i.index}-#{spec.deployment}" %>"]}.
+<% end %>

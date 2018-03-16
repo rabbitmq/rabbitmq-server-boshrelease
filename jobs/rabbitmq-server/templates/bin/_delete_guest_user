@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 
-rabbitmqctl delete_user guest ||
-  true
+rabbitmqctl delete_user guest || true

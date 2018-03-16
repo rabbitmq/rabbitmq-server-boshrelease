@@ -10,5 +10,5 @@ RUNNING_UNDER_SYSTEMD=true \
 /var/vcap/jobs/rabbitmq-server/packages/start-stop-daemon*/start-stop-daemon \
   --pidfile "${RABBITMQ_PID_FILE:?must be set}" \
   --chuid "${RABBITMQ_SERVICE_USER:?must be set}":"${RABBITMQ_SERVICE_GROUP:?must be set}" \
-  --start --oknodo --background \
-  --exec "${RABBITMQ_SERVER_PACKAGE:?must be set}/sbin/rabbitmq-server" --name beam
+  --start --oknodo --background "${START_STOP_DAEMON_VERBOSE?must be defined}" \
+  --exec "${RABBITMQ_SERVER_PACKAGE:?must be set}/sbin/rabbitmq-server"

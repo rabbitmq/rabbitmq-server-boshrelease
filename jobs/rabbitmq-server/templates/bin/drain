@@ -3,9 +3,9 @@
 set -e
 
 # shellcheck source=/dev/null
-. /var/vcap/jobs/rabbitmq-server/debug
-# shellcheck source=/dev/null
 . /var/vcap/jobs/rabbitmq-server/env
+
+[ -z "$DEBUG" ] || set -x
 
 main() {
   log "$(date) ::: v${BOSH_RELEASE_VERSION:?must be set}"
