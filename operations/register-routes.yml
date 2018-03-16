@@ -1,10 +1,10 @@
 - type: replace
   path: /releases/-
   value:
-    name: routing # https://github.com/cloudfoundry-incubator/routing-release/releases
-    version: 0.172.0
-    url: https://github.com/cloudfoundry/routing-release/releases
-    sha1: fa6b0966e38b4089e0565fcab8bf09035ab43778
+    name: routing # https://github.com/cloudfoundry/routing-release/releases
+    version: 0.174.0
+    url: https://bosh.io/d/github.com/cloudfoundry-incubator/cf-routing-release?v=0.174.0
+    sha1: 15ca395b58825a884d11f9dceeda3a3138802640
 
 - type: replace
   path: /instance_groups/name=rmq/jobs/-
