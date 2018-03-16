@@ -16,8 +16,7 @@ true "${MONIT_START_TIMEOUT:?must be set}"
   then
     echo "$package_dir already exists, nothing to download"
   else
-    [ -f "$archive" ] ||
-      curl --connect-timeout 3 --max-time "$MONIT_START_TIMEOUT" -svL -o "$archive" "$RABBITMQ_SERVER_PACKAGE_URL"
+    wget --continue --no-verbose --output-document "$archive" "$RABBITMQ_SERVER_PACKAGE_URL"
 
     case "$archive" in
       *.tar.gz)
