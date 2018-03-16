@@ -32,6 +32,7 @@ erlang/OTP-R16B03-1.tar.gz:
   sha: a52b93ce3faa4be148b0b5b2f4fc51093f0813bc
 observer_cli-1.2.1.tar.gz:
   size: 700973
+  object_id: a7ced4ec-5aeb-4a51-450b-63a68b61e8e4
   sha: 688b340abc67ddc1b27ff1f224978896c8c6d6f3
 rabbitmq-plugins/rabbitmq_random_exchange-0.10.0.ez:
   size: 5489
