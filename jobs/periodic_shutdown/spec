@@ -23,6 +23,9 @@ properties:
     description: 'Runs BOSH job scripts in debug mode'
     default: false
 
+provides:
+- name: periodic_shutdown
+  type: periodic_shutdown
 
 consumes:
 - name: rabbitmq-server
