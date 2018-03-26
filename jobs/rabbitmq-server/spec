@@ -293,6 +293,7 @@ templates:
   bin/_add_rabbitmq_server_env_to_global_shell_profile: bin/_add_rabbitmq_server_env_to_global_shell_profile
   bin/_begin: bin/_begin
   bin/_delete_guest_user: bin/_delete_guest_user
+  bin/_enable_core_dumps: bin/_enable_core_dumps
   bin/_enable_plugins: bin/_enable_plugins
   bin/_enable_rabbitmq_management_before_rabbitmq_starts: bin/_enable_rabbitmq_management_before_rabbitmq_starts
   bin/_end: bin/_end

@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# http://man7.org/linux/man-pages/man5/core.5.html
+# https://www.erlang-solutions.com/blog/how-to-analyse-a-beam-core-dump.html
+
+set -e
+
+mkdir -p "${RABBITMQ_LOG_BASE:?must be set}"
+# Define core dumps location
+echo "${RABBITMQ_LOG_BASE}/core.%e.%p.%t.dump" > /proc/sys/kernel/core_pattern
+# %%  a single % character
+# %c  core file size soft resource limit of crashing process (since Linux 2.6.24)
+# %d  dump mode—same as value returned by prctl(2) PR_GET_DUMPABLE (since Linux 3.7)
+# %e  executable filename (without path prefix)
+# %E  pathname of executable, with slashes ('/') replaced by exclamation marks ('!') (since Linux 3.0).
+# %g  (numeric) real GID of dumped process
+# %h  hostname (same as nodename returned by uname(2))
+# %i  TID of thread that triggered core dump, as seen in the PID namespace in which the thread resides (since Linux 3.18)
+# %I  TID of thread that triggered core dump, as seen in the initial PID namespace (since Linux 3.18)
+# %p  PID of dumped process, as seen in the PID namespace in which the process resides
+# %P  PID of dumped process, as seen in the initial PID namespace (since Linux 3.12)
+# %s  number of signal causing dump
+# %t  time of dump, expressed as seconds since the Epoch, 1970-01-01 00:00:00 +0000 (UTC)
+# %u  (numeric) real UID of dumped process
+
+# Verify core_pattern
+# sysctl kernel.core_pattern | grep dumps
+
+# Enable core dumps by setting the core dump size
+ulimit -c unlimited
+
+# Ensure core dumps won't be truncated due to RLIMIT_CORE
+ulimit -f unlimited
