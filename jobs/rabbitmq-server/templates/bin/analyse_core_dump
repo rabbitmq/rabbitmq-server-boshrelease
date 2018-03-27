@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -e
+
+# shellcheck source=/dev/null
+. /var/vcap/jobs/rabbitmq-server/env
+
+ERLANG_CORE_DUMP="${1:?first argument must be a valid Erlang Core Dump}"
+
+ERTS_EMULATOR="$ERLANG_HOME"/src/erts/emulator
+GDB_MACROS="$ERLANG_HOME"/src/erts/etc/unix/etp-commands.in
+
+shell_expanded_beam_path() {
+  echo "${ERLANG_HOME:?must be set}"/lib/erlang/erts-*/bin/beam.smp
+}
+
+gdb "$(shell_expanded_beam_path)" \
+  -directory="$ERTS_EMULATOR" -command="$GDB_MACROS" -core="$ERLANG_CORE_DUMP"
