@@ -12,24 +12,24 @@
 * Sort alphabetically rabbitmq-server properties in deployment template
 * Enable `tcp_listen_options` customisation
 * Add `file_descriptor_limit` property to deployment template
-* Allow explicit plugins to be enabled - rabbitmq-server-boshrelease#44
-* Add option to create `demo` user - rabbitmq-server-boshrelease#33
+* Allow explicit plugins to be enabled - #44
+* Add option to create `demo` user - #33
 
 ### Operations
 
-* Add `periodic_shutdown` job that shuts down RabbitMQ nodes on an interval - [learn more](tree/master/jobs/periodic_shutdown)
+* Add `periodic_shutdown` job that shuts down RabbitMQ nodes on an interval - [learn more](https://github.com/rabbitmq/rabbitmq-server-boshrelease/tree/v0.13.0/jobs/periodic_shutdown)
 * De-register Netdata route when not HTTP OK
 * De-register RabbitMQ Management route when not HTTP OK
 * Add make targets for easier Erlang package management: `add_erlang` & `remove_erlang`
-* Resolve Erlang nodenames via erl_inetrc - rabbitmq-server-boshrelease#45
+* Resolve Erlang nodenames via erl_inetrc - #45
 * Enable core dumps & add gdb wrapper for easier core dumps analysis: `analyse_core_dump`
-* Support multiple CloudFoundry deployments for route registration - rabbitmq-server-boshrelease#41
+* Support multiple CloudFoundry deployments for route registration - #41
 * Set swap size to 1GB - [BOSH stemcell fix](https://github.com/cloudfoundry/bosh/issues/1840)
 
-### Dependencies
+### Artefacts
 
 * Default RabbitMQ to v3.7.4
-* Add [observer_cli v1.2.1](https://github.com/zhongwencool/observer_cli) and integrate with RabbitMQ via `rabbitmq-remsh` - rabbitmq-server-boshrelease#42
+* Add [observer_cli v1.2.1](https://github.com/zhongwencool/observer_cli) and integrate with RabbitMQ via `rabbitmq-remsh` - #42
 * Add new Erlang versions
   * **v20.3.2** - default
   * v19.3.6.8
