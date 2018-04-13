@@ -1,4 +1,47 @@
-## v0.12.0 - 2018-01-11
+## v0.13.0, released 2018-04-13
+
+### Configuration
+
+* Expose Erlang max processes and atoms in job spec
+* Clarify init flags vs emulator flags in `additional_erl_args` property
+* Enable channel_max customisation, use a safer default
+* Add lock counting support for all Erlang packages
+* Support newer ERL ARGS in older RabbitMQ versions
+* Reword `hipe_compile` property description
+* Fix `rabbitmq-management.rates_mode` property in deployment template
+* Sort alphabetically rabbitmq-server properties in deployment template
+* Enable `tcp_listen_options` customisation
+* Add `file_descriptor_limit` property to deployment template
+* Allow explicit plugins to be enabled - rabbitmq-server-boshrelease#44
+* Add option to create `demo` user - rabbitmq-server-boshrelease#33
+
+### Operations
+
+* Add `periodic_shutdown` job that shuts down RabbitMQ nodes on an interval - [learn more](tree/master/jobs/periodic_shutdown)
+* De-register Netdata route when not HTTP OK
+* De-register RabbitMQ Management route when not HTTP OK
+* Add make targets for easier Erlang package management: `add_erlang` & `remove_erlang`
+* Resolve Erlang nodenames via erl_inetrc - rabbitmq-server-boshrelease#45
+* Enable core dumps & add gdb wrapper for easier core dumps analysis: `analyse_core_dump`
+* Support multiple CloudFoundry deployments for route registration - rabbitmq-server-boshrelease#41
+* Set swap size to 1GB - [BOSH stemcell fix](https://github.com/cloudfoundry/bosh/issues/1840)
+
+### Dependencies
+
+* Default RabbitMQ to v3.7.4
+* Add [observer_cli v1.2.1](https://github.com/zhongwencool/observer_cli) and integrate with RabbitMQ via `rabbitmq-remsh` - rabbitmq-server-boshrelease#42
+* Add new Erlang versions
+  * **v20.3.2** - default
+  * v19.3.6.8
+  * v18.3.4.8
+* Remove superseded Erlang versions
+  * v20.1.7
+  * v19.3.6.4
+  * v18.3.4.5
+* Include OTP source in all Erlang packages - simplifies debugging
+* Update [routing-release to v0.174.0](https://github.com/cloudfoundry/routing-release/releases/tag/0.174.0)
+
+## v0.12.0, released 2018-01-11
 
 * Add a single point of entry to all scripts: `make` (GNU preferred)
 * Default RabbitMQ to 3.7.2
@@ -21,7 +64,7 @@
   * 18.3.4.5
 
 
-## v0.11.0 - 2017-10-11
+## v0.11.0, released 2017-10-11
 
 * Allow deployment configurations to be deployed directly, e.g. `./script/deploy-configuration deployment_configurations/rmq-lg.yml`
 * Expose [all RabbitMQ configurations](https://github.com/rabbitmq/rabbitmq-server/blob/stable/docs/rabbitmq.config.example) via rabbitmq-server job properties
@@ -38,7 +81,7 @@
 * Add tmux to all deployments
 * Make all VMs preemptible (saves about ~70% on cost)
 
-## v0.10.0 - 2017-09-11
+## v0.10.0, released 2017-09-11
 
 * Make release bosh cli v2 compatible
 * Anyone with a BOSH v2 Director can now deploy custom RMQ clusters using this release - just run `./script/deploy`
@@ -50,12 +93,12 @@
 * Add Erlang 20.0.4
 * Remove all unused Erlang versions - they were pre-compiled using Docker and were not as useful anymore
 
-## v0.9.0 - 2017-07-27
+## v0.9.0, released 2017-07-27
 
 * Add Erlang 20.0.2
 * Make RABBITMQ_DISTRIBUTION_BUFFER_SIZE configurable
 
-## v0.8.0 - 2017-07-12
+## v0.8.0, released 2017-07-12
 
 * Add Erlang 20.0.1
 * Always resolve hostnames & update Erlang cookie
@@ -65,20 +108,20 @@
 * Wait for mnesia tables before setting the cluster name
 * Change ownership recursively
 
-## v0.7.0 - 2017.06.22
+## v0.7.0, released 2017-06-22
 
 * Add Erlang 20.0
 
-## v0.6.0 - 2017.06.08
+## v0.6.0, released 2017-06-08
 
 * Add Erlang 19.3.6
 
-## v0.5.0 - 2017.06.08
+## v0.5.0, released 2017-06-08
 
 * Add option to deploy with Erlang 19.3.5
 * Default nodes to t2.small
 
-## v0.4.0 - 2017.06.06
+## v0.4.0, released 2017-06-06
 
 * Use timestamp in ERL_CRASH_DUMP files, store them in log dir
 * Fix dir permissions - erl_crash.dump could not be written
@@ -90,7 +133,7 @@
 * Update to latest stemcell, AWS Xen-HVM 3421.4
 * Update datadog-agent to 5.8.5.5
 
-## v0.3.0 - 2017.05.08
+## v0.3.0, released 2017-05-08
 
 * add option to deploy with Erlang 18.3.4.4
 * [best-practice RabbitMQ stop](https://docs.google.com/document/d/1zz6USVo-VyNeDOd8Ux1USyHsSJe8EcMef59bVq_V0vM)
@@ -102,13 +145,13 @@
 * automate setup on OS X
 * delete deployment command
 
-## v0.2.0 - 2017.03.23
+## v0.2.0, released 2017-03-23
 
 * deploy any RabbitMQ v3.7 version
 * support gz generic UNIX artefacts
 * deploy any RabbitMQ v3.5 version - cluster will form but arbitrary node restarts will fail
 
-## v0.1.0 - 2017.03.21
+## v0.1.0, released 2017-03-21
 
 * deploy any RabbitMQ v3.6 version, via generic UNIX xz artefact URL
 * Erlang 19.2.3
