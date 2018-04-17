@@ -17,7 +17,7 @@ First, ensure the following are installed and available in `$PATH`:
 * [yq](https://github.com/kislyuk/yq)
 * [lpass cli](https://github.com/lastpass/lastpass-cli)
 
-For the RabbitMQ Core team, ensure [rabbitmq/rabbitmq-credentials](https://github.com/rabbitmq/rabbitmq-credentials) is cloned alongside this repo, then `cd rabbitmq-server-boshrelease && . .env`
+For the RabbitMQ Core team, ensure [rabbitmq/rabbitmq-credentials](https://github.com/rabbitmq/rabbitmq-credentials) is cloned alongside this repo, then `cd rabbitmq-server-boshrelease` & configure either `env.example` or `envrc.example` as a dotfile, then run `. .env` or `direnv allow`.
 
 ## Submodules
 
