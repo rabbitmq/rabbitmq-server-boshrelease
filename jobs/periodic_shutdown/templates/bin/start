@@ -7,7 +7,7 @@ set -e
 # shellcheck source=/dev/null
 . /var/vcap/jobs/periodic_shutdown/env
 # shellcheck source=/dev/null
-. "$RABBITMQ_ENV"
+. "${RABBITMQ_ENV:?must de set}"
 
 # shellcheck source=/dev/null
 . __periodic_shutdown-setup_log_dir
