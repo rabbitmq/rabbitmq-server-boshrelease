@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Match the first 2 numbers after letter 'v' (a.k.a. positive lookbehind)
+# Valid matches: 1.0, 3.10 and 10.10
+echo "${RABBITMQ_SERVER_PACKAGE_URL:?must be set}" |
+  grep --only-matching --max-count 1 --perl-regexp '(?<=v)[1-9]+\.[0-9]+'
