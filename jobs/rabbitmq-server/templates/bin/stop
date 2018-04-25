@@ -32,7 +32,7 @@ suggest_bosh_stop() {
 RabbitMQ should be stopped via bosh stop, specifically via the drain script
 
 The monit stop command will fail if it does not complete within 30s
-We are required to statisfy the Monit contract with BOSH, but stopping RabbitMQ from Monit is a bad idea"
+Since RabbitMQ might take more than 30s to stop, we recommend stopping it via the drain script, which can take as long as it needs"
 }
 
 new_shutdown() {

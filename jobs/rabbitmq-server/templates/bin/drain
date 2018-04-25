@@ -20,7 +20,8 @@ main() {
     log "There is no Erlang VM running for $RABBITMQ_NODENAME, no process to stop"
   fi
 
-  ok_for_bosh_to_continue_with_stop
+  run_stop_since_monit_will_not_run_it_if_no_process_is_found_for_the_pid_that_it_tracks
+  signal_success_to_bosh
 }
 
 rabbitmq_node_exists() {
@@ -81,7 +82,11 @@ Based on the above, it might be safe to send SIGTERM to the Erlang VM process, i
   exit 1
 }
 
-ok_for_bosh_to_continue_with_stop() {
+run_stop_since_monit_will_not_run_it_if_no_process_is_found_for_the_pid_that_it_tracks() {
+  /var/vcap/jobs/rabbitmq-server/bin/stop 1> /dev/null
+}
+
+signal_success_to_bosh() {
   echo 0
 }
 
