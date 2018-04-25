@@ -26,3 +26,6 @@ bosh --deployment="$BOSH_DEPLOYMENT" deploy --no-redact \
   "${BOSH_OPERATIONS[@]}" \
   --vars-file="$SCRIPT/../deployment_configurations/$BOSH_DEPLOYMENT.yml" \
   rabbitmq-server-deployment-template.yml "$@"
+
+RMQ_NODE_IPS=$(bosh -d $BOSH_DEPLOYMENT vms --column=IPs --json | jq -r '."Tables"[0]."Rows" | map(."ips") | join(", ")')
+RMQ_CUPS=$(bosh -d $BOSH_DEPLOYMENT vms --column=IPs --json | jq --arg USER $RMQ_SERVER_ADMIN_USER --arg PASS "$RMQ_SERVER_ADMIN_PASS" -rc '."Tables"[0]."Rows" | {"urls": map("amqp://" + $USER + ":" + $PASS + "@" + ."ips" + ":5672")}')
