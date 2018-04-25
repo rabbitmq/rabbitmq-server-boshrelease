@@ -11,7 +11,7 @@ then
 fi
 
 find "${releases_path[@]}" -type f -name 'rabbitmq-server-*.yml' |
-  sort -r |
+  sort -rV |
   while read -r rmq_bosh_release
   do
     rmq_bosh_release_no_ext="${rmq_bosh_release%.yml}"
