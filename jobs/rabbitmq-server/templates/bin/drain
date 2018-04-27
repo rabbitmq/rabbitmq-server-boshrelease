@@ -83,7 +83,7 @@ Based on the above, it might be safe to send SIGTERM to the Erlang VM process, i
 }
 
 run_stop_since_monit_will_not_run_it_if_no_process_is_found_for_the_pid_that_it_tracks() {
-  /var/vcap/jobs/rabbitmq-server/bin/stop 1> /dev/null
+  /var/vcap/jobs/rabbitmq-server/bin/stop 1>&2
 }
 
 signal_success_to_bosh() {
