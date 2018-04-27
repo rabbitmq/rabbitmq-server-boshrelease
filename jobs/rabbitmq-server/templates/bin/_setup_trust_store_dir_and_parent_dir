@@ -3,4 +3,7 @@
 set -e
 
 mkdir -p "${RABBITMQ_TRUST_STORE_DIR:?must be set}" "${RABBITMQ_TRUST_STORE_DIR%/*}"
-chown -fR "${RABBITMQ_SERVICE_USER:?must be set}":"${RABBITMQ_SERVICE_GROUP:?must be set}" "$RABBITMQ_TRUST_STORE_DIR" "${RABBITMQ_TRUST_STORE_DIR%/*}"
+chown -fR \
+  "${RABBITMQ_SERVICE_USER:?must be set}":"${RABBITMQ_SERVICE_GROUP:?must be set}" \
+  "$RABBITMQ_TRUST_STORE_DIR" \
+  "${RABBITMQ_TRUST_STORE_DIR%/*}"

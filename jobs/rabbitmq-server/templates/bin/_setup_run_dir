@@ -3,4 +3,6 @@
 set -e
 
 mkdir -p "${RABBITMQ_RUN_DIR:?must be set}"
-chown -fR "${RABBITMQ_SERVICE_USER:?must be set}":"${RABBITMQ_SERVICE_GROUP:?must be set}" "$RABBITMQ_RUN_DIR"
+chown -fR \
+  "${RABBITMQ_SERVICE_USER:?must be set}":"${RABBITMQ_SERVICE_GROUP:?must be set}" \
+  "$RABBITMQ_RUN_DIR"
