@@ -2,26 +2,32 @@
 
 set -e
 
-echo "Stopping Erlang Port Mapper Daemon (EPMD) ..."
-
-# There will only ever be one start-stop-daemon, ignore the glob
-# shellcheck disable=SC2211
-/var/vcap/jobs/rabbitmq-server/packages/start-stop-daemon*/start-stop-daemon \
-  --pidfile "${EPMD_PID_FILE:?must be set}" \
-  --stop --oknodo "${START_STOP_DAEMON_VERBOSE?must be defined}"
-
-if pgrep epmd
+if [ -f "${EPMD_PID_FILE:?must be set}" ]
 then
-  echo "Waiting for EPMD to stop ..."
+  echo "Stopping Erlang Port Mapper Daemon (EPMD) ..."
 
-  timeout "${EPMD_TIMEOUT:?must be set}" bash -c "
-while pgrep epmd
-do
-  sleep 0.5
-done" 1>/dev/null 2>&1
+  # There will only ever be one start-stop-daemon, ignore the glob
+  # shellcheck disable=SC2211
+  /var/vcap/jobs/rabbitmq-server/packages/start-stop-daemon*/start-stop-daemon \
+    --pidfile "$EPMD_PID_FILE" \
+    --stop --oknodo "${START_STOP_DAEMON_VERBOSE?must be defined}"
+
+  if pgrep epmd
+  then
+    echo "Waiting for EPMD to stop ..."
+
+    timeout "${EPMD_TIMEOUT:?must be set}" bash -c "
+  while pgrep epmd
+  do
+    sleep 0.5
+  done" 1>/dev/null 2>&1
+  fi
+
+  echo "EPMD stopped"
+
+  echo "Removing $EPMD_PID_FILE ..."
+  rm -f "$EPMD_PID_FILE"
+else
+  echo "$EPMD_PID_FILE does not exist, skipping Erlang Port Mapper Daemon (EPMD) stop
+If an EPMD process exists, it's not one of ours, we won't be touching it"
 fi
-
-echo "EPMD stopped"
-
-echo "Removing $EPMD_PID_FILE ..."
-rm -f "$EPMD_PID_FILE"
