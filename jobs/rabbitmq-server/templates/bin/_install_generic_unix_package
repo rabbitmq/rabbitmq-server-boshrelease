@@ -2,6 +2,7 @@
 
 set -e
 
+true "${RABBITMQ_SERVER_PACKAGE:?must be set}"
 true "${RABBITMQ_SERVER_PACKAGE_URL:?must be set}"
 true "${MONIT_START_TIMEOUT:?must be set}"
 
@@ -10,27 +11,22 @@ true "${MONIT_START_TIMEOUT:?must be set}"
   declare -r version="${RABBITMQ_SERVER_PACKAGE_URL##*generic-unix-}"
   declare -r package_dir="rabbitmq_server-${version%%.tar.*z}"
 
-  cd /var/vcap/jobs/rabbitmq-server/packages
+  cd "${RABBITMQ_SERVER_PACKAGE%/*}"
 
-  if [ -d "$package_dir" ]
-  then
-    echo "$package_dir already exists, nothing to download"
-  else
-    wget --continue --no-verbose --output-document "$archive" "$RABBITMQ_SERVER_PACKAGE_URL"
+  wget --continue --no-verbose --output-document "$archive" "$RABBITMQ_SERVER_PACKAGE_URL"
 
-    case "$archive" in
-      *.tar.gz)
-        tar xzf "$archive"
-      ;;
-      *.tar.xz)
-        tar xJf "$archive"
-      ;;
-      *)
-        echo "$archive is not supported"
-        exit 1
-      ;;
-    esac
-  fi
+  case "$archive" in
+    *.tar.gz)
+      tar xzf "$archive"
+    ;;
+    *.tar.xz)
+      tar xJf "$archive"
+    ;;
+    *)
+      echo "$archive is not supported"
+      exit 1
+    ;;
+  esac
 
-  ln -nsf "$package_dir" "${RABBITMQ_SERVER_PACKAGE:?must be set}"
+  cp -fr "$package_dir" "$RABBITMQ_SERVER_JOB_PACKAGE"
 )

@@ -5,7 +5,7 @@ set -e
 if which mandb && [ -d /usr/local/share/man ]
 then
   (
-    cd /var/vcap/jobs/rabbitmq-server/packages/rabbitmq-server/share/man
+    cd "${RABBITMQ_SERVER_JOB_PACKAGE:?must be set}/share/man"
     for _man in man*
     do
       mkdir -p "/usr/local/share/man/$_man"

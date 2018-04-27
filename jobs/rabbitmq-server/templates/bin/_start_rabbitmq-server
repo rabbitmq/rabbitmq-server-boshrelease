@@ -9,6 +9,8 @@ RABBITMQ_IGNORE_SIGINT=false \
 RUNNING_UNDER_SYSTEMD=true \
 /var/vcap/jobs/rabbitmq-server/packages/start-stop-daemon*/start-stop-daemon \
   --pidfile "${RABBITMQ_PID_FILE:?must be set}" \
-  --chuid "${RABBITMQ_SERVICE_USER:?must be set}":"${RABBITMQ_SERVICE_GROUP:?must be set}" \
+  --user "${RABBITMQ_SERVICE_USER:?must be set}" \
+  --chuid "$RABBITMQ_SERVICE_USER":"${RABBITMQ_SERVICE_GROUP:?must be set}" \
   --start --oknodo --background "${START_STOP_DAEMON_VERBOSE?must be defined}" \
-  --exec "${RABBITMQ_SERVER_PACKAGE:?must be set}/sbin/rabbitmq-server"
+  --exec "${ERLANG_HOME:?must be set}"/lib/erlang/erts-*/bin/"${RABBITMQ_PROCESS_NAME:?must be set}" \
+  --startas "${RABBITMQ_SERVER_JOB_PACKAGE:?must be set}/sbin/rabbitmq-server"
