@@ -2,8 +2,15 @@
 
 set -e
 
-if which mandb && [ -d /usr/local/share/man ]
-then
+ensure_rabbitmq_man_pages_installed() {
+  man -k rabbitmq
+}
+
+mandb_is_setup_correctly() {
+  which mandb && [ -d /usr/local/share/man ]
+}
+
+add_rabbitmq_man_pages_to_system_mandb() {
   (
     cd "${RABBITMQ_SERVER_JOB_PACKAGE:?must be set}/share/man"
     for _man in man*
@@ -11,8 +18,18 @@ then
       mkdir -p "/usr/local/share/man/$_man"
       cp -f "$_man"/* "/usr/local/share/man/$_man/"
     done
-    mandb
   )
+}
+
+update_system_mandb() {
+  mandb
+}
+
+if mandb_is_setup_correctly
+then
+  add_rabbitmq_man_pages_to_system_mandb
+  update_system_mandb
+  ensure_rabbitmq_man_pages_installed
 else
   echo "mandb & /usr/local/share/man don't seem to be setup correctly, skipping RabbitMQ man pages setup"
 fi
