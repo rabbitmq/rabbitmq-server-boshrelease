@@ -3,30 +3,27 @@
 set -e
 
 true "${RABBITMQ_SERVER_PACKAGE:?must be set}"
-true "${RABBITMQ_SERVER_PACKAGE_URL:?must be set}"
-true "${MONIT_START_TIMEOUT:?must be set}"
 
 (
-  declare -r archive="${RABBITMQ_SERVER_PACKAGE_URL##*/}"
-  declare -r version="${RABBITMQ_SERVER_PACKAGE_URL##*generic-unix-}"
-  declare -r package_dir="rabbitmq_server-${version%%.tar.*z}"
-
   cd "${RABBITMQ_SERVER_PACKAGE%/*}"
 
-  wget --continue --no-verbose --output-document "$archive" "$RABBITMQ_SERVER_PACKAGE_URL"
+  wget --continue --no-verbose \
+    --output-document "${RABBITMQ_SERVER_PACKAGE_ARCHIVE:?must be set}" \
+    "${RABBITMQ_SERVER_PACKAGE_URL:?must be set}"
 
-  case "$archive" in
+  case "$RABBITMQ_SERVER_PACKAGE_ARCHIVE" in
     *.tar.gz)
-      tar xzf "$archive"
+      tar xzf "$RABBITMQ_SERVER_PACKAGE_ARCHIVE"
     ;;
     *.tar.xz)
-      tar xJf "$archive"
+      tar xJf "$RABBITMQ_SERVER_PACKAGE_ARCHIVE"
     ;;
     *)
-      echo "$archive is not supported"
+      echo "$RABBITMQ_SERVER_PACKAGE_ARCHIVE is not supported"
       exit 1
     ;;
   esac
 
-  cp -fr "$package_dir" "$RABBITMQ_SERVER_JOB_PACKAGE"
+  cp -fr "rabbitmq_server-${RABBITMQ_SERVER_PACKAGE_VERSION:?must be set}" \
+    "${RABBITMQ_SERVER_JOB_PACKAGE:?must be set}"
 )

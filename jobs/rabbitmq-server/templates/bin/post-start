@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -e
+
+# shellcheck source=/dev/null
+. /var/vcap/jobs/rabbitmq-server/env
+[ -z "$DEBUG" ] || set -x
+
+# shellcheck source=jobs/rabbitmq-server/templates/bin/_begin
+. _begin "Running rabbitmq-server post-start tasks"
+
+# shellcheck source=jobs/rabbitmq-server/templates/bin/_verify_erlang_version
+. _verify_erlang_version
+
+# shellcheck source=jobs/rabbitmq-server/templates/bin/_verify_rabbitmq_version
+. _verify_rabbitmq_version
+
+# shellcheck source=jobs/rabbitmq-server/templates/bin/_end
+. _end "rabbitmq-server post-start tasks succeeded"

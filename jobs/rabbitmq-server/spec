@@ -282,6 +282,7 @@ templates:
   erl_inetrc.erb: erl_inetrc
 
   bin/drain: bin/drain
+  bin/post-start: bin/post-start
   bin/start: bin/start
   bin/stop: bin/stop
 
@@ -309,6 +310,8 @@ templates:
   bin/_start_epmd: bin/_start_epmd
   bin/_start_rabbitmq-server: bin/_start_rabbitmq-server
   bin/_stop_epmd: bin/_stop_epmd
+  bin/_verify_erlang_version: bin/_verify_erlang_version
+  bin/_verify_rabbitmq_version: bin/_verify_rabbitmq_version
   bin/_wait_for_mnesia_tables: bin/_wait_for_mnesia_tables
   bin/_write_erlang_cookie: bin/_write_erlang_cookie
 

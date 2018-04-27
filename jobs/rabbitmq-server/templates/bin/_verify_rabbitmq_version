@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -e
+
+actual_rabbitmq_version="$(rabbitmqctl eval 'rabbit_misc:version().')"
+expected_rabbitmq_version="${RABBITMQ_SERVER_PACKAGE_VERSION:?must be set}"
+
+[[ $actual_rabbitmq_version == \"$expected_rabbitmq_version\" ]] || (
+  echo "RabbitMQ version '$actual_rabbitmq_version' does not match expected version '$expected_rabbitmq_version'"
+  exit 1
+)
