@@ -65,8 +65,5 @@ else
   echo "$0 will only run on the bootstrap node, ${BOOTSTRAP_NODE_INSTANCE:?must be set}"
 fi
 
-# shellcheck source=jobs/rabbitmq-server/templates/bin/_add_man_pages
-. _add_man_pages
-
 # shellcheck source=jobs/rabbitmq-server/templates/bin/_end
 . _end "rabbitmq-server BOSH job started"

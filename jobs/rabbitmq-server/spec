@@ -282,6 +282,7 @@ templates:
   erl_inetrc.erb: erl_inetrc
 
   bin/drain: bin/drain
+  bin/post-deploy: bin/post-deploy
   bin/post-start: bin/post-start
   bin/start: bin/start
   bin/stop: bin/stop
