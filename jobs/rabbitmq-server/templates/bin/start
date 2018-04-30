@@ -14,7 +14,7 @@ set -e
 exec 1> >(tee -a "${RABBITMQ_LOG_BASE:?must be set}/start.log") 2>&1
 
 # shellcheck source=jobs/rabbitmq-server/templates/bin/_begin
-. _begin "Starting rabbitmq-server BOSH job"
+. _begin "Starting rabbitmq-server"
 
 # RabbitMQ pre-requisites (a.k.a. pre-start)
 # shellcheck source=jobs/rabbitmq-server/templates/bin/_setup_mnesia_dir_and_parent_dir
@@ -66,4 +66,4 @@ else
 fi
 
 # shellcheck source=jobs/rabbitmq-server/templates/bin/_end
-. _end "rabbitmq-server BOSH job started"
+. _end "rabbitmq-server started"
