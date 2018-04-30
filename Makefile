@@ -32,30 +32,6 @@ endef
 
 .DEFAULT_GOAL = help
 
-list_erlangs:
-	@echo "Included Erlang versions: " ; \
-	cd packages && \
-	ls -1d erlang-* && echo
-
-# Use multiple rules for the same target so that we first print, then set ERLANG_VERSION
-erlang_version:: otp
-ifndef ERLANG_TAG
-	@cd otp && git pull --tags && echo -e "\nAdd the following Erlang package to this BOSH release:"
-endif
-erlang_version::
-ifndef ERLANG_TAG
-	$(eval ERLANG_TAG = $(shell cd otp ; select ERLANG_TAG in $$(git tag -l) ; do echo $$ERLANG_TAG ; break ; done))
-endif
-	$(eval ERLANG_VERSION = $(subst OTP-,,$(ERLANG_TAG)))
-	$(eval ERLANG_TGZ = $(ERLANG_TAG).tar.gz)
-
-tmp:
-	@mkdir -p tmp
-
-erlang_tgz: erlang_version tmp
-	@$(WGET) --output-document=tmp/$(ERLANG_TGZ) \
-	  https://github.com/erlang/otp/archive/$(ERLANG_TGZ)
-
 add_erlang: list_erlangs erlang_tgz ## Add new Erlang package
 	@bosh add-blob tmp/$(ERLANG_TGZ) erlang/$(ERLANG_TGZ) && echo && \
 	[ -d packages/erlang-$(ERLANG_VERSION) ] || \
@@ -74,6 +50,50 @@ add_erlang: list_erlangs erlang_tgz ## Add new Erlang package
 	read -rp "7/8 All changes committed & pushed $(CONFIRM)" -n 1 && \
 	echo -e "\nYou might want to run $(BOLD)gmake remove_erlang$(NORMAL)\n"
 
+clean: 	## Clean all dev releases
+	@rm -fr dev_releases
+
+deploy: ## Deploy a RabbitMQ cluster
+	@deploy
+
+deps: 	## What are the required dependencies?
+	@echo "$(DEPS_INFO)"
+
+erlang_tgz: erlang_version tmp
+	@$(WGET) --output-document=tmp/$(ERLANG_TGZ) \
+	  https://github.com/erlang/otp/archive/$(ERLANG_TGZ)
+
+# Use multiple rules for the same target so that we first print, then set ERLANG_VERSION
+erlang_version:: otp
+ifndef ERLANG_TAG
+	@cd otp && git pull --tags && echo -e "\nAdd the following Erlang package to this BOSH release:"
+endif
+erlang_version::
+ifndef ERLANG_TAG
+	$(eval ERLANG_TAG = $(shell cd otp ; select ERLANG_TAG in $$(git tag -l) ; do echo $$ERLANG_TAG ; break ; done))
+endif
+	$(eval ERLANG_VERSION = $(subst OTP-,,$(ERLANG_TAG)))
+	$(eval ERLANG_TGZ = $(ERLANG_TAG).tar.gz)
+
+help:
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-16s\033[0m %s\n", $$1, $$2}'
+
+dev: 	update_submodules
+dev: 	## Create a rabbitmq-server BOSH Dev release
+	@create-dev-release
+
+final: 	update_submodules
+final: 	## Create a rabbitmq-server BOSH Final release - VERSION is required, e.g. VERSION=0.12.0
+	@create-final-release $(VERSION)
+
+list_erlangs:
+	@echo "Included Erlang versions: " ; \
+	cd packages && \
+	ls -1d erlang-* && echo
+
+otp:
+	@git clone https://github.com/erlang/otp.git
+
 remove_erlang::
 ifndef ERLANG_PACKAGE
 	@echo -e "\nWhich Erlang package do you want to remove from this BOSH release?"
@@ -91,31 +111,11 @@ remove_erlang:: ## Remove superseded Erlang package
 	read -rp "3/4 $(BOLD)gmake dev$(NORMAL) succeeded $(CONFIRM)" -n 1 && \
 	read -rp "4/4 All changes committed & pushed $(CONFIRM)" -n 1
 
-clean: 	## Clean all dev releases
-	@rm -fr dev_releases
-
-deps: 	## What are the required dependencies?
-	@echo "$(DEPS_INFO)"
-
-deploy: ## Deploy a RabbitMQ cluster
-	@deploy
-
-help:
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-16s\033[0m %s\n", $$1, $$2}'
-
-dev: 	update_submodules
-dev: 	## Create a rabbitmq-server BOSH Dev release
-	@create-dev-release
-
-final: 	update_submodules
-final: 	## Create a rabbitmq-server BOSH Final release - VERSION is required, e.g. VERSION=0.12.0
-	@create-final-release $(VERSION)
+tmp:
+	@mkdir -p tmp
 
 update: ## Deploy an existing RabbitMQ cluster configuration - CONFIG is optional, it sets the deployment config, e.g. CONFIG=deployment_configurations/rmq-73734-3-7-2.yml
 	@deploy-configuration $(CONFIG)
 
 update_submodules:
 	@git submodule update --init
-
-otp:
-	@git clone https://github.com/erlang/otp.git
