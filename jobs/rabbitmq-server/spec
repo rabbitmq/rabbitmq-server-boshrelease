@@ -317,6 +317,8 @@ templates:
   bin/_wait_for_mnesia_tables: bin/_wait_for_mnesia_tables
   bin/_write_erlang_cookie: bin/_write_erlang_cookie
 
+  ebin/prometheus_vm_system_info_collector.beam: ebin/prometheus_vm_system_info_collector.beam
+
 packages:
 - erlang-17.5.6.9
 - erlang-18.3.4.9
