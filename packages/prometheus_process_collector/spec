@@ -1,0 +1,10 @@
+---
+name: prometheus_process_collector
+
+files:
+- prometheus_process_collector/**/*
+
+# prometheus_process_collector requires Erlang/OTP 18.0 or above
+# If we compile against the min. supported version, it will work on all newer Erlang versions, but it will not work on older version.
+dependencies:
+- erlang-18.3.4.9

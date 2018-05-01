@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -ex
+
+ERLANG_18=(/var/vcap/packages/erlang-18.*)
+ERLANG_HOME=${ERLANG_18[-1]}
+export PATH=$ERLANG_HOME/bin:$PATH
+# erl (1) / erlc (1) require $HOME to be set
+export HOME=/tmp
+
+cd prometheus_process_collector
+./rebar3 archive
+cp prometheus_process_collector-*.ez "${BOSH_INSTALL_TARGET:?must be defined}"

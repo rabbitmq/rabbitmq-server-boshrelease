@@ -33,6 +33,8 @@ exec 1> >(tee -a "${RABBITMQ_LOG_BASE:?must be set}/start.log") 2>&1
 . _install_generic_unix_package
 # shellcheck source=jobs/rabbitmq-server/templates/bin/_add_external_plugins
 . _add_external_plugins
+# shellcheck source=jobs/rabbitmq-server/templates/bin/_add_prometheus_process_collector_plugin
+. _add_prometheus_process_collector_plugin
 # shellcheck source=jobs/rabbitmq-server/templates/bin/_enable_rabbitmq_management_before_rabbitmq_starts
 . _enable_rabbitmq_management_before_rabbitmq_starts
 

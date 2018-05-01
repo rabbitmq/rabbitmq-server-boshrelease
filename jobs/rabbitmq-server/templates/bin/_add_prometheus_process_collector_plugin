@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -e
+
+if ${ERLANG_VERSION_SUPPORTS_PROMETHEUS_PROCESS_COLLECTOR:?must be set}
+then
+  cp "${RABBITMQ_PROMETHEUS_PROCESS_COLLECTOR_DIR:?must be set}"/*.ez \
+    "${RABBITMQ_PLUGINS_DIR:?must be set}"
+else
+  echo "prometheus_process_collector cannot be enabled because it does not support the currently active Erlang version, ${ERLANG_VERSION:?must be set}"
+  echo "prometheus_process_collector requires Erlang/OTP 18.0 or above"
+fi

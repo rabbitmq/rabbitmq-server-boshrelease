@@ -293,6 +293,7 @@ templates:
   bin/_add_user: bin/_add_user
   bin/_add_external_plugins: bin/_add_external_plugins
   bin/_add_man_pages: bin/_add_man_pages
+  bin/_add_prometheus_process_collector_plugin: bin/_add_prometheus_process_collector_plugin
   bin/_add_rabbitmq_server_env_to_global_shell_profile: bin/_add_rabbitmq_server_env_to_global_shell_profile
   bin/_begin: bin/_begin
   bin/_delete_guest_user: bin/_delete_guest_user
@@ -324,6 +325,7 @@ packages:
 - erlang-R16B03
 - looking_glass
 - rabbitmq-plugins
+- prometheus_process_collector
 - rabbitmq-support-tools
 - start-stop-daemon-1.9.18
 
