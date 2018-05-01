@@ -3,11 +3,11 @@
 set -ex
 
 ERLANG_19_3=(/var/vcap/packages/erlang-19.3.*)
-ERLANG_PATH=${ERLANG_19_3[-1]}
+ERLANG_HOME=${ERLANG_19_3[-1]}
 
-export PATH=$ERLANG_PATH/bin:$PATH
-export CFLAGS="-I $ERLANG_PATH/lib/erlang/usr/include"
-export LDFLAGS="-L $ERLANG_PATH/lib/erlang/usr/lib"
+export PATH=$ERLANG_HOME/bin:$PATH
+export CFLAGS="-I $ERLANG_HOME/lib/erlang/usr/include"
+export LDFLAGS="-L $ERLANG_HOME/lib/erlang/usr/lib"
 # erl (1) / erlc (1) require $HOME to be set
 export HOME=/tmp
 
