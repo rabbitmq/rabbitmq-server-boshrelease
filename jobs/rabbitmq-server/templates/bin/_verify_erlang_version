@@ -5,7 +5,7 @@ set -e
 actual_erlang_version="$(which erl)"
 expected_erlang_version="${ERLANG_VERSION:?must be set}"
 
-[[ $actual_erlang_version =~ erlang-$expected_erlang_version/ ]] || (
+[[ $actual_erlang_version =~ erlang-$expected_erlang_version/bin/erl ]] || (
   echo "Erlang version '$actual_erlang_version' does not match expected version '$expected_erlang_version'"
   exit 1
 )
