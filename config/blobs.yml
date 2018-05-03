@@ -22,6 +22,10 @@ erlang/OTP-20.3.4.tar.gz:
   size: 53498611
   object_id: 4a9d23e3-23fb-4c04-6f96-5028a6f147a2
   sha: 886f88aeeee182f0961b43d6d755a14ccdd602e1
+erlang/OTP-20.3.5.tar.gz:
+  size: 53498328
+  object_id: c4e799a1-f900-4794-716a-16fd805adc94
+  sha: 201c980c9cf522d94d743ea0c8bc6c12bda85f6f
 erlang/OTP-21.0-rc1.tar.gz:
   size: 52799127
   object_id: 8ebd17a3-03fb-416b-6dcf-fc6db70491de
