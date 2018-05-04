@@ -9,7 +9,7 @@ set -e
 
 main() {
   log "$(date) ::: v${BOSH_RELEASE_VERSION:?must be set}"
-  if rabbitmq_node_exists
+  if tracked_rabbitmq_server_pid_running
   then
     rabbitmq_node_is_accessible
     RABBITMQ_PID="$(rabbitmq_pid)"
@@ -17,16 +17,16 @@ main() {
     ( stop_erlang_vm && wait_for_erlang_vm_to_stop ) || failed_to_stop_erlang_vm
     log "RabbitMQ node stopped"
   else
-    log "There is no Erlang VM running for $RABBITMQ_NODENAME, no process to stop"
+    log "There is no Erlang VM running for $RABBITMQ_NODENAME that is tracked via PID file ${RABBITMQ_PID_FILE:?must be set}"
   fi
 
   run_stop_since_monit_will_not_run_it_if_no_process_is_found_for_the_pid_that_it_tracks
   signal_success_to_bosh
 }
 
-rabbitmq_node_exists() {
-  log "Is there an Erlang VM for ${RABBITMQ_NODENAME:?must be set} ?"
-  pgrep -fa "beam.*$RABBITMQ_NODENAME" 1>>"${RABBITMQ_LOG_BASE:?must be set}/drain.log" 2>&1
+tracked_rabbitmq_server_pid_running() {
+  log "Is there a running process for the tracked rabbitmq-server PID file $RABBITMQ_PID_FILE ?"
+  ps -o comm=,args= "$(cat "$RABBITMQ_PID_FILE")" 1>>"${RABBITMQ_LOG_BASE:?must be set}/drain.log" 2>&1
 }
 
 rabbitmq_node_is_accessible() {
