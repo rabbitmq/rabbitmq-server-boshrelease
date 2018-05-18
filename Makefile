@@ -80,7 +80,7 @@ help:
 dev: 	## Create a rabbitmq-server BOSH Dev release
 	@create-dev-release
 
-final: 	## Create a rabbitmq-server BOSH Final release - VERSION is required, e.g. VERSION=0.12.0
+final: 	## Create a rabbitmq-server BOSH final release - VERSION is required, e.g. VERSION=0.12.0
 	@create-final-release $(VERSION)
 
 list_erlangs:
@@ -90,6 +90,20 @@ list_erlangs:
 
 otp:
 	@git clone https://github.com/erlang/otp.git
+
+publish_final: ## Publish final rabbitmq-server BOSH release - VERSION is required, e.g. VERSION=0.12.0
+	read -rp "1/8 Update CHANGELOG.md with help from $(BOLD)git changelog$(NORMAL) $(CONFIRM)" -n 1 && \
+	read -rp "2/8 All changes committed & pushed $(CONFIRM)" -n 1 && \
+	git tag -s v$(VERSION) && git push --tags && \
+	read -rp "3/8 Use the latest CHANGELOG.md entry for the tag message $(CONFIRM)" -n 1 && \
+	open https://github.com/rabbitmq/rabbitmq-server-boshrelease/releases/new?tag=v$(VERSION) && \
+	shasum releases/rabbitmq-server/rabbitmq-server-$(VERSION).tgz > releases/rabbitmq-server/rabbitmq-server-$(VERSION).sha1 && \
+	open releases/rabbitmq-server && \
+	read -rp "4/8 Final release tarball uploaded $(CONFIRM)" -n 1 && \
+	read -rp "5/8 Final release SHA1 uploaded $(CONFIRM)" -n 1 && \
+	read -rp "6/8 Use the latest CHANGELOG.md entry for title & release notes $(CONFIRM)" -n 1 && \
+	read -rp "7/8 Final release SHA1 added to to release notes $(CONFIRM)" -n 1 && \
+	read -rp "8/8 Final release published $(CONFIRM)" -n 1
 
 remove_erlang::
 ifndef ERLANG_PACKAGE
