@@ -1,6 +1,7 @@
 [submodule "src/support-tools"]
 	path = src/support-tools
 	url = https://github.com/rabbitmq/support-tools
-[submodule "src/prometheus_process_collector"]
-	path = src/prometheus_process_collector
-	url = https://github.com/deadtrickster/prometheus_process_collector
+[submodule "src/prometheus.erl"]
+	path = src/prometheus.erl
+	url = https://github.com/deadtrickster/prometheus.erl
+	branch = v3

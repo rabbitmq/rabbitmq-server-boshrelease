@@ -10,8 +10,6 @@ BOLD := $(shell tput bold)
 NORMAL := $(shell tput sgr0)
 CONFIRM := (press any key to confirm) 
 
-PROMETHEUS_PROCESS_COLLECTOR_VERSION := v1.3.1
-
 define DEPS_INFO
  _______________________________________________________
 |
@@ -79,11 +77,9 @@ endif
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-16s\033[0m %s\n", $$1, $$2}'
 
-dev: 	update_submodules
 dev: 	## Create a rabbitmq-server BOSH Dev release
 	@create-dev-release
 
-final: 	update_submodules
 final: 	## Create a rabbitmq-server BOSH Final release - VERSION is required, e.g. VERSION=0.12.0
 	@create-final-release $(VERSION)
 
@@ -109,7 +105,7 @@ remove_erlang:: ## Remove superseded Erlang package
 	git rm -r packages/$(ERLANG_PACKAGE) && echo && \
 	read -rp "1/5 Remove package from $(BOLD)jobs/rabbitmq-server/spec$(NORMAL) $(CONFIRM)" -n 1 && \
 	read -rp "2/5 Maybe update package dependency in $(BOLD)packages/looking_glass/spec$(NORMAL) $(CONFIRM)" -n 1 && \
-	read -rp "3/5 Maybe update package dependency in $(BOLD)packages/prometheus_process_collector/spec$(NORMAL) $(CONFIRM)" -n 1 && \
+	read -rp "3/5 Maybe update package dependency in $(BOLD)packages/prometheus.erl/spec$(NORMAL) $(CONFIRM)" -n 1 && \
 	read -rp "4/5 $(BOLD)gmake dev$(NORMAL) succeeded $(CONFIRM)" -n 1 && \
 	read -rp "5/5 All changes committed & pushed $(CONFIRM)" -n 1
 
@@ -118,11 +114,3 @@ tmp:
 
 update: ## Deploy an existing RabbitMQ cluster configuration - CONFIG is optional, it sets the deployment config, e.g. CONFIG=deployment_configurations/rmq-73734-3-7-2.yml
 	@deploy-configuration $(CONFIG)
-
-update-prometheus_process_collector: update_submodules
-	@cd src/prometheus_process_collector && \
-	git pull origin master && \
-	git checkout $(PROMETHEUS_PROCESS_COLLECTOR_VERSION)
-
-update_submodules:
-	@git submodule update --init
