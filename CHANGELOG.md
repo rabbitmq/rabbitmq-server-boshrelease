@@ -1,3 +1,46 @@
+## v0.14.0, released 2018-05-18
+
+### Configuration
+
+* Default channel_max to the latest default, [2048](https://github.com/rabbitmq/rabbitmq-server/pull/1594)
+* Do not enable rabbitmq_management when enabling specific plugins
+
+### Operations
+
+* Add Prometheus integration by default, for RabbitMQ 3.6.x & 3.7.x - #48
+* Enable Erlang Shell History - #47
+* Always enable core dumps
+* Only enable looking_glass is Erlang/OTP version >= 19
+* Fix RabbitMQ node running check in drain script
+* Do not try to stop EPMD processes that are not ours
+* Store generic-unix tgz on the data disk, at a fixed path (avoids unnecessary re-downloading)
+* Run stop part of the drain script ([monit gotcha](https://github.com/cloudfoundry/bosh/issues/1914))
+* Template BOSH release version, do not hard-code
+* Check RabbitMQ & Erlang/OTP versions after rabbitmq-server starts
+* Check if RabbitMQ man pages installed correctly
+* Add RabbitMQ node IPs to deploy output (useful for `cf cups`) - #51
+* Add make target for publishing final BOSH release: `publish_final`
+
+### Artefacts
+
+* Default RabbitMQ to v3.7.5
+* Add new Erlang/OTP versions
+  * **v20.3.6** - default
+  * v21.0-rc.1 - testing purposes only, RabbitMQ 3.7.0 - 3.7.5 are not compatible
+  * v19.3.6.9
+  * v18.3.4.9
+* Remove superseded Erlang/OTP versions
+  * v20.3.2
+  * v19.3.6.8
+  * v18.3.4.8
+* Update [routing-release to v0.176.0](https://github.com/cloudfoundry/routing-release/releases/tag/0.176.0)
+
+```
+sha1: 185a12da3610b207f00223666f44da9663b3e7fb
+```
+
+
+
 ## v0.13.0, released 2018-04-13
 
 ### Configuration
@@ -41,6 +84,8 @@
 * Include OTP source in all Erlang packages - simplifies debugging
 * Update [routing-release to v0.174.0](https://github.com/cloudfoundry/routing-release/releases/tag/0.174.0)
 
+
+
 ## v0.12.0, released 2018-01-11
 
 * Add a single point of entry to all scripts: `make` (GNU preferred)
@@ -64,6 +109,7 @@
   * 18.3.4.5
 
 
+
 ## v0.11.0, released 2017-10-11
 
 * Allow deployment configurations to be deployed directly, e.g. `./script/deploy-configuration deployment_configurations/rmq-lg.yml`
@@ -81,6 +127,8 @@
 * Add tmux to all deployments
 * Make all VMs preemptible (saves about ~70% on cost)
 
+
+
 ## v0.10.0, released 2017-09-11
 
 * Make release bosh cli v2 compatible
@@ -93,10 +141,14 @@
 * Add Erlang 20.0.4
 * Remove all unused Erlang versions - they were pre-compiled using Docker and were not as useful anymore
 
+
+
 ## v0.9.0, released 2017-07-27
 
 * Add Erlang 20.0.2
 * Make RABBITMQ_DISTRIBUTION_BUFFER_SIZE configurable
+
+
 
 ## v0.8.0, released 2017-07-12
 
@@ -108,18 +160,26 @@
 * Wait for mnesia tables before setting the cluster name
 * Change ownership recursively
 
+
+
 ## v0.7.0, released 2017-06-22
 
 * Add Erlang 20.0
+
+
 
 ## v0.6.0, released 2017-06-08
 
 * Add Erlang 19.3.6
 
+
+
 ## v0.5.0, released 2017-06-08
 
 * Add option to deploy with Erlang 19.3.5
 * Default nodes to t2.small
+
+
 
 ## v0.4.0, released 2017-06-06
 
@@ -133,6 +193,8 @@
 * Update to latest stemcell, AWS Xen-HVM 3421.4
 * Update datadog-agent to 5.8.5.5
 
+
+
 ## v0.3.0, released 2017-05-08
 
 * add option to deploy with Erlang 18.3.4.4
@@ -145,11 +207,15 @@
 * automate setup on OS X
 * delete deployment command
 
+
+
 ## v0.2.0, released 2017-03-23
 
 * deploy any RabbitMQ v3.7 version
 * support gz generic UNIX artefacts
 * deploy any RabbitMQ v3.5 version - cluster will form but arbitrary node restarts will fail
+
+
 
 ## v0.1.0, released 2017-03-21
 
