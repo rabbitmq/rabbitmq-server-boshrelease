@@ -3,5 +3,4 @@
 	url = https://github.com/rabbitmq/support-tools
 [submodule "src/prometheus.erl"]
 	path = src/prometheus.erl
-	url = https://github.com/gerhard/prometheus.erl
-	branch = v3
+	url = https://github.com/gerhard/prometheus.erl.git
