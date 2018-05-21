@@ -2,18 +2,8 @@
 
 set -o pipefail
 
-[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-releases_path="$1"
-if [ ! -d "$releases_path" ]
-then
-  releases_path=("$SCRIPT"/../{dev_releases,releases}/rabbitmq-server)
-fi
-
-find "${releases_path[@]}" -type f -name 'rabbitmq-server-*.yml' |
-  sort -r |
+git tag --sort=-v:refname |
   while read -r rmq_bosh_release
   do
-    rmq_bosh_release_no_ext="${rmq_bosh_release%.yml}"
-    echo "${rmq_bosh_release_no_ext##*/rabbitmq-server-}"
+    echo "${rmq_bosh_release/v/}"
   done
