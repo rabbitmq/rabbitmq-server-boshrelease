@@ -56,7 +56,7 @@ instance_groups:
         channel_max: 2048
         cluster_keepalive_interval: 10000
         cluster_partition_handling: ignore
-        collect_statistics: none
+        collect_statistics: fine
         collect_statistics_interval: 5000
         credit_flow_default_credit: '{400, 200}'
         create_demo_user: false

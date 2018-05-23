@@ -81,7 +81,8 @@ properties:
         * none (do not emit statistics events)
         * coarse (emit per-queue / per-channel / per-connection statistics)
         * fine (also emit per-message statistics)
-    default: none
+      Since rabbitmq_management is enabled by default, this property should be set to fine, as per the rabbitmq_management_agent ensure_statistics_enabled boot step https://github.com/rabbitmq/rabbitmq-management-agent/blob/master/src/rabbit_mgmt_db_handler.erl#L66
+    default: fine
   rabbitmq-server.collect_statistics_interval:
     description: 'Statistics collection interval in milliseconds'
     default: 5000
