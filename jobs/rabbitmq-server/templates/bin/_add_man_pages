@@ -2,12 +2,14 @@
 
 set -e
 
+MANPATH_DESTINATION=/usr/local/man
+
 ensure_rabbitmq_man_pages_installed() {
-  man -k rabbitmq
+  apropos --manpath="$MANPATH_DESTINATION" rabbitmq
 }
 
 mandb_is_setup_correctly() {
-  which mandb && [ -d /usr/local/share/man ]
+  which mandb && [ -d "$MANPATH_DESTINATION" ]
 }
 
 add_rabbitmq_man_pages_to_system_mandb() {
@@ -15,8 +17,8 @@ add_rabbitmq_man_pages_to_system_mandb() {
     cd "${RABBITMQ_SERVER_JOB_PACKAGE:?must be set}/share/man"
     for _man in man*
     do
-      mkdir -p "/usr/local/share/man/$_man"
-      cp -f "$_man"/* "/usr/local/share/man/$_man/"
+      mkdir -p "${MANPATH_DESTINATION}/$_man"
+      cp -f "$_man"/* "${MANPATH_DESTINATION}/$_man/"
     done
   )
 }
@@ -31,5 +33,5 @@ then
   update_system_mandb
   ensure_rabbitmq_man_pages_installed
 else
-  echo "mandb & /usr/local/share/man don't seem to be setup correctly, skipping RabbitMQ man pages setup"
+  echo "mandb & $MANPATH_DESTINATION don't seem to be setup correctly, skipping RabbitMQ man pages setup"
 fi
