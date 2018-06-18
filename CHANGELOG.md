@@ -2,7 +2,7 @@
 
 ### Configuration
 
-* Default channel_max to the latest default, [2048](https://github.com/rabbitmq/rabbitmq-server/pull/1594)
+* Default channel_max to the new default, [2048](https://github.com/rabbitmq/rabbitmq-server/pull/1594)
 * Do not enable rabbitmq_management when enabling specific plugins
 
 ### Operations
