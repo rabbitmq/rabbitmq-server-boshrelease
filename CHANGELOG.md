@@ -10,7 +10,7 @@
 * Add Prometheus integration by default, for RabbitMQ 3.6.x & 3.7.x - #48
 * Enable Erlang Shell History - #47
 * Always enable core dumps
-* Only enable looking_glass is Erlang/OTP version >= 19
+* Only enable looking_glass if Erlang/OTP version >= 19
 * Fix RabbitMQ node running check in drain script
 * Do not try to stop EPMD processes that are not ours
 * Store generic-unix tgz on the data disk, at a fixed path (avoids unnecessary re-downloading)
