@@ -94,8 +94,8 @@ otp:
 publish_final: ## Publish final rabbitmq-server BOSH release - VERSION is required, e.g. VERSION=0.12.0
 	@read -rp "1/8 Update CHANGELOG.md with help from $(BOLD)git changelog$(NORMAL) $(CONFIRM)" -n 1 && \
 	read -rp "2/8 All changes committed & pushed $(CONFIRM)" -n 1 && \
-	git tag -s v$(VERSION) && git push --tags && \
 	read -rp "3/8 Use the latest CHANGELOG.md entry for the tag message $(CONFIRM)" -n 1 && \
+	git tag -s v$(VERSION) && git push --tags && \
 	open https://github.com/rabbitmq/rabbitmq-server-boshrelease/releases/new?tag=v$(VERSION) && \
 	shasum releases/rabbitmq-server/rabbitmq-server-$(VERSION).tgz > releases/rabbitmq-server/rabbitmq-server-$(VERSION).sha1 && \
 	open releases/rabbitmq-server && \
