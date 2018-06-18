@@ -70,7 +70,7 @@ rabbitmq-plugins/3.7/prometheus_httpd-2.1.8.ez:
   size: 22055
   object_id: 0ba0cc12-b4ab-4018-7445-1ceaf85e7341
   sha: 681e8d181ea4b032b0bef7ef0125145ce281b12c
-rabbitmq-plugins/3.7/prometheus_rabbitmq_exporter-v3.7.2.1.ez:
-  size: 215171
-  object_id: 895d0293-1a7c-49b7-6cba-94a98ce63ccf
-  sha: f58e6b4f65e7243848871b374de283916e80ba18
+rabbitmq-plugins/3.7/prometheus_rabbitmq_exporter-v3.7.2.2.ez:
+  size: 215891
+  object_id: e368950e-bd10-4ab5-5660-1abd32e2ce93
+  sha: d6a817d8bd655b41f73c234262e785af41ed18ee
