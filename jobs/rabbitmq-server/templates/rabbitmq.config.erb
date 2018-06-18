@@ -813,15 +813,30 @@ log_levels = p("rabbitmq-server.log_levels")
    %% {tag_queries, []}
   ]},
 
- %% ----------------------------------------------------------------------------
- %% RabbitMQ Trust Store
- %%
- %% See https://github.com/rabbitmq/rabbitmq-trust-store
- %% ----------------------------------------------------------------------------
+    %% ----------------------------------------------------------------------------
+    %% RabbitMQ Trust Store
+    %%
+    %% See https://github.com/rabbitmq/rabbitmq-trust-store
+    %% ----------------------------------------------------------------------------
 
-  {rabbitmq_trust_store,
-      [
-          {directory, "<%= p("rabbitmq-trust-store.directory") %>"}
-      ]
-  }
+    {rabbitmq_trust_store,
+         [
+             {directory, "<%= p("rabbitmq-trust-store.directory") %>"}
+         ]
+    },
+
+    %% ----------------------------------------------------------------------------
+    %% Prometheus RabbitMQ Exporter
+    %%
+    %% See https://github.com/deadtrickster/prometheus_rabbitmq_exporter
+    %% ----------------------------------------------------------------------------
+
+    {prometheus, [
+        {rabbitmq_exporter,
+            [
+                {connections_total_enabled, <%= p("prometheus_rabbitmq_exporter.connections_total_enabled") %>},
+                {memory_stat_enabled, <%= p("prometheus_rabbitmq_exporter.memory_stat_enabled") %>}
+            ]
+        }
+    ]}
 ].

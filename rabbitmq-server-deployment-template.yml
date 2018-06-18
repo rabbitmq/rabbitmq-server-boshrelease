@@ -94,6 +94,9 @@ instance_groups:
         rates_mode: basic
       rabbitmq-trust-store:
         directory: /var/vcap/store/rabbitmq-server/trust-store/whitelist
+      prometheus_rabbitmq_exporter:
+        connections_total_enabled: false
+        memory_stat_enabled: false
   networks:
   - name: ((rmq_network))
   azs:
