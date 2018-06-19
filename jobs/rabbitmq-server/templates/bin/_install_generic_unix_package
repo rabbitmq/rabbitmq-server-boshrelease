@@ -24,6 +24,7 @@ true "${RABBITMQ_SERVER_PACKAGE:?must be set}"
     ;;
   esac
 
-  cp -fr "rabbitmq_server-${RABBITMQ_SERVER_PACKAGE_VERSION:?must be set}" \
-    "${RABBITMQ_SERVER_JOB_PACKAGE:?must be set}"
+  rm --force --recursive "${RABBITMQ_SERVER_JOB_PACKAGE:?must be set}"
+  cp --force --recursive "rabbitmq_server-${RABBITMQ_SERVER_PACKAGE_VERSION:?must be set}" \
+    "$RABBITMQ_SERVER_JOB_PACKAGE"
 )
