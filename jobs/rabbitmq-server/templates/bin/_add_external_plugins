@@ -2,5 +2,9 @@
 
 set -e
 
-cp "${RABBITMQ_THIRD_PARTY_PLUGINS_DIR:?must be set}/$(_rabbitmq_major_minor)"/*.ez \
-  "${RABBITMQ_PLUGINS_DIR:?must be set}"
+if [ -d "${RABBITMQ_THIRD_PARTY_PLUGINS_DIR:?must be set}/$(_rabbitmq_major_minor)" ]
+then
+  cp "$RABBITMQ_THIRD_PARTY_PLUGINS_DIR/$(_rabbitmq_major_minor)"/*.ez "${RABBITMQ_PLUGINS_DIR:?must be set}"
+else
+  echo "No plugins found in $RABBITMQ_THIRD_PARTY_PLUGINS_DIR/$(_rabbitmq_major_minor)"
+fi
