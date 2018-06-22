@@ -335,6 +335,7 @@ packages:
 - erlang-19.3.6.9
 - erlang-20.3.8
 - erlang-21.0-rc2
+- erlang-21.0
 - erlang-R16B03
 - looking_glass
 - rabbitmq-plugins
