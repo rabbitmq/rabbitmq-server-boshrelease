@@ -2,7 +2,7 @@
 
 set -e
 
-true "${RABBITMQ_SERVER_PACKAGE:?must be set}"
+mkdir -p "${RABBITMQ_SERVER_PACKAGE:?must be set}"
 
 (
   cd "${RABBITMQ_SERVER_PACKAGE%/*}"
