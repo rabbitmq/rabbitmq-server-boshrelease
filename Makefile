@@ -28,6 +28,7 @@ endef
 
 WGET := /usr/local/bin/wget
 GET := wget --continue --show-progress
+SED := /usr/local/bin/gsed
 
 ### TARGETS ###
 #
@@ -37,11 +38,14 @@ GET := wget --continue --show-progress
 $(WGET):
 	@brew install wget
 
-add_erlang: list_erlangs erlang_tgz ## Add new Erlang package
+$(SED):
+	@brew install gnu-sed
+
+add_erlang: list_erlangs erlang_tgz $(SED) ## Add new Erlang package
 	@bosh add-blob tmp/$(ERLANG_TGZ) erlang/$(ERLANG_TGZ) && echo && \
 	[ -d packages/erlang-$(ERLANG_VERSION) ] || \
 	  cp -r $(shell ls -d packages/erlang-2* | tail -n 1) packages/erlang-$(ERLANG_VERSION) ; echo ; \
-	gsed --in-place --regexp-extended --expression \
+	$(SED) --in-place --regexp-extended --expression \
 	  's/erlang-.+/erlang-$(ERLANG_VERSION)/g ; s/OTP-.*.tar.gz/$(ERLANG_TGZ)/g' \
 	  packages/erlang-$(ERLANG_VERSION)/spec && echo && \
 	git add packages/erlang-$(ERLANG_VERSION) && echo && \
