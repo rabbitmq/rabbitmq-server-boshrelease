@@ -39,6 +39,7 @@ configure() {
   ./configure --prefix="${BOSH_INSTALL_TARGET:?must be defined}" \
     --enable-hipe \
     --enable-lock-counter \
+    --with-microstate-accounting=extra \
     --disable-sctp \
     $configure_flags
 }
