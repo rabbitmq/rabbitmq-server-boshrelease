@@ -33,7 +33,9 @@ instance_groups:
 - name: rmq
   instances: ((rmq_nodes_count))
   vm_type: ((rmq_vm_type))
-  vm_extensions: [preemptible]
+  vm_extensions:
+  - preemptible
+  - 50GB_ephemeral_disk
   persistent_disk_type: ((rmq_persistent_disk_type))
   env:
     bosh:
