@@ -77,10 +77,10 @@ endif
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-16s\033[0m %s\n", $$1, $$2}'
 
-dev: 	## Create a rabbitmq-server BOSH Dev release
+dev: 	submodules ## Create a rabbitmq-server BOSH Dev release
 	@create-dev-release
 
-final: 	## Create a rabbitmq-server BOSH final release - VERSION is required, e.g. VERSION=0.12.0
+final: 	submodules ## Create a rabbitmq-server BOSH final release - VERSION is required, e.g. VERSION=0.12.0
 	@create-final-release $(VERSION)
 
 list_erlangs:
@@ -128,3 +128,6 @@ tmp:
 
 update: ## Deploy an existing RabbitMQ cluster configuration - CONFIG is optional, it sets the deployment config, e.g. CONFIG=deployment_configurations/rmq-73734-3-7-2.yml
 	@deploy-configuration $(CONFIG)
+
+submodules:
+	@git submodule update --init
