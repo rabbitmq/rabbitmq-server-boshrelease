@@ -4,7 +4,6 @@ SHELL := bash# we want bash behaviour in all shell invocations
 #
 export PATH 	:= $(CURDIR)/script:$(PATH)
 
-WGET := wget --continue --show-progress
 
 BOLD := $(shell tput bold)
 NORMAL := $(shell tput sgr0)
@@ -27,10 +26,16 @@ define DEPS_INFO
 |
 endef
 
+WGET := /usr/local/bin/wget
+GET := wget --continue --show-progress
+
 ### TARGETS ###
 #
 
 .DEFAULT_GOAL = help
+
+$(WGET):
+	@brew install wget
 
 add_erlang: list_erlangs erlang_tgz ## Add new Erlang package
 	@bosh add-blob tmp/$(ERLANG_TGZ) erlang/$(ERLANG_TGZ) && echo && \
@@ -58,8 +63,8 @@ deploy: ## Deploy a RabbitMQ cluster
 deps: 	## What are the required dependencies?
 	@echo "$(DEPS_INFO)"
 
-erlang_tgz: erlang_version tmp
-	@$(WGET) --output-document=tmp/$(ERLANG_TGZ) \
+erlang_tgz: erlang_version tmp $(WGET)
+	@$(GET) --output-document=tmp/$(ERLANG_TGZ) \
 	  https://github.com/erlang/otp/archive/$(ERLANG_TGZ)
 
 # Use multiple rules for the same target so that we first print, then set ERLANG_VERSION
