@@ -89,7 +89,7 @@ help:
 dev: 	submodules ## Create a rabbitmq-server BOSH Dev release
 	@create-dev-release
 
-final: 	submodules ## Create a rabbitmq-server BOSH final release - VERSION is required, e.g. VERSION=0.12.0
+final: 	submodules ## Create a rabbitmq-server BOSH final release - VERSION is required, e.g. VERSION=0.15.0
 	@create-final-release $(VERSION)
 
 list_erlangs:
@@ -100,7 +100,7 @@ list_erlangs:
 otp:
 	@git clone https://github.com/erlang/otp.git
 
-publish_final: ## Publish final rabbitmq-server BOSH release - VERSION is required, e.g. VERSION=0.12.0
+publish_final: ## Publish final rabbitmq-server BOSH release - VERSION is required, e.g. VERSION=0.15.0
 	@read -rp "1/8 Update CHANGELOG.md with help from $(BOLD)git changelog$(NORMAL) $(CONFIRM)" -n 1 && \
 	read -rp "2/8 All changes committed & pushed $(CONFIRM)" -n 1 && \
 	read -rp "3/8 Use the latest CHANGELOG.md entry for the tag message $(CONFIRM)" -n 1 && \
