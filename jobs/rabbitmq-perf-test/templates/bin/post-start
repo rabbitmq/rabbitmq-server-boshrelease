@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -ex
+
+cat > /etc/profile.d/observer_cli.sh <<EOF
+export PATH="/var/vcap/jobs/rabbitmq-perf-test/bin:\$PATH"
+EOF

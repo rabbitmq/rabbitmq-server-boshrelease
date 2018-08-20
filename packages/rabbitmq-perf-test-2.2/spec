@@ -1,0 +1,6 @@
+---
+name: rabbitmq-perf-test-2.2
+files:
+- rabbitmq-perf-test-2.2.0.RC1-bin.tar.gz
+dependencies:
+- java-jre-1.8

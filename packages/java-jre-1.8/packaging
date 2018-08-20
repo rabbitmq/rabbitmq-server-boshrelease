@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -ex
+
+cd java
+tar xzvf jre-8u181-*.tar.gz
+cp -R jre1.8.0_181/* "${BOSH_INSTALL_TARGET:?must be defined}"

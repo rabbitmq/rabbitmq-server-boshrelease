@@ -1,0 +1,5 @@
+---
+name: java-jre-1.8
+files:
+- java/jre-8u181-linux-x64.tar.gz
+dependencies: []

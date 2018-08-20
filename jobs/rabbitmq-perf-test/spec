@@ -1,0 +1,11 @@
+# vim: set filetype=yaml :
+---
+name: rabbitmq-perf-test
+
+templates:
+  bin/post-start: bin/post-start
+  bin/perftest: bin/perftest
+
+packages:
+- java-jre-1.8
+- rabbitmq-perf-test-2.2

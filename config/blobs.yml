@@ -26,10 +26,18 @@ erlang/OTP-R16B03-1.tar.gz:
   size: 32821912
   object_id: e9af9f9a-ce56-4623-63da-227843523655
   sha: a52b93ce3faa4be148b0b5b2f4fc51093f0813bc
+java/jre-8u181-linux-x64.tar.gz:
+  size: 81191893
+  object_id: b838ee6d-f735-4c3f-70de-1a450b40d8dc
+  sha: c7e8984aa2a0a4119908d112427876415f3ddbbc
 observer_cli-1.2.1.tar.gz:
   size: 700973
   object_id: a7ced4ec-5aeb-4a51-450b-63a68b61e8e4
   sha: 688b340abc67ddc1b27ff1f224978896c8c6d6f3
+rabbitmq-perf-test-2.2.0.RC1-bin.tar.gz:
+  size: 4762833
+  object_id: 121b5265-e245-45ae-6e74-1dd95ed82e57
+  sha: ab27ac3c30e9a525a457c010e44c853f4881fea2
 rabbitmq-plugins/3.6/accept-0.3.3.ez:
   size: 13625
   object_id: 7cf850e3-ad75-4cdb-487e-11c484765e2a
