@@ -3,12 +3,12 @@
 name: periodic_shutdown
 
 templates:
-  bin/__periodic_shutdown-setup_run_dir: bin/__periodic_shutdown-setup_run_dir
-  bin/__periodic_shutdown-setup_log_dir: bin/__periodic_shutdown-setup_log_dir
-  bin/__periodic_shutdown-shutdown_rabbitmq_nodes_every_n_seconds: bin/__periodic_shutdown-shutdown_rabbitmq_nodes_every_n_seconds
-  bin/__periodic_shutdown-log: bin/__periodic_shutdown-log
-  bin/start: bin/start
-  bin/stop: bin/stop
+  bin/_periodic_shutdown-setup_run_dir: bin/_periodic_shutdown-setup_run_dir
+  bin/_periodic_shutdown-setup_log_dir: bin/_periodic_shutdown-setup_log_dir
+  bin/_periodic_shutdown-shutdown_rabbitmq_nodes_every_n_seconds: bin/_periodic_shutdown-shutdown_rabbitmq_nodes_every_n_seconds
+  bin/_periodic_shutdown-log: bin/_periodic_shutdown-log
+  bin/_periodic_shutdown-start: bin/_periodic_shutdown-start
+  bin/_periodic_shutdown-stop: bin/_periodic_shutdown-stop
 
   debug.erb: debug
   env.erb: env

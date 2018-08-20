@@ -8,7 +8,7 @@ When the job starts, it does the following:
 * it waits for the interval to expire
 * it shuts down the second node
 
-It continue this cycle until it reaches the last node in the cluster,
+It continues this cycle until it reaches the last node in the cluster,
 and then it starts all over again.
 
 If this job is restarted, the cycle starts from the first node.

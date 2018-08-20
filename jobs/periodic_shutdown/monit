@@ -1,5 +1,5 @@
 check process periodic_shutdown
   with pidfile /var/vcap/sys/run/periodic_shutdown/pid
-  start program /var/vcap/jobs/periodic_shutdown/bin/start
-  stop program /var/vcap/jobs/periodic_shutdown/bin/stop
+  start program /var/vcap/jobs/periodic_shutdown/bin/_periodic_shutdown-start
+  stop program /var/vcap/jobs/periodic_shutdown/bin/_periodic_shutdown-stop
   group vcap
