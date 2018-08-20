@@ -1,0 +1,5 @@
+check process stress_metrics
+  with pidfile /var/vcap/sys/run/stress_metrics/pid
+  start program /var/vcap/jobs/stress_metrics/bin/_stress_metrics-start
+  stop program /var/vcap/jobs/stress_metrics/bin/_stress_metrics-stop
+  group vcap

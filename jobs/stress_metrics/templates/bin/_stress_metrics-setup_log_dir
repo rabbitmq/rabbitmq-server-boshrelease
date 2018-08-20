@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -e
+
+mkdir -p "${STRESS_METRICS_LOG_DIR:?must be set}"
+chown -fR "${RABBITMQ_SERVICE_USER:?must be set}":"${RABBITMQ_SERVICE_GROUP:?must be set}" "$STRESS_METRICS_LOG_DIR"

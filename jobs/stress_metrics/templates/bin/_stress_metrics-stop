@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -e
+
+# shellcheck source=/dev/null
+. /var/vcap/jobs/stress_metrics/debug
+# shellcheck source=/dev/null
+. /var/vcap/jobs/stress_metrics/env
+# shellcheck source=/dev/null
+. "${RABBITMQ_ENV:?must de set}"
+
+# log stderr
+exec 2> >(tee -a "${STRESS_METRICS_LOG_DIR:?must be set}/messages.log")
+
+_stress_metrics-log "stop" "RUNNING"
+
+if [ -f "${STRESS_METRICS_PID_FILE:?must be set}" ]
+then
+  _pid="$(cat "$STRESS_METRICS_PID_FILE")"
+  if [ -n "$_pid" ] && ps "$_pid" &>/dev/null
+  then
+    # shellcheck disable=SC2046
+    pkill --pgroup $(ps eo pgrp= "$_pid")
+  fi
+fi
+
+rm -f "$STRESS_METRICS_PID_FILE"
+
+_stress_metrics-log "stop" "OK"

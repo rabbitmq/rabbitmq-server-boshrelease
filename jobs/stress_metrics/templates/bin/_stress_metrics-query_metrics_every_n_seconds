@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+set -e
+
+_stress_metrics-log "query_metrics_every_n_seconds" "RUNNING"
+
+RABBITMQ_API_BASE_URL="http://127.0.0.1:15672/api"
+RABBITMQ_API_USER_PASS="${RABBITMQ_ADMIN_USER:?must be set}:${RABBITMQ_ADMIN_PASS:?must be set}"
+RESPONSE_LOG_FORMAT='response:%{http_code} connect:%{time_connect}s first_byte:%{time_starttransfer}s total:%{time_total}s body:%{size_download}b\n'
+
+while true
+do
+    _stress_metrics-log "query_metrics_every_n_seconds" \
+      "Querying in ${STRESS_METRICS_INTERVAL_IN_SECONDS:?must be set} seconds..."
+
+    sleep "$STRESS_METRICS_INTERVAL_IN_SECONDS"
+
+    _stress_metrics-log "query_metrics_every_n_seconds - node" \
+      "$(curl --write-out "${RESPONSE_LOG_FORMAT:?must be set}" --silent --output /dev/null --user "${RABBITMQ_API_USER_PASS:?must be set}"  "${RABBITMQ_API_BASE_URL:?must be set}/nodes/rabbit%40${RABBITMQ_NODENAME#*@}")"
+    _stress_metrics-log "query_metrics_every_n_seconds - overview" \
+      "$(curl --write-out "${RESPONSE_LOG_FORMAT:?must be set}" --silent --output /dev/null --user "${RABBITMQ_API_USER_PASS:?must be set}"  "${RABBITMQ_API_BASE_URL:?must be set}/overview")"
+    _stress_metrics-log "query_metrics_every_n_seconds - connections" \
+      "$(curl --write-out "${RESPONSE_LOG_FORMAT:?must be set}" --silent --output /dev/null --user "${RABBITMQ_API_USER_PASS:?must be set}"  "${RABBITMQ_API_BASE_URL:?must be set}/connections")"
+    _stress_metrics-log "query_metrics_every_n_seconds - channels" \
+      "$(curl --write-out "${RESPONSE_LOG_FORMAT:?must be set}" --silent --output /dev/null --user "${RABBITMQ_API_USER_PASS:?must be set}"  "${RABBITMQ_API_BASE_URL:?must be set}/channels")"
+    _stress_metrics-log "query_metrics_every_n_seconds - vhosts" \
+      "$(curl --write-out "${RESPONSE_LOG_FORMAT:?must be set}" --silent --output /dev/null --user "${RABBITMQ_API_USER_PASS:?must be set}"  "${RABBITMQ_API_BASE_URL:?must be set}/vhosts")"
+    _stress_metrics-log "query_metrics_every_n_seconds - / exchanges" \
+      "$(curl --write-out "${RESPONSE_LOG_FORMAT:?must be set}" --silent --output /dev/null --user "${RABBITMQ_API_USER_PASS:?must be set}"  "${RABBITMQ_API_BASE_URL:?must be set}/exchanges/%2F")"
+    _stress_metrics-log "query_metrics_every_n_seconds - / queues" \
+      "$(curl --write-out "${RESPONSE_LOG_FORMAT:?must be set}" --silent --output /dev/null --user "${RABBITMQ_API_USER_PASS:?must be set}"  "${RABBITMQ_API_BASE_URL:?must be set}/queues/%2F")"
+done
+
+_stress_metrics-log "query_metrics_every_n_seconds" "OK"
