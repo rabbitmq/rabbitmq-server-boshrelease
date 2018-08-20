@@ -29,8 +29,6 @@ cf_apps_domain: $CF_APPS_DOMAIN
 
 erlang_version: $ERLANG_VERSION
 erlang_cookie: $ERLANG_COOKIE
-
-datadog_api_key: $DATADOG_API_KEY
 EOF
 
 echo "
