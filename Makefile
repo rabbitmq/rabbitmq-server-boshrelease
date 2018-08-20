@@ -19,7 +19,7 @@ define DEPS_INFO
 |
 |    * bosh cli v2 - https://bosh.io/docs/cli-v2.html
 |    * jq - https://github.com/stedolan/jq
-|    * yq - https://github.com/abesto/yq
+|    * yaml2json - https://github.com/bronze1man/yaml2json
 |    * lpass cli - https://github.com/lastpass/lastpass-cli
 |
 |  You're now ready to BOSH some RabbitMQ clusters

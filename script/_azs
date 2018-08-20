@@ -3,4 +3,6 @@
 set -o pipefail
 
 bosh cloud-config |
-  yq -r '.networks[] | select(.name == "'"${RMQ_NETWORK:?must be defined}"'") | .subnets[].az'
+  yaml2json |
+  jq -r '.networks[] | select(.name == "'"${RMQ_NETWORK:?must be defined}"'") | .subnets[].azs' |
+  jq -r '.[]'

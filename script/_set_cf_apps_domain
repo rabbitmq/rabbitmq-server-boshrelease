@@ -11,7 +11,8 @@ if [[ "$CF_DEPLOYMENT" != "" ]]
 then
   CF_APPS_DOMAIN="$(
     bosh -d "$CF_DEPLOYMENT" manifest |
-    yq -r '.instance_groups[].jobs[] | select(.name == "cloud_controller_ng") | .properties.app_domains[0]'
+    yaml2json |
+    jq -r '.instance_groups[].jobs[] | select(.name == "cloud_controller_ng") | .properties.app_domains[0]'
   )"
   export CF_APPS_DOMAIN
 else

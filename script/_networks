@@ -3,4 +3,5 @@
 set -o pipefail
 
 bosh cloud-config |
-  yq -r '.networks[].name'
+  yaml2json |
+  jq -r '.networks[].name'

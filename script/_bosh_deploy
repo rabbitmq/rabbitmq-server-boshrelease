@@ -9,12 +9,8 @@ RMQ_BOSH_RELEASE_MANIFEST="${RMQ_BOSH_RELEASE_MANIFEST:?must be defined}"
 bosh upload-release "$RMQ_BOSH_RELEASE_MANIFEST"
 
 declare -a BOSH_OPERATIONS
-if [[ "$(yq -r '.datadog_api_key' < "$DEPLOYMENT_CONFIGURATION")" != null ]]
-then
-  BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/add-datadog-agent.yml")
-fi
 
-if [[ "$(yq -r '.cf_apps_domain' < "$DEPLOYMENT_CONFIGURATION")" != null ]]
+if [[ "$(yaml2json < "$DEPLOYMENT_CONFIGURATION" | jq -r '.cf_apps_domain')" != null ]]
 then
   BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/register-routes.yml")
 fi

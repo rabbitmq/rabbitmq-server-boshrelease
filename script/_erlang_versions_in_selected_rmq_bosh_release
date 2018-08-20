@@ -2,6 +2,7 @@
 
 set -o pipefail
 
-yq -r '.packages[].name' < "${RMQ_BOSH_RELEASE_MANIFEST:?must be set}" |
+yaml2json < "${RMQ_BOSH_RELEASE_MANIFEST:?must be set}" |
+  jq -r '.packages[].name' |
   awk -F"erlang-" '/erlang-/ { print $2 }' |
   sort -r

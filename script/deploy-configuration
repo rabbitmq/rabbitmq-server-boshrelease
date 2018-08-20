@@ -32,7 +32,7 @@ fi
 
 _BOSH_DEPLOYMENT="${DEPLOYMENT_CONFIGURATION/.yml}"
 BOSH_DEPLOYMENT="${_BOSH_DEPLOYMENT##*/}"
-RMQ_BOSH_RELEASE_MANIFEST="$(yq -r '.bosh_release_manifest' < "$DEPLOYMENT_CONFIGURATION")"
+RMQ_BOSH_RELEASE_MANIFEST="$(yaml2json < "$DEPLOYMENT_CONFIGURATION" | jq -r '.bosh_release_manifest')"
 export DEPLOYMENT_CONFIGURATION BOSH_DEPLOYMENT
 
 # shellcheck source=script/_bosh_deploy
