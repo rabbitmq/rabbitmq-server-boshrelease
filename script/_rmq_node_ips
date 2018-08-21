@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -e
+set -o pipefail
+
+bosh -d "${BOSH_DEPLOYMENT:?must be set}" --json vms |
+jq -r '.Tables[].Rows[] | select(.instance | startswith("rmq/")) | .ips' |
+sort -r

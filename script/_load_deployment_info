@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+
+set -e
+set -o pipefail
+
+SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+DEPLOMENT_MANIFEST=/tmp/"${BOSH_DEPLOYMENT:?must be defined}".yml
+
+main() {
+  download_deployment_manifest
+  export_admin_user
+  export_admin_pass
+  export_https_url
+  export_amqp_urls
+  export_rmq_version
+  export_erlang_version
+  export_rmq_vm_type
+  export_rmq_vm_persistent_disk
+  export_bosh_release_version
+}
+
+download_deployment_manifest() {
+  bosh -d "$BOSH_DEPLOYMENT" manifest > "${DEPLOMENT_MANIFEST:?must be defined}"
+}
+
+_cleanup_deployment_manifest() {
+  rm -f "$DEPLOMENT_MANIFEST"
+}
+trap _cleanup_deployment_manifest SIGINT SIGTERM
+
+_find_in_manifest() {
+  bosh interpolate --path="${1:?first argument must be a valid bosh int path}" "$DEPLOMENT_MANIFEST" 2>/dev/null
+}
+
+export_admin_user() {
+  RMQ_SERVER_ADMIN_USER="$(_find_in_manifest /instance_groups/name=rmq/jobs/name=rabbitmq-server/properties/rabbitmq-server/admin_user)"
+  export RMQ_SERVER_ADMIN_USER
+}
+
+export_admin_pass() {
+  RMQ_SERVER_ADMIN_PASS="$(_find_in_manifest /instance_groups/name=rmq/jobs/name=rabbitmq-server/properties/rabbitmq-server/admin_pass)"
+  export RMQ_SERVER_ADMIN_PASS
+}
+
+export_https_url() {
+  unset RMQ_MANAGEMENT_URI RMQ_MANAGEMENT_URL
+  RMQ_MANAGEMENT_URI="$(_find_in_manifest /instance_groups/name=rmq/jobs/name=route_registrar/properties/route_registrar/routes/name=rabbitmq_management-"$BOSH_DEPLOYMENT"/uris/0)"
+
+  if [ -n "$RMQ_MANAGEMENT_URI" ]
+  then
+    RMQ_MANAGEMENT_URL="https://$RMQ_MANAGEMENT_URI/#/login/${RMQ_SERVER_ADMIN_USER:?must be set}/${RMQ_SERVER_ADMIN_PASS}"
+    export RMQ_MANAGEMENT_URL
+  fi
+}
+
+export_amqp_urls() {
+  unset RMQ_AMQP_URLS
+  for rmq_node_ip in $("$SCRIPT"/_rmq_node_ips)
+  do
+    # shellcheck disable=SC1117
+    RMQ_AMQP_URLS="amqp://${RMQ_SERVER_ADMIN_USER}:${RMQ_SERVER_ADMIN_PASS}@${rmq_node_ip}:5672/%2F $RMQ_AMQP_URLS"
+  done
+  export RMQ_AMQP_URLS
+}
+
+export_rmq_version() {
+  rabbitmq_server_package_url="$(_find_in_manifest /instance_groups/name=rmq/jobs/name=rabbitmq-server/properties/rabbitmq-server/generic-unix-url)"
+  _rabbitmq_server_package_version_with_extension="${rabbitmq_server_package_url##*generic-unix-}"
+  RMQ_VERSION="${_rabbitmq_server_package_version_with_extension%%.tar.*z}"
+  export RMQ_VERSION
+}
+
+export_erlang_version() {
+  ERLANG_VERSION="$(_find_in_manifest /instance_groups/name=rmq/jobs/name=rabbitmq-server/properties/erlang/version)"
+  export ERLANG_VERSION
+}
+
+export_rmq_vm_type() {
+  RMQ_VM_TYPE="$(_find_in_manifest /instance_groups/name=rmq/vm_type)"
+  RMQ_VM_EXTENSIONS="$(_find_in_manifest /instance_groups/name=rmq/vm_extensions | tr -d '\n')"
+  [ -z "$RMQ_VM_EXTENSIONS" ] ||
+    RMQ_VM_TYPE="${RMQ_VM_TYPE}${RMQ_VM_EXTENSIONS//- / + }"
+  export RMQ_VM_TYPE
+}
+
+export_rmq_vm_persistent_disk() {
+  RMQ_PERSISTENT_DISK_TYPE="$(_find_in_manifest /instance_groups/name=rmq/persistent_disk_type)"
+  export RMQ_PERSISTENT_DISK_TYPE
+}
+
+export_bosh_release_version() {
+  RMQ_BOSH_RELEASE_VERSION="$(_find_in_manifest /releases/name=rabbitmq-server/version)"
+  export RMQ_BOSH_RELEASE_VERSION
+}
+
+main
