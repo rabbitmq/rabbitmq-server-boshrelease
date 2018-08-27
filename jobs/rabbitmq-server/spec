@@ -334,7 +334,6 @@ packages:
 - erlang-18.3.4.9
 - erlang-19.3.6.10
 - erlang-20.3.8.7
-- erlang-21.0.4
 - erlang-21.0.6
 - erlang-R16B03
 - looking_glass
