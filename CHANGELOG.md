@@ -24,6 +24,7 @@
 ### Artefacts
 
 * Default RabbitMQ to [v3.7.7](https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.7.7)
+* Add [RabbitMQ PerfTest v2.2.0-RC.1](https://github.com/rabbitmq/rabbitmq-perf-test/releases/tag/v2.2.0.RC1), a load testing tool
 * Add new Erlang/OTP versions
   * **v20.3.8.7** - default
   * v21.0.6 - RabbitMQ v3.7.7 or newer required
@@ -35,6 +36,10 @@
 * Update prometheus_rabbitmq_exporter to v3.7.2.2
 * Update [routing-release to v0.179.0](https://github.com/cloudfoundry/routing-release/releases/tag/0.179.0)
 * Lock routing-release to v0.179.0 due to bpm incompatibility
+
+```
+sha1: 97ff725944c06a0c036f86f8abae0d0d7bf20162
+```
 
 
 
