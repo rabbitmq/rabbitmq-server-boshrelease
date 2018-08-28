@@ -95,7 +95,7 @@ final::
 ifndef VERSION
 	@echo "$(RED)VERSION$(NORMAL) must be set to the final release version that will be created" && \
 	echo "Final release versions that already exist:" && \
-	_rmq_bosh_releases $(CURDIR)/releases/rabbitmq-server && \
+	_rmq_bosh_releases && \
 	exit 1
 endif
 final:: submodules ## Create a rabbitmq-server BOSH final release - VERSION is required, e.g. VERSION=0.15.0

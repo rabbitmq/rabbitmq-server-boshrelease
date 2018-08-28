@@ -10,7 +10,7 @@ then
 Final release versions that already exist:
 "
   # shellcheck source=script/_rmq_bosh_releases
-  . "$SCRIPT/_rmq_bosh_releases" "$SCRIPT"/../releases/rabbitmq-server
+  . "$SCRIPT/_rmq_bosh_releases"
   echo
   exit 1
 fi
