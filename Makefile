@@ -109,19 +109,26 @@ list_erlangs:
 otp:
 	@git clone https://github.com/erlang/otp.git
 
-publish_final: ## Publish final rabbitmq-server BOSH release - VERSION is required, e.g. VERSION=0.15.0
-	@read -rp "1/8 Update CHANGELOG.md with help from $(BOLD)git changelog$(NORMAL) $(CONFIRM)" -n 1 && \
-	read -rp "2/8 All changes committed & pushed $(CONFIRM)" -n 1 && \
-	read -rp "3/8 Use the latest CHANGELOG.md entry for the tag message $(CONFIRM)" -n 1 && \
+publish_final::
+ifndef VERSION
+	@echo "$(RED)VERSION$(NORMAL) must be set to the final release version that will be published" && \
+	echo "Local final release versions:" && \
+	_local_final_bosh_releases && \
+	exit 1
+endif
+publish_final:: ## Publish final rabbitmq-server BOSH release - VERSION is required, e.g. VERSION=0.15.0
+	@read -rp "1/7 Update CHANGELOG.md with help from $(BOLD)git changelog$(NORMAL) $(CONFIRM)" -n 1 && \
+	git add --all && git commit --gpg-sign --verbose --message "Cut $(VERSION)" --edit && \
+	read -rp "2/7 Use the latest CHANGELOG.md entry for the tag message $(CONFIRM)" -n 1 && \
 	git tag -s v$(VERSION) && git push --tags && \
 	open https://github.com/rabbitmq/rabbitmq-server-boshrelease/releases/new?tag=v$(VERSION) && \
 	shasum releases/rabbitmq-server/rabbitmq-server-$(VERSION).tgz > releases/rabbitmq-server/rabbitmq-server-$(VERSION).sha1 && \
 	open releases/rabbitmq-server && \
-	read -rp "4/8 Final release tarball uploaded $(CONFIRM)" -n 1 && \
-	read -rp "5/8 Final release SHA1 uploaded $(CONFIRM)" -n 1 && \
-	read -rp "6/8 Use the latest CHANGELOG.md entry for title & release notes $(CONFIRM)" -n 1 && \
-	read -rp "7/8 Final release SHA1 added to to release notes $(CONFIRM)" -n 1 && \
-	read -rp "8/8 Final release published $(CONFIRM)" -n 1
+	read -rp "3/7 Final release tarball uploaded $(CONFIRM)" -n 1 && \
+	read -rp "4/7 Final release SHA1 uploaded $(CONFIRM)" -n 1 && \
+	read -rp "5/7 Use the latest CHANGELOG.md entry for title & release notes $(CONFIRM)" -n 1 && \
+	read -rp "6/7 Final release SHA1 added to to release notes $(CONFIRM)" -n 1 && \
+	read -rp "7/7 Final release published $(CONFIRM)" -n 1
 
 remove_erlang::
 ifndef ERLANG_PACKAGE
