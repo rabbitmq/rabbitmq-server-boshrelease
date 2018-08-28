@@ -4,7 +4,9 @@ SHELL := bash# we want bash behaviour in all shell invocations
 #
 export PATH 	:= $(CURDIR)/script:$(PATH)
 
-
+RED := $(shell tput setaf 1)
+GREEN := $(shell tput setaf 2)
+YELLOW := $(shell tput setaf 3)
 BOLD := $(shell tput bold)
 NORMAL := $(shell tput sgr0)
 CONFIRM := (press any key to confirm) 
@@ -89,7 +91,14 @@ help:
 dev: 	submodules ## Create a rabbitmq-server BOSH Dev release
 	@create-dev-release
 
-final: 	submodules ## Create a rabbitmq-server BOSH final release - VERSION is required, e.g. VERSION=0.15.0
+final::
+ifndef VERSION
+	@echo "$(RED)VERSION$(NORMAL) must be set to the final release version that will be created" && \
+	echo "Final release versions that already exist:" && \
+	_rmq_bosh_releases $(CURDIR)/releases/rabbitmq-server && \
+	exit 1
+endif
+final:: submodules ## Create a rabbitmq-server BOSH final release - VERSION is required, e.g. VERSION=0.15.0
 	@create-final-release $(VERSION)
 
 list_erlangs:
