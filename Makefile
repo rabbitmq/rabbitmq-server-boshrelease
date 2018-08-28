@@ -99,7 +99,8 @@ ifndef VERSION
 	exit 1
 endif
 final:: submodules ## Create a rabbitmq-server BOSH final release - VERSION is required, e.g. VERSION=0.15.0
-	@create-final-release $(VERSION)
+	@create-final-release $(VERSION) && \
+	shasum releases/rabbitmq-server/rabbitmq-server-$(VERSION).tgz > releases/rabbitmq-server/rabbitmq-server-$(VERSION).sha1 && \
 
 list_erlangs:
 	@echo "Included Erlang versions: " ; \
@@ -117,18 +118,19 @@ ifndef VERSION
 	exit 1
 endif
 publish_final:: ## Publish final rabbitmq-server BOSH release - VERSION is required, e.g. VERSION=0.15.0
-	@read -rp "1/7 Update CHANGELOG.md with help from $(BOLD)git changelog$(NORMAL) $(CONFIRM)" -n 1 && \
-	git add --all && git commit --gpg-sign --verbose --message "Cut $(VERSION)" --edit && \
-	read -rp "2/7 Use the latest CHANGELOG.md entry for the tag message $(CONFIRM)" -n 1 && \
-	git tag -s v$(VERSION) && git push --tags && \
+	@read -rp "1/5 Update CHANGELOG.md with help from $(BOLD)git changelog$(NORMAL) $(CONFIRM)" -n 1 && \
+	echo "2/5 Add final release tarball SHA1 to release notes in CHANGELOG.md:" && \
+	echo '```' && \
+	awk '{ print $$1 }' < releases/rabbitmq-server/rabbitmq-server-$(VERSION).sha1 && \
+	echo '```' && \
+	read -rp "$(CONFIRM)" -n 1 && \
+	git add --all && git commit --gpg-sign --verbose --message "Cut v$(VERSION)" --edit && \
+	git tag --sign --message "https://github.com/rabbitmq/rabbitmq-server-boshrelease/releases/tag/v$(VERSION)" v$(VERSION) && git push --tags && \
 	open https://github.com/rabbitmq/rabbitmq-server-boshrelease/releases/new?tag=v$(VERSION) && \
-	shasum releases/rabbitmq-server/rabbitmq-server-$(VERSION).tgz > releases/rabbitmq-server/rabbitmq-server-$(VERSION).sha1 && \
 	open releases/rabbitmq-server && \
-	read -rp "3/7 Final release tarball uploaded $(CONFIRM)" -n 1 && \
-	read -rp "4/7 Final release SHA1 uploaded $(CONFIRM)" -n 1 && \
-	read -rp "5/7 Use the latest CHANGELOG.md entry for title & release notes $(CONFIRM)" -n 1 && \
-	read -rp "6/7 Final release SHA1 added to to release notes $(CONFIRM)" -n 1 && \
-	read -rp "7/7 Final release published $(CONFIRM)" -n 1
+	echo "3/5 Upload final release tarball & corresponding SHA1 file to GitHub release" && \
+	read -rp "4/5 While you wait for the files to upload, use the latest CHANGELOG.md entry for title & release notes $(CONFIRM)" -n 1 && \
+	read -rp "5/5 Publish final release on GitHub $(CONFIRM)" -n 1
 
 remove_erlang::
 ifndef ERLANG_PACKAGE
