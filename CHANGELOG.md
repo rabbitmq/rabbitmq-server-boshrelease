@@ -1,3 +1,43 @@
+## v0.15.0, released 2018-08-28
+
+### Configuration
+
+* Fix deployment info when deploying and existing configuration
+* Fix for 0.0.0 versions, a.k.a. highly experimental builds
+* Do not fail if BOSH cannot template release versions
+* Fix changing rabbitmq-server package for the same deployment
+* Stop using yq in favour of yaml2json
+* Guard against missing RABBITMQ_THIRD_PARTY_PLUGINS_DIR
+* Use git tags to sort releases in semver order
+
+### Operations
+
+* [Add BOSH job for RabbitMQ Perf Test](https://github.com/rabbitmq/rabbitmq-server-boshrelease/tree/v0.15.0/jobs/rabbitmq-perf-test)
+* [Add support for stress testing RabbitMQ's metrics system](https://github.com/rabbitmq/rabbitmq-server-boshrelease/tree/v0.15.0/jobs/stress_metrics)
+* Enable [microstate accounting in Erlang VM](http://erlang.org/doc/man/msacc.html)
+* Default collect_statistics to fine, as expected by rabbitmq_management
+* Optionally report extra memory & connection metrics in prometheus_rabbitmq_exporter
+* Fix man search for Ubuntu Xenial
+* Increase /var/vcap/data disk from 10GB to 50GB
+* Drop DataDog support
+
+### Artefacts
+
+* Default RabbitMQ to [v3.7.7](https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.7.7)
+* Add new Erlang/OTP versions
+  * **v20.3.8.7** - default
+  * v21.0.6 - RabbitMQ v3.7.7 or newer required
+  * v19.3.6.10
+* Remove superseded Erlang/OTP versions
+  * v21.0-rc.1
+  * v20.3.6
+  * v19.3.6.9
+* Update prometheus_rabbitmq_exporter to v3.7.2.2
+* Update [routing-release to v0.179.0](https://github.com/cloudfoundry/routing-release/releases/tag/0.179.0)
+* Lock routing-release to v0.179.0 due to bpm incompatibility
+
+
+
 ## v0.14.0, released 2018-05-18
 
 ### Configuration
