@@ -13,7 +13,7 @@ bosh_release_version: $RMQ_BOSH_RELEASE_VERSION
 bosh_stemcell_name: $BOSH_STEMCELL_NAME
 bosh_stemcell_version: $BOSH_STEMCELL_VERSION
 
-rmq_vm_type: $RMQ_VM_TYPE
+rmq_vm_type: ${RMQ_VM_TYPE%% +*}
 rmq_persistent_disk_type: $RMQ_PERSISTENT_DISK_TYPE
 rmq_nodes_count: $RMQ_NODES_COUNT
 rmq_network: $RMQ_NETWORK
