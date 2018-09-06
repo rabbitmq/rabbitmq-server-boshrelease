@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+main() {
+  select_deployment
+  select_instance
+  bosh -d "$DEPLOYMENT" ssh "$INSTANCE"
+}
+
+select_deployment() {
+  echo "Which deployment do you want to SSH into?"
+  select DEPLOYMENT in $(deployments)
+  do
+    export DEPLOYMENT
+    break
+  done
+}
+
+select_instance() {
+  echo "Which instance do you want to SSH into?"
+  select INSTANCE in $(instances)
+  do
+    INSTANCE="${INSTANCE#*=}"
+    export INSTANCE
+    break
+  done
+}
+
+deployments() {
+  bosh deployments --column=name | cat
+}
+
+instances() {
+  bosh -d "$DEPLOYMENT" instances --details --column=instance --column=index |
+    awk '{
+      instance = $1
+      instance_index = $2
+
+      instance_group = $1
+      sub(/\/.+/, "", instance_group)
+
+      print(instance_group  "."  instance_index  "="  instance) }' |
+    sort
+}
+
+main

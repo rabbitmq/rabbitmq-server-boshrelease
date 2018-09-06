@@ -132,6 +132,9 @@ publish_final:: ## Publish final rabbitmq-server BOSH release - VERSION is requi
 	read -rp "4/5 While you wait for the files to upload, use the latest CHANGELOG.md entry for title & release notes $(CONFIRM)" -n 1 && \
 	read -rp "5/5 Publish final release on GitHub $(CONFIRM)" -n 1
 
+ssh: $(BOSH) ## SSH into any VM managed by BOSH
+	@_bosh_ssh_interactive
+
 remove_erlang::
 ifndef ERLANG_PACKAGE
 	@echo -e "\nWhich Erlang package do you want to remove from this BOSH release?"
