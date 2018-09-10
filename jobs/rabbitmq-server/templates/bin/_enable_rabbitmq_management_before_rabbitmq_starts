@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-set -e
-
-[ -n "${RABBITMQ_ONLY_ENABLE_THESE_PLUGINS?must be defined}" ] ||
-  rabbitmq-plugins enable rabbitmq_management --offline

@@ -339,7 +339,6 @@ templates:
   bin/_delete_guest_user: bin/_delete_guest_user
   bin/_enable_core_dumps: bin/_enable_core_dumps
   bin/_enable_plugins: bin/_enable_plugins
-  bin/_enable_rabbitmq_management_before_rabbitmq_starts: bin/_enable_rabbitmq_management_before_rabbitmq_starts
   bin/_end: bin/_end
   bin/_increase_file_descriptor_limit: bin/_increase_file_descriptor_limit
   bin/_install_generic_unix_package: bin/_install_generic_unix_package
