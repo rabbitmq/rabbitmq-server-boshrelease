@@ -272,6 +272,35 @@ properties:
       Alternatively, the message rates can be disabled altogether. This can help get the best possible performance out of a CPU-bound server.
     default: basic
 
+  rabbitmq-management.global_statistics_retention:
+    description: >
+      Configure how long aggregated data (such as message rates and queue lengths) is retained.
+      Must contain at least one retention pair {MaxAgeInSeconds, SampleEveryNSeconds}.
+      By default, metrics get sampled every 5 seconds - see collect_statistics_interval.
+      By default, global data is retained at 5 second resolution for 10 minutes and 5 seconds,
+      then at 1 minute resolution for 1 hour and 1 minute,
+      then at 10 minute resolution for 8 hours and 10 minutes,
+      then at 30 minute resolution for 24 hours and 30 minutes.
+      Learn more about RabbitMQ's sample retention policies http://www.rabbitmq.com/management.html#sample-retention
+    default: '[{605,5}, {3660,60}, {29400,600}, {88200,1800}]'
+  rabbitmq-management.basic_statistics_retention:
+    description: >
+      Configure how long aggregated data (such as message rates and queue lengths) is retained.
+      Must contain at least one retention pair {MaxAgeInSeconds, SampleEveryNSeconds}.
+      By default, metrics get sampled every 5 seconds - see collect_statistics_interval.
+      It retains basic data at 5 second resolution for 10 minutes and 5 seconds,
+      then at 1 minute resolution for 1 hour and 1 minute.
+      Learn more about RabbitMQ's sample retention policies http://www.rabbitmq.com/management.html#sample-retention
+    default: '[{605,5}, {3660,60}]'
+  rabbitmq-management.detailed_statistics_retention:
+    description: >
+      Configure how long aggregated data (such as message rates and queue lengths) is retained.
+      Must contain at least one retention pair {MaxAgeInSeconds, SampleEveryNSeconds}.
+      By default, metrics get sampled every 5 seconds - see collect_statistics_interval.
+      It retains detailed data at 5 second resolution 10 minutes and 5 seconds.
+      Learn more about RabbitMQ's sample retention policies http://www.rabbitmq.com/management.html#sample-retention
+    default: '[{605,5}]'
+
   rabbitmq-trust-store.directory:
     description: 'Location of the whitelisted certificates for Trust Store'
     default: /var/vcap/store/rabbitmq-server/trust-store/whitelist

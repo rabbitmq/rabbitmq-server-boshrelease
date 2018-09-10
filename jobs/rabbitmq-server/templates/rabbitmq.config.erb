@@ -509,17 +509,18 @@ log_levels = p("rabbitmq-server.log_levels")
 
    %% One of 'basic', 'detailed' or 'none'. See
    %% http://www.rabbitmq.com/management.html#fine-stats for more details.
-   {rates_mode, <%= p("rabbitmq-management.rates_mode") %>}
+   {rates_mode, <%= p("rabbitmq-management.rates_mode") %>},
 
    %% Configure how long aggregated data (such as message rates and queue
    %% lengths) is retained. Please read the plugin's documentation in
    %% http://www.rabbitmq.com/management.html#configuration for more
    %% details.
    %%
-   %% {sample_retention_policies,
-   %%  [{global,   [{60, 5}, {3600, 60}, {86400, 1200}]},
-   %%   {basic,    [{60, 5}, {3600, 60}]},
-   %%   {detailed, [{10, 5}]}]}
+   {sample_retention_policies, [
+     {global, <%= p("rabbitmq-management.global_statistics_retention") %>},
+     {basic, <%= p("rabbitmq-management.basic_statistics_retention") %>},
+     {detailed, <%= p("rabbitmq-management.detailed_statistics_retention") %>}
+   ]}
   ]},
 
  %% ----------------------------------------------------------------------------
