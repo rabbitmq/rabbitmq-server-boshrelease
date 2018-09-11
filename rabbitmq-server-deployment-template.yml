@@ -13,7 +13,7 @@ releases: # http://bosh.io/releases
 stemcells: # http://bosh.io/stemcells
 - name: ((bosh_stemcell_name))
   version: ((bosh_stemcell_version))
-  alias: ((bosh_stemcell_name))
+  alias: default
 
 # Lifecycle configurations
 #
@@ -40,7 +40,7 @@ instance_groups:
   env:
     bosh:
       swap_size: 1024
-  stemcell: ((bosh_stemcell_name))
+  stemcell: default
   jobs:
   - name: observer_cli
     release: rabbitmq-server
