@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -e
+
+SME_GCP_DIR=../sme/gcp
+
+if [ -d $SME_GCP_DIR  ]
+then
+  gmake -C $SME_GCP_DIR "$@"
+else
+  echo "$SME_GCP_DIR must be a clone of https://github.com/rabbitmq/sme"
+  exit 1
+fi
