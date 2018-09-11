@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -e
+
+apt-get -o APT::Sandbox::User=root update

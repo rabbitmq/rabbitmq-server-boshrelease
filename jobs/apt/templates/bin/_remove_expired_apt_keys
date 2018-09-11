@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -e
+
+apt-key list |
+  awk -F'[/ ]' '/expired:/ { system("apt-key del " $5) }'

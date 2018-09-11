@@ -1,0 +1,24 @@
+# vim: set filetype=yaml :
+---
+name: apt
+
+templates:
+  env.erb: env
+
+  bin/pre-start: bin/pre-start
+
+  bin/_install_packages: bin/_install_packages
+  bin/_install_perf: bin/_install_perf
+  bin/_remove_expired_apt_keys: bin/_remove_expired_apt_keys
+  bin/_update_apt_sources: bin/_update_apt_sources
+
+packages: []
+properties:
+  apt.packages_to_install:
+    description: "Packages that will be installed via APT"
+    default:
+      - dstat
+      - tmux
+      - vnstat
+      - vim-nox
+

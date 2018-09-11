@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -e
+
+# shellcheck source=/dev/null
+. /var/vcap/jobs/apt/env
+
+# shellcheck source=jobs/apt/templates/bin/_remove_expired_apt_keys
+. /var/vcap/jobs/apt/bin/_remove_expired_apt_keys
+
+# shellcheck source=jobs/apt/templates/bin/_update_apt_sources
+. /var/vcap/jobs/apt/bin/_update_apt_sources
+
+# shellcheck source=jobs/apt/templates/bin/_install_packages
+. /var/vcap/jobs/apt/bin/_install_packages
+
+# shellcheck source=jobs/apt/templates/bin/_install_perf
+. /var/vcap/jobs/apt/bin/_install_perf
