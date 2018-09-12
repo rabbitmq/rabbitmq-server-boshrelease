@@ -18,7 +18,7 @@ properties:
     description: "Packages that will be installed via APT"
     default:
       - dstat
+      - git-core
       - tmux
       - vnstat
       - vim-nox
-
