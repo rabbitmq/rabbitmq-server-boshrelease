@@ -2,4 +2,4 @@
 
 set -e
 
-apt-get install "linux-tools-$(uname -r)"
+apt-get install --yes "linux-tools-$(uname -r)"
