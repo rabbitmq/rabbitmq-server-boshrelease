@@ -7,12 +7,12 @@ templates:
   bin/rabbitmq-remsh: bin/rabbitmq-remsh
 
 packages:
-- observer_cli-1.2.1
+- observer_cli-1.3.3
 
 properties:
   observer_cli-paths:
     description: "Paths that contains beam artefacts required to run observer_cli"
-    default: "-pz /var/vcap/packages/observer_cli/_build/default/deps/observer_cli/ebin -pz /var/vcap/packages/observer_cli/_build/default/deps/recon/ebin"
+    default: "-pa /var/vcap/packages/observer_cli/_build/default/deps/observer_cli/ebin -pa /var/vcap/packages/observer_cli/_build/default/deps/recon/ebin"
 
 provides:
 - name: observer_cli

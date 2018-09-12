@@ -1,0 +1,6 @@
+---
+name: observer_cli-1.3.3
+files:
+- observer_cli-1.3.3.tar.gz
+dependencies:
+- erlang-R16B03
