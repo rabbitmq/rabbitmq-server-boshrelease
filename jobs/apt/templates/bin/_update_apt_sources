@@ -2,4 +2,4 @@
 
 set -e
 
-apt-get -o APT::Sandbox::User=root update
+apt-get --option APT::Sandbox::User=root update
