@@ -27,7 +27,7 @@ exec 1> >(tee -a "${RABBITMQ_LOG_BASE:?must be set}/start.log") 2>&1
 . _enable_core_dumps
 # shellcheck source=jobs/rabbitmq-server/templates/bin/_write_erlang_cookie
 . _write_erlang_cookie
-# shellcheck source=jobs/rabbitmq-server/templates/bin/_add_external_plugins
+# shellcheck source=jobs/rabbitmq-server/templates/bin/_add_rabbitmq_server_env_to_global_shell_profile
 . _add_rabbitmq_server_env_to_global_shell_profile
 # shellcheck source=jobs/rabbitmq-server/templates/bin/_install_generic_unix_package
 . _install_generic_unix_package
