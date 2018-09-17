@@ -1,4 +1,4 @@
-source_env ../rabbitmq-credentials/gcp
+source_env ../sme/gcp
 
 PATH_add $PWD/script
 PATH_add $PWD/bin

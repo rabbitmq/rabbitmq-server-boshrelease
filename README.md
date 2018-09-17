@@ -10,22 +10,13 @@ it just helps us ensure RabbitMQ is stable across different IaaS platforms, and 
 
 ## Prerequisites
 
-First, ensure the following are installed and available in `$PATH`:
-
-* [bosh cli v2](https://bosh.io/docs/cli-v2.html)
-* [jq](https://github.com/stedolan/jq)
-* [yaml2json](https://github.com/bronze1man/yaml2json)
-* [lpass cli](https://github.com/lastpass/lastpass-cli)
-
 For the RabbitMQ Core team, ensure [rabbitmq/rabbitmq-credentials](https://github.com/rabbitmq/rabbitmq-credentials) is cloned alongside this repo, then `cd rabbitmq-server-boshrelease` & configure either `env.example` or `envrc.example` as a dotfile, then run `. .env` or `direnv allow`.
+
+For the RabbitMQ SME team, ensure [rabbitmq/sme-credentials](https://github.com/rabbitmq/sme) is cloned alongside this repo, then `cd rabbitmq-server-boshrelease` & configure either `envrc.sme.example` as a dotfile, then `direnv allow`.
 
 ## Submodules
 
 Don't forget to initialize this repository's submodules:
-
-```
-git submodule update --init
-```
 
 ### Initial Deployment
 
