@@ -16,6 +16,8 @@ then
 fi
 
 BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/add-netdata.yml")
+# We always want perf + friends running on our RabbitMQ node hosts
+BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/add-apt.yml")
 
 VARS_FILE="$SCRIPT/../deployment_configurations/$BOSH_DEPLOYMENT.yml"
 
