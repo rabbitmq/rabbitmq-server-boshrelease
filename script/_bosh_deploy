@@ -15,6 +15,7 @@ then
   BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/register-routes.yml")
 fi
 
+# We always want netdata running on our RabbitMQ node hosts
 BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/add-netdata.yml")
 # We always want perf + friends running on our RabbitMQ node hosts
 BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/add-apt.yml")
