@@ -17,8 +17,14 @@ properties:
   apt.packages_to_install:
     description: "Packages that will be installed via APT"
     default:
+      - curl
       - dstat
       - git-core
+      - htop
+      - iperf3
+      - jnettop
+      - ngrep
       - tmux
       - vnstat
       - vim-nox
+      - wget
