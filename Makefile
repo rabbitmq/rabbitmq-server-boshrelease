@@ -4,7 +4,7 @@ SHELL := bash# we want bash behaviour in all shell invocations
 #
 #
 LOCAL_BIN := $(CURDIR)/bin
-PATH := $(CURDIR/script):$(LOCAL_BIN):$(PATH)
+PATH := $(CURDIR)/script:$(LOCAL_BIN):$(PATH)
 export PATH
 
 RED := $(shell tput setaf 1)
