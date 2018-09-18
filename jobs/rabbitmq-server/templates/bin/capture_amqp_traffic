@@ -1,49 +1,51 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-TCPDUMP="tcpdump -A "
-for i in "$@"
-do
-case $i in
-    -h*|--help*)
-    echo "Capture AMQP traffic on port 5672"
-    echo "Arguments:"
-    echo " [-t=<seconds>] : Capture traffic for a limit amount of time"
-    echo " [-p=<packets>] : Capture a limit amount of packets"
-    echo " [-mtu=<mtu>]   : Capture packets of a minimun size "
-    echo "  "
-    echo "Usage: "
-    echo " capture_amqp_traffic -t=10  : Captures AMQP traffic for 10 seconds"
-    echo " capture_amqp_traffic -p=100000  : Captures up to 100000 AMQP packets"
-    echo " capture_amqp_traffic -p=100000 -t=10 : Captures AMQP traffic for 10 seconds and at most 100000 AMQP packets"
-    echo "  "
-    exit 0
-    ;;
-    -t=*|--timeout=*)
-    TIMEOUT="${i#*=}"
-    shift # past argument=value
-    ;;
-    -p=*|--packets=*)
-    PACKETS="${i#*=}"
-    TCPDUMP="$TCPDUMP -c $PACKETS"
-    shift # past argument=value
-    ;;
-    -mtu=*)
-    MTU="${i#*=}"
-    TCPDUMP="$TCPDUMP -s $MTU"
-    shift # past argument=value
-    ;;
-    *)
-          # unknown option
-    ;;
-esac
-done
-TIMESTAMP=$(date +%s)
-PCAP_FILE="$RABBITMQ_LOG_BASE/$RABBITMQ_NODENAME.$TIMESTAMP.pcap"
-TCPDUMP="$TCPDUMP -w $PCAP_FILE port 5672"
+set -e
 
-echo "Capturing AMQP traffic on port 5672 onto pcap file $PCAP_FILE ...."
-if [ -z "$TIMEOUT" ]; then
-  $TCPDUMP
-else
-  timeout "$TIMEOUT"s $TCPDUMP
-fi
+# shellcheck source=/dev/null
+. /var/vcap/jobs/rabbitmq-server/env
+[ -z "$DEBUG" ] || set -x
+
+declare -a TCPDUMP
+TCPDUMP+=(tcpdump)
+
+TIMESTAMP="$(date --iso-8601=seconds)"
+PCAP_FILE="${RABBITMQ_LOG_BASE:?must be set}/${RABBITMQ_NODENAME:?must be set}.${TIMESTAMP}.pcap"
+
+main() {
+  _ascii_mode
+  _match_snapshot_lenght_to_interface_mtu
+  _slightly_verbose
+  _capture_to_file
+  _capture_amqp_port
+
+  # shellcheck disable=SC2068
+  ${TCPDUMP[@]} "$@"
+}
+
+_ascii_mode() {
+  TCPDUMP+=(-A)
+}
+
+_match_snapshot_lenght_to_interface_mtu() {
+  TCPDUMP+=(--snapshot-length "$(_interface_mtu)")
+}
+
+_slightly_verbose() {
+  TCPDUMP+=(-v)
+}
+
+_interface_mtu() {
+  netstat --interfaces |
+    awk '/eth0/ { print $2 }'
+}
+
+_capture_to_file() {
+  TCPDUMP+=(-w "$PCAP_FILE")
+}
+
+_capture_amqp_port() {
+  TCPDUMP+=(port 5672)
+}
+
+main "$@"
