@@ -49,7 +49,7 @@ $(GIT):
 	@brew install git
 
 $(GO): $(GIT)
-	@brew install go
+	@brew install go || brew upgrade go
 
 $(YAML2JSON): $(GO)
 	@go get -u github.com/bronze1man/yaml2json
