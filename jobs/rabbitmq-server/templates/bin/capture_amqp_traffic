@@ -1,0 +1,49 @@
+#!/bin/bash
+
+TCPDUMP="tcpdump -A "
+for i in "$@"
+do
+case $i in
+    -h*|--help*)
+    echo "Capture AMQP traffic on port 5672"
+    echo "Arguments:"
+    echo " [-t=<seconds>] : Capture traffic for a limit amount of time"
+    echo " [-p=<packets>] : Capture a limit amount of packets"
+    echo " [-mtu=<mtu>]   : Capture packets of a minimun size "
+    echo "  "
+    echo "Usage: "
+    echo " capture_amqp_traffic -t=10  : Captures AMQP traffic for 10 seconds"
+    echo " capture_amqp_traffic -p=100000  : Captures up to 100000 AMQP packets"
+    echo " capture_amqp_traffic -p=100000 -t=10 : Captures AMQP traffic for 10 seconds and at most 100000 AMQP packets"
+    echo "  "
+    exit 0
+    ;;
+    -t=*|--timeout=*)
+    TIMEOUT="${i#*=}"
+    shift # past argument=value
+    ;;
+    -p=*|--packets=*)
+    PACKETS="${i#*=}"
+    TCPDUMP="$TCPDUMP -c $PACKETS"
+    shift # past argument=value
+    ;;
+    -mtu=*)
+    MTU="${i#*=}"
+    TCPDUMP="$TCPDUMP -s $MTU"
+    shift # past argument=value
+    ;;
+    *)
+          # unknown option
+    ;;
+esac
+done
+TIMESTAMP=$(date +%s)
+PCAP_FILE="$RABBITMQ_LOG_BASE/$RABBITMQ_NODENAME.$TIMESTAMP.pcap"
+TCPDUMP="$TCPDUMP -w $PCAP_FILE port 5672"
+
+echo "Capturing AMQP traffic on port 5672 onto pcap file $PCAP_FILE ...."
+if [ -z "$TIMEOUT" ]; then
+  $TCPDUMP
+else
+  timeout "$TIMEOUT"s $TCPDUMP
+fi
