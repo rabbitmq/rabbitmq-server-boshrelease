@@ -21,7 +21,7 @@ properties:
       - dstat
       - git-core
       - htop
-      - iperf3
+      - iperf
       - jnettop
       - ngrep
       - tmux
