@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# shellcheck source=/dev/null
+. /var/vcap/jobs/rabbitmq-server/env
+[ -z "$DEBUG" ] || set -x
+
 set -e
 
 main() {
