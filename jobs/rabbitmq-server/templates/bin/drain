@@ -8,7 +8,7 @@ set -e
 [ -z "$DEBUG" ] || set -x
 
 main() {
-  log "$(date) ::: v${BOSH_RELEASE_VERSION:?must be set}"
+  log "$(date --iso-8601=seconds) ::: v${BOSH_RELEASE_VERSION:?must be set}"
   if tracked_rabbitmq_server_pid_running
   then
     rabbitmq_node_is_accessible

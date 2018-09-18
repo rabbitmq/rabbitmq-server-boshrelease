@@ -2,4 +2,4 @@
 
 set -e
 
-echo ">>> $(date) ::: v${BOSH_RELEASE_VERSION:?must be set} ::: $*"
+echo ">>> $(date --iso-8601=seconds) ::: v${BOSH_RELEASE_VERSION:?must be set} ::: $*"

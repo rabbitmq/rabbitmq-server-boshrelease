@@ -4,7 +4,7 @@ set -e
 
 # There will only ever be one start-stop-daemon, ignore the glob
 # shellcheck disable=SC2211
-ERL_CRASH_DUMP="${RABBITMQ_LOG_BASE:?must be set}/erl_crash-$(date +'%Y%m%d_%H%M%S').dump" \
+ERL_CRASH_DUMP="${RABBITMQ_LOG_BASE:?must be set}/erl_crash-$(date --iso-8601=seconds).dump" \
 RABBITMQ_IGNORE_SIGINT=false \
 RUNNING_UNDER_SYSTEMD=true \
 /var/vcap/jobs/rabbitmq-server/packages/start-stop-daemon*/start-stop-daemon \

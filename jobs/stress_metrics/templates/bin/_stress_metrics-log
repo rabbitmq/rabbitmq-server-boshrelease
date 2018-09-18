@@ -4,4 +4,4 @@ script="${1:?first argument must be the script name}"
 shift
 message="$*"
 
-echo ">>> $(date) ::: v${BOSH_RELEASE_VERSION:?must be set} ::: stress_metrics $script ::: $message" >> "${STRESS_METRICS_LOG_DIR:?must be set}/messages.log"
+echo ">>> $(date --iso-8601=seconds) ::: v${BOSH_RELEASE_VERSION:?must be set} ::: stress_metrics $script ::: $message" >> "${STRESS_METRICS_LOG_DIR:?must be set}/messages.log"
