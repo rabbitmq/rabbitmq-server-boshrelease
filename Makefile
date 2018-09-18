@@ -22,7 +22,7 @@ LPASS := /usr/local/bin/lpass
 
 GIT := /usr/local/bin/git
 GO := /usr/local/opt/go/libexec/bin/go
-YAML2JSON := $(HOME)/go/bin/yaml2json
+YAML2JSON := $(GOPATH)/bin/yaml2json
 
 JQ := /usr/local/bin/jq
 
