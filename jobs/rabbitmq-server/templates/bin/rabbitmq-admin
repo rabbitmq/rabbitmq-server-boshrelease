@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -e
+
+main() {
+  check_rabbitmqadmin_is_installed || install_rabbitmqadmin
+  run_rabbitmqadmin "$@"
+}
+
+check_rabbitmqadmin_is_installed() {
+  test -x "${RABBITMQADMIN_BIN:?must be set}"
+}
+
+install_rabbitmqadmin() {
+  wget --output-document "${RABBITMQADMIN_BIN}" \
+    "${RABBITMQADMIN_DOWNLOAD_URL:?must be set}"
+  chmod u+x "${RABBITMQADMIN_BIN}"
+}
+
+run_rabbitmqadmin() {
+  "${RABBITMQADMIN_BIN}" \
+    --username="${RABBITMQ_ADMIN_USER:?must be set}" \
+    --password="${RABBITMQ_ADMIN_PASS:?must be set}" \
+    "$@"
+}
+
+main "$@"

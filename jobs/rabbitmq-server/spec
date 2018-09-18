@@ -329,6 +329,7 @@ templates:
 
   bin/rabbitmq_management_http_ok: bin/rabbitmq_management_http_ok
   bin/analyse_core_dump: bin/analyse_core_dump
+  bin/rabbitmq-admin: bin/rabbitmq-admin
 
   bin/_add_user: bin/_add_user
   bin/_add_external_plugins: bin/_add_external_plugins
