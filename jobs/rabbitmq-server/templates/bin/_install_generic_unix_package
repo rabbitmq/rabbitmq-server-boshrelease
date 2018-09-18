@@ -2,10 +2,10 @@
 
 set -e
 
-mkdir -p "${RABBITMQ_SERVER_PACKAGE:?must be set}"
+mkdir -p "${RABBITMQ_SERVER_PACKAGES_DIR:?must be set}"
 
 (
-  cd "${RABBITMQ_SERVER_PACKAGE%/*}"
+  cd "${RABBITMQ_SERVER_PACKAGES_DIR}"
 
   wget --continue --no-verbose \
     --output-document "${RABBITMQ_SERVER_PACKAGE_ARCHIVE:?must be set}" \
@@ -25,6 +25,5 @@ mkdir -p "${RABBITMQ_SERVER_PACKAGE:?must be set}"
   esac
 
   rm --force --recursive "${RABBITMQ_SERVER_JOB_PACKAGE:?must be set}"
-  cp --force --recursive "rabbitmq_server-${RABBITMQ_SERVER_PACKAGE_VERSION:?must be set}" \
-    "$RABBITMQ_SERVER_JOB_PACKAGE"
+  cp --force --recursive "${RABBITMQ_SERVER_PACKAGE:?must be set}" "$RABBITMQ_SERVER_JOB_PACKAGE"
 )
