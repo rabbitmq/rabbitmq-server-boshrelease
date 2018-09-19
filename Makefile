@@ -125,7 +125,7 @@ ifndef VERSION
 endif
 final:: submodules $(LPASS) $(BOSH) ## Create a rabbitmq-server BOSH final release - VERSION is required, e.g. VERSION=0.15.0
 	@create-final-release $(VERSION) && \
-	shasum releases/rabbitmq-server/rabbitmq-server-$(VERSION).tgz > releases/rabbitmq-server/rabbitmq-server-$(VERSION).sha1 && \
+	shasum releases/rabbitmq-server/rabbitmq-server-$(VERSION).tgz > releases/rabbitmq-server/rabbitmq-server-$(VERSION).sha1
 
 list_erlangs:
 	@echo "Included Erlang versions: " ; \
