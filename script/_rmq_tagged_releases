@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -o pipefail
+
+git tag --sort=-v:refname |
+  while read -r tag
+  do
+    echo "${tag/v}"
+  done

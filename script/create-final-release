@@ -9,8 +9,8 @@ then
   echo "First argument must be the final release version to create
 Final release versions that already exist:
 "
-  # shellcheck source=script/_rmq_bosh_releases
-  . "$SCRIPT/_rmq_bosh_releases"
+  # shellcheck source=script/_rmq_tagged_releases
+  . "$SCRIPT/_rmq_tagged_releases"
   echo
   exit 1
 fi
