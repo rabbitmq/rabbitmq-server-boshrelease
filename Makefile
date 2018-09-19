@@ -21,6 +21,7 @@ SED := /usr/local/bin/gsed
 LPASS := /usr/local/bin/lpass
 
 GIT := /usr/local/bin/git
+CHANGELOG := $(GIT)-changelog
 GO := /usr/local/opt/go/libexec/bin/go
 YAML2JSON := $(GOPATH)/bin/yaml2json
 
@@ -47,6 +48,9 @@ $(LPASS):
 
 $(GIT):
 	@brew install git
+
+$(CHANGELOG):
+	@brew install git-extras
 
 $(GO): $(GIT)
 	@brew install go || brew upgrade go
@@ -138,7 +142,7 @@ ifndef VERSION
 	_local_final_bosh_releases && \
 	exit 1
 endif
-publish_final:: $(GIT) ## Publish final rabbitmq-server BOSH release - VERSION is required, e.g. VERSION=0.15.0
+publish_final:: $(GIT) $(CHANGELOG) ## Publish final rabbitmq-server BOSH release - VERSION is required, e.g. VERSION=0.15.0
 	@read -rp "1/5 Update CHANGELOG.md with help from $(BOLD)git changelog$(NORMAL) $(CONFIRM)" -n 1 && \
 	echo "2/5 Add final release tarball SHA1 to release notes in CHANGELOG.md:" && \
 	echo '```' && \
