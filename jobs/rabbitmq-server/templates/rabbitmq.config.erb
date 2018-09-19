@@ -833,11 +833,11 @@ log_levels = p("rabbitmq-server.log_levels")
     %% ----------------------------------------------------------------------------
 
     {rabbitmq_tracing,
-         [
-             {directory, "<%= p("rabbitmq-server.log_directory") %>/tracing"},
-             {username, "<%= p("rabbitmq-server.admin_user") %>"},
-             {password, "<%= p("rabbitmq-server.admin_pass") %>"}
-         ]
+        [
+            {directory, "<%= p("rabbitmq-server.log_directory") %>/tracing"},
+            {username, <<"<%= p("rabbitmq-server.admin_user") %>">>},
+            {password, <<"<%= p("rabbitmq-server.admin_pass") %>">>}
+        ]
     },
 
     %% ----------------------------------------------------------------------------
