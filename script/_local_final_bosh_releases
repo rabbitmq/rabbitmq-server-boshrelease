@@ -4,12 +4,10 @@ SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 set -o pipefail
 
-find "$SCRIPT"/../releases/rabbitmq-server -name 'rabbitmq-server-*.yml' |
-sort -rV |
-while read -r local_final_release_path
-do
-  local_final_release_file="${local_final_release_path##*/}"
-  local_final_release_name="${local_final_release_file%.yml}"
-  local_final_release_version="${local_final_release_name#rabbitmq-server-}"
-  echo "$local_final_release_version"
-done
+find "$SCRIPT"/../releases/rabbitmq-server -type f -name 'rabbitmq-server-*.yml' |
+  sort --reverse --version-sort |
+  while read -r rmq_bosh_release
+  do
+    rmq_bosh_release_no_ext="${rmq_bosh_release%.yml}"
+    echo "${rmq_bosh_release_no_ext##*/rabbitmq-server-}"
+  done

@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 set -o pipefail
 
-find "$SCRIPT"/../{dev_releases,releases}/rabbitmq-server -type f -name 'rabbitmq-server-*.yml' |
+find "$SCRIPT"/../dev_releases/rabbitmq-server -type f -name 'rabbitmq-server-*.yml' |
   sort --reverse --version-sort |
   while read -r rmq_bosh_release
   do
