@@ -827,6 +827,20 @@ log_levels = p("rabbitmq-server.log_levels")
     },
 
     %% ----------------------------------------------------------------------------
+    %% RabbitMQ Tracing
+    %%
+    %% See https://github.com/rabbitmq/rabbitmq-tracing
+    %% ----------------------------------------------------------------------------
+
+    {rabbitmq_tracing,
+         [
+             {directory, "<%= p("rabbitmq-server.log_directory") %>/tracing"},
+             {username, "<%= p("rabbitmq-server.admin_user") %>"},
+             {password, "<%= p("rabbitmq-server.admin_pass") %>"}
+         ]
+    },
+
+    %% ----------------------------------------------------------------------------
     %% Prometheus RabbitMQ Exporter
     %%
     %% See https://github.com/deadtrickster/prometheus_rabbitmq_exporter

@@ -72,6 +72,7 @@ instance_groups:
         generic-unix-url: ((rmq_server_package))
         hipe_compile: false
         lazy_queue_explicit_gc_run_operation_threshold: 1000
+        log_directory: /var/vcap/sys/log/rabbitmq-server
         log_levels: info
         max_erlang_atoms: 5000000
         max_erlang_processes: 1048576
