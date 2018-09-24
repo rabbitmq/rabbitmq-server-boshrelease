@@ -1,3 +1,77 @@
+## v0.16.0, released 2018-09-19
+
+### Features
+
+  * Configure rabbitmq_tracing with a valid directory & credentials
+  * Add capture_amqp_traffic script
+  * Add rabbitmq-admin script
+  * Install iperf package rather than iperf3
+  * Always deploy perf + friends on RabbitMQ node hosts
+  * Always deploy apt job on perf-test VMs
+  * Add a few more helpful packages to apt job
+  * Install git-core by default in apt job
+  * Fix install_perf script in apt job
+  * Add job for making Ubuntu Xenial stemcell on GCP sysadmin-friendly
+  * Add BOSH operation to easily deploy PerfTest
+  * Do not enable rabbitmq_management by default
+  * Make statistics retention policies configurable
+  * Default metrics to coarse
+
+### Fixes
+
+  * Fix rabbitmq_tracing config format for Erlang < 21
+
+### Maintenance and upgrades
+
+  * Update prometheus.erl dependency on Erlang/OTP 20.3.8.8
+  * Remove superseeded erlang-20.3.8.8 version
+  * Add Erlang 20.3.8.9 package
+  * Update observer_cli to v1.3.3, now compatible with OTP 21
+  * Remove Erlang/OTP 21.0.8, superseded by 21.0.9
+  * Add Erlang/OTP 21.0.9
+  * Remove Erlang/OTP 21.0.7 superseded by 21.0.8
+  * Remove Erlang/OTP 21.0.6 superseded by 21.0.8
+  * Add Erlang/OTP 21.0.8
+  * Add Erlang/OTP 21.0.7
+  * Remove Erlang/OTP 20.3.8.7, superseded by 20.3.8.8
+  * Add Erlang/OTP 20.3.8.8 & make default
+
+### Configuration
+
+  * Use ISO8601 timestamps when scripts log
+  * Avoid localhost -> 127.0.0.1 name lookup
+  * Respect rabbitmq-server.debug property in public scripts
+  * Explain tcpdump options, remove timeout feature
+  * Guard against missing RABBITMQ_NODENAME env var
+  * Extract "rabbitmq-server" package directory into a variable
+  * Upgrade go if already installed and target newer
+  * Revert not listing local dev releases when deploying
+  * Fix go get protocol error
+  * Account for custom GOPATHs
+  * Fix path to script dir
+  * Install dependencies just-in-time, as make target deps
+  * Explain why netdata job is always co-located on RabbitMQ node hosts
+  * Correct shellcheck source
+  * Use long flags in apt-get, they are human-friendly
+  * Add proxy script for sme/gcp make
+  * Add make target to ssh into any VM managed by BOSH
+  * Remove extension properties from RMQ_VM_TYPE before saving
+  * Wrap version around double quotes so that Bosh variable interpolation does not treat it as a number and drop zeros to the left of the comma
+  * Improve publishing final release
+
+### Artefacts
+
+  * Add new Erlang/OTP versions
+    * **v20.3.8.9** - default  
+    * v21.0.9 -
+  * Remove superseded Erlang/OTP versions
+    * v20.3.8.7
+    * v21.0.6
+
+  ```
+  sha1: 37c03d8321b7883101cbe5a70badfc11b476dac7
+  ```
+
 ## v0.15.0, released 2018-08-28
 
 ### Configuration

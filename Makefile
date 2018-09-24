@@ -12,7 +12,7 @@ GREEN := $(shell tput setaf 2)
 YELLOW := $(shell tput setaf 3)
 BOLD := $(shell tput bold)
 NORMAL := $(shell tput sgr0)
-CONFIRM := (press any key to confirm) 
+CONFIRM := (press any key to confirm)
 
 WGET := /usr/local/bin/wget
 GET := wget --continue --show-progress
