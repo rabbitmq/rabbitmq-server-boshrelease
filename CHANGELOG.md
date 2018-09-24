@@ -1,87 +1,54 @@
 ## v0.16.0, released 2018-09-19
 
-### Features
+### BOSH (a.k.a. Configuration)
 
-  * Configure rabbitmq_tracing with a valid directory & credentials
-  * Add capture_amqp_traffic script
-  * Add rabbitmq-admin script
-  * Install iperf package rather than iperf3
-  * Always deploy perf + friends on RabbitMQ node hosts
-  * Always deploy apt job on perf-test VMs
-  * Add a few more helpful packages to apt job
-  * Install git-core by default in apt job
-  * Fix install_perf script in apt job
-  * Add job for making Ubuntu Xenial stemcell on GCP sysadmin-friendly
-  * Add BOSH operation to easily deploy PerfTest
-  * Do not enable rabbitmq_management by default
-  * Make statistics retention policies configurable
-  * Default metrics to coarse
+* [Add BOSH job to make instances sysadmin-friendly](https://github.com/rabbitmq/rabbitmq-server-boshrelease/tree/v0.16.0/jobs/apt)
+* [Add BOSH operation to easily deploy PerfTest](https://github.com/rabbitmq/rabbitmq-server-boshrelease/blob/v0.16.0/operations/deploy-perftest.yml)
+* Use ISO8601 timestamps for all script logging
+* Respect `rabbitmq-server.debug` property in public scripts
+* Guard against missing RABBITMQ_NODENAME env var in `rabbitmq-remsh`
+* Install make target dependencies just-in-time, no need to install dev dependencies manually
+* Allow to select dev releases when deploying via `make deploy` - helps when testing dev releases
+* Add make target to ssh into any VM managed by BOSH, `make ssh`
+* Remove extension properties from RMQ_VM_TYPE before saving, otherwise `make update` won't work
+* Handle BOSH stemcell versions ending in 0 correctly
+* Improve publishing final release
 
-### Fixes
+### RabbitMQ (a.k.a. Operations)
 
-  * Fix rabbitmq_tracing config format for Erlang < 21
+* Add missing configuration for rabbitmq_tracing
+* [Add script for capturing AMQP traffic](https://github.com/rabbitmq/rabbitmq-server-boshrelease/blob/v0.16.0/jobs/rabbitmq-server/templates/bin/capture_amqp_traffic)
+* [Add rabbitmq-admin tool](https://github.com/rabbitmq/rabbitmq-server-boshrelease/blob/v0.16.0/jobs/rabbitmq-server/templates/bin/rabbitmq-admin)
+* Allow rabbitmq_management to be disabled - allows performance testing without metrics overhead & enables environments where security is tight
+* Make statistics retention policies configurable
+* Default metrics to coarse
 
-### Maintenance and upgrades
+### Dependencies (a.k.a. Artefacts)
 
-  * Update prometheus.erl dependency on Erlang/OTP 20.3.8.8
-  * Remove superseeded erlang-20.3.8.8 version
-  * Add Erlang 20.3.8.9 package
-  * Update observer_cli to v1.3.3, now compatible with OTP 21
-  * Remove Erlang/OTP 21.0.8, superseded by 21.0.9
-  * Add Erlang/OTP 21.0.9
-  * Remove Erlang/OTP 21.0.7 superseded by 21.0.8
-  * Remove Erlang/OTP 21.0.6 superseded by 21.0.8
-  * Add Erlang/OTP 21.0.8
-  * Add Erlang/OTP 21.0.7
-  * Remove Erlang/OTP 20.3.8.7, superseded by 20.3.8.8
-  * Add Erlang/OTP 20.3.8.8 & make default
+* Add new Erlang/OTP versions
+  * **v20.3.8.9** - default
+  * v21.0.9 - RabbitMQ v3.7.7 or newer required
+* Remove superseded Erlang/OTP versions
+  * v21.0.6
+  * v20.3.8.7
+* Update [observer_cli to v1.3.3](https://github.com/zhongwencool/observer_cli/releases/tag/1.3.3), now compatible with OTP 21
 
-### Configuration
+```
+sha1: 37c03d8321b7883101cbe5a70badfc11b476dac7
+```
 
-  * Use ISO8601 timestamps when scripts log
-  * Avoid localhost -> 127.0.0.1 name lookup
-  * Respect rabbitmq-server.debug property in public scripts
-  * Explain tcpdump options, remove timeout feature
-  * Guard against missing RABBITMQ_NODENAME env var
-  * Extract "rabbitmq-server" package directory into a variable
-  * Upgrade go if already installed and target newer
-  * Revert not listing local dev releases when deploying
-  * Fix go get protocol error
-  * Account for custom GOPATHs
-  * Fix path to script dir
-  * Install dependencies just-in-time, as make target deps
-  * Explain why netdata job is always co-located on RabbitMQ node hosts
-  * Correct shellcheck source
-  * Use long flags in apt-get, they are human-friendly
-  * Add proxy script for sme/gcp make
-  * Add make target to ssh into any VM managed by BOSH
-  * Remove extension properties from RMQ_VM_TYPE before saving
-  * Wrap version around double quotes so that Bosh variable interpolation does not treat it as a number and drop zeros to the left of the comma
-  * Improve publishing final release
 
-### Artefacts
-
-  * Add new Erlang/OTP versions
-    * **v20.3.8.9** - default  
-    * v21.0.9 -
-  * Remove superseded Erlang/OTP versions
-    * v20.3.8.7
-    * v21.0.6
-
-  ```
-  sha1: 37c03d8321b7883101cbe5a70badfc11b476dac7
-  ```
 
 ## v0.15.0, released 2018-08-28
 
 ### Configuration
 
-* Fix deployment info when deploying and existing configuration
-* Fix for 0.0.0 versions, a.k.a. highly experimental builds
-* Do not fail if BOSH cannot template release versions
+* Fix deployment info when deploying an existing configuration
+* Fix for 0.0.0 versions, a.k.a. highly experimental RabbitMQ builds
+* Do not fail if BOSH cannot template RabbitMQ release versions
 * Fix changing rabbitmq-server package for the same deployment
 * Stop using yq in favour of yaml2json
-* Guard against missing RABBITMQ_THIRD_PARTY_PLUGINS_DIR
+* Guard against missing RABBITMQ_THIRD_PARTY_PLUGINS_DIR environment variable
 * Use git tags to sort releases in semver order
 
 ### Operations
