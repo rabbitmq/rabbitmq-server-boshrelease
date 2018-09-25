@@ -4,8 +4,6 @@ SHELL := bash# we want bash behaviour in all shell invocations
 #
 #
 LOCAL_BIN := $(CURDIR)/bin
-PATH := $(CURDIR)/script:$(LOCAL_BIN):$(PATH)
-export PATH
 
 RED := $(shell tput setaf 1)
 GREEN := $(shell tput setaf 2)
@@ -23,6 +21,7 @@ LPASS := /usr/local/bin/lpass
 GIT := /usr/local/bin/git
 CHANGELOG := $(GIT)-changelog
 GO := /usr/local/opt/go/libexec/bin/go
+GOPATH ?= $(HOME)/go
 YAML2JSON := $(GOPATH)/bin/yaml2json
 
 JQ := /usr/local/bin/jq
@@ -31,6 +30,9 @@ BOSH_VERSION := 5.2.2
 BOSH_BIN := bosh-cli-$(BOSH_VERSION)-darwin-amd64
 BOSH_URL := https://s3.amazonaws.com/bosh-cli-artifacts/$(BOSH_BIN)
 BOSH := $(LOCAL_BIN)/$(BOSH_BIN)
+
+PATH := $(CURDIR)/script:$(LOCAL_BIN):$(GOPATH)/bin:$(PATH)
+export PATH
 
 ### TARGETS ###
 #
