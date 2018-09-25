@@ -19,6 +19,12 @@ do
 done
 
 separator
+for rmq_netdata_url in $RMQ_NETDATA_URLS
+do
+  row "RMQ NETDATA URL" "$rmq_netdata_url"
+done
+
+separator
 row "RMQ VERSION" "$RMQ_VERSION"
 row "ERLANG VERSION" "$ERLANG_VERSION"
 

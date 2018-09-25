@@ -13,6 +13,7 @@ main() {
   export_admin_pass
   export_https_url
   export_amqp_urls
+  export_netdata_urls
   export_rmq_version
   export_erlang_version
   export_rmq_vm_type
@@ -62,6 +63,20 @@ export_amqp_urls() {
     RMQ_AMQP_URLS="amqp://${RMQ_SERVER_ADMIN_USER}:${RMQ_SERVER_ADMIN_PASS}@${rmq_node_ip}:5672/%2F $RMQ_AMQP_URLS"
   done
   export RMQ_AMQP_URLS
+}
+
+export_netdata_urls() {
+  unset RMQ_NETDATA_URLS
+  RMQ_NETDATA_URI="$(_find_in_manifest /instance_groups/name=rmq/jobs/name=route_registrar/properties/route_registrar/routes/name=netdata-"$BOSH_DEPLOYMENT"/uris/0)"
+  INSTANCES="$(_find_in_manifest /instance_groups/name=rmq/instances)"
+  declare -a _RMQ_NETDATA_URLS=()
+
+  for ((index=0; index<INSTANCES; index++))
+  do
+    _RMQ_NETDATA_URLS+=("https://$index-${RMQ_NETDATA_URI}")
+  done
+  RMQ_NETDATA_URLS="${_RMQ_NETDATA_URLS[*]}"
+  export RMQ_NETDATA_URLS
 }
 
 export_rmq_version() {
