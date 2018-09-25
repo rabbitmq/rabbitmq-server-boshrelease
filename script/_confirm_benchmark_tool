@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+echo
+
+read -rp "
+Do you want to deploy benchmark tools (perf-test) ? (y|n) " -n 1
+echo
+RMQ_DEPLOY_BENCHMARK_TOOL=$([[ $REPLY =~ ^[Yy]$ ]] && echo "true" || echo "false")
+
+export RMQ_DEPLOY_BENCHMARK_TOOL

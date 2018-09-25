@@ -24,6 +24,8 @@ rmq_server_package: $RMQ_SERVER_PACKAGE
 rmq_server_admin_user: $RMQ_SERVER_ADMIN_USER
 rmq_server_admin_pass: $RMQ_SERVER_ADMIN_PASS
 
+rmq_deploy_benchmark_tool: $RMQ_DEPLOY_BENCHMARK_TOOL
+
 cf_deployment: $CF_DEPLOYMENT
 cf_apps_domain: $CF_APPS_DOMAIN
 

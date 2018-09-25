@@ -36,5 +36,7 @@ SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 . "$SCRIPT"/_select_stemcell
 # shellcheck source=script/_set_cf_apps_domain
 . "$SCRIPT"/_set_cf_apps_domain
+# shellcheck source=script/_confirm_benchmark_tool
+. "$SCRIPT"/_confirm_benchmark_tool
 # shellcheck source=script/_confirm_deployment
 . "$SCRIPT"/_confirm_deployment
