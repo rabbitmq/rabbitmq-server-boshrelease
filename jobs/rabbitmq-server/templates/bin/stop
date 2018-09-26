@@ -4,7 +4,7 @@ set -e
 
 # shellcheck source=/dev/null
 . /var/vcap/jobs/rabbitmq-server/env
-[ -z "$DEBUG" ] || set -x
+configureDebugLevel
 
 exec 1> >(tee -a "${RABBITMQ_LOG_BASE:?must be set}/stop.log") 2>&1
 

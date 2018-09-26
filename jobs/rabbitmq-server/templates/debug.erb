@@ -1,9 +1,9 @@
 <% if p("rabbitmq-server.debug") != false  %>
-DEBUG=true
+DEBUG=${DEBUG:-true}
 EPMD_DEBUG="-debug"
 START_STOP_DAEMON_VERBOSE="--verbose"
 <% else %>
-DEBUG=""
+DEBUG=${DEBUG:-false}
 EPMD_DEBUG=""
 START_STOP_DAEMON_VERBOSE=""
 <% end %>

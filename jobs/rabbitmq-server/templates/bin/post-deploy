@@ -4,7 +4,7 @@ set -e
 
 # shellcheck source=/dev/null
 . /var/vcap/jobs/rabbitmq-server/env
-[ -z "$DEBUG" ] || set -x
+configureDebugLevel
 
 # shellcheck source=jobs/rabbitmq-server/templates/bin/_begin
 . _begin "Running rabbitmq-server post-deploy tasks"
