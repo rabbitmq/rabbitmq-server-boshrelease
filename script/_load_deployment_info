@@ -51,7 +51,7 @@ export_https_url() {
   if [ -n "$RMQ_MANAGEMENT_URI" ]
   then
     RMQ_MANAGEMENT_URL="https://$RMQ_MANAGEMENT_URI/#/login/${RMQ_SERVER_ADMIN_USER:?must be set}/${RMQ_SERVER_ADMIN_PASS}"
-    export RMQ_MANAGEMENT_URL
+    export RMQ_MANAGEMENT_URL RMQ_MANAGEMENT_URI
   fi
 }
 
