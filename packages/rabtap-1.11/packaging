@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -ex
+
+export RABTAP_VERSION=1.11
+
+main() {
+  unarchive
+  install
+}
+
+unarchive() {
+  mkdir -p rabtap-${RABTAP_VERSION} && tar -xvf rabtap-${RABTAP_VERSION:?must be set}.tgz -C rabtap-${RABTAP_VERSION}
+}
+
+install() {
+  cp -R rabtap-${RABTAP_VERSION}/* "${BOSH_INSTALL_TARGET:?must be defined}"
+}
+
+main
