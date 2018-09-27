@@ -82,3 +82,7 @@ rabbitmq-plugins/3.7/prometheus_rabbitmq_exporter-v3.7.2.2.ez:
   size: 215891
   object_id: e368950e-bd10-4ab5-5660-1abd32e2ce93
   sha: d6a817d8bd655b41f73c234262e785af41ed18ee
+rabtap-1.11.tgz:
+  size: 3067339
+  object_id: fc6994ec-ece7-4cca-698a-1ef34281b46c
+  sha: bad9d4d3481aff06bd9b45f41f6bd8a9c8cb36f8
