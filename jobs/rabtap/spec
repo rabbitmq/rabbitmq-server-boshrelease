@@ -1,0 +1,14 @@
+# vim: set filetype=yaml :
+---
+name: rabtap
+
+templates:
+  env.erb: env
+  bin/post-start: bin/post-start
+
+packages:
+- rabtap-1.11
+
+consumes:
+- name: rabbitmq-server
+  type: rabbitmq-server

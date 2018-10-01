@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -ex
+
+cd /var/vcap/jobs/rabtap/packages/rabtap-*/
+
+ln -sf "$PWD" /var/vcap/packages/rabtap
+
+cat > /etc/profile.d/rabtap.sh <<EOF
+. /var/vcap/jobs/rabtap/env
+export PATH="/var/vcap/packages/rabtap:\$PATH"
+EOF
