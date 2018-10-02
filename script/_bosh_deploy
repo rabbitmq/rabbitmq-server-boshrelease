@@ -15,11 +15,12 @@ then
   BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/register-routes.yml")
 fi
 
-# We always want netdata running on our RabbitMQ node hosts
+# We always want netdata running on all RabbitMQ node hosts - https://github.com/rabbitmq/rabbitmq-server-boshrelease/tree/master/jobs/netdata
 BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/add-netdata.yml")
-# We always want perf + friends running on our RabbitMQ node hosts
-BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/add-apt.yml")
+# We want the rabtap utility on all RabbitMQ node hosts - https://github.com/rabbitmq/rabbitmq-server-boshrelease/tree/master/jobs/rabtap
 BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/add-rabtap.yml")
+# We want perf + sysadmin friends running on all RabbitMQ node hosts - https://github.com/rabbitmq/rabbitmq-server-boshrelease/tree/master/jobs/apt
+BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/add-apt.yml")
 
 if [[ "$(yaml2json < "$DEPLOYMENT_CONFIGURATION" | jq -r '.rmq_deploy_benchmark_tool')" == "true" ]]
 then
