@@ -374,7 +374,6 @@ packages:
 - prometheus.erl
 - rabbitmq-support-tools
 - start-stop-daemon-1.9.18
-- rabtap-1.11
 
 provides:
 - name: rabbitmq-server
