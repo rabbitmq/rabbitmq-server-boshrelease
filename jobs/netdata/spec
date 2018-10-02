@@ -10,7 +10,6 @@ templates:
 
   bin/netdata_http_ok: bin/netdata_http_ok
 
-  bin/_add_rabbitmq_to_apps_groups: bin/_add_rabbitmq_to_apps_groups
   bin/_configure_rabbitmq_plugin: bin/_configure_rabbitmq_plugin
   bin/_install_netdata: bin/_install_netdata
   bin/_reload_netdata: bin/_reload_netdata
