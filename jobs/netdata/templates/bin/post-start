@@ -5,7 +5,6 @@ set -e
 # shellcheck source=/dev/null
 . /var/vcap/jobs/netdata/env
 
-_add_rabbitmq_to_apps_groups
 _use_rabbitmq_nodename_for_hostname
 
 # We only want to query RabbitMQ API on 1 node,
