@@ -2,7 +2,7 @@
 
 Fast and colourful Swiss army knife for RabbitMQ. Tap/Pub/Sub messages, create/delete/bind queues and exchanges, inspect broker.
 
-The most relevant feature is tracing messages (a.k.a. *tap*) being sent to exchanges using RabbitMQ exchange-to-exchange bindings without affecting actual message delivery (aka tapping).
+The most relevant feature is tracing messages being sent to exchanges using RabbitMQ exchange-to-exchange bindings without affecting actual message delivery (aka tapping).
 
 
 # How to use it
