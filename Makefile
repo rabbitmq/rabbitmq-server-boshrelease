@@ -136,7 +136,7 @@ list_erlangs:
 	ls -1d erlang-* && echo
 
 otp: $(GIT)
-	@$(GIT) clone https://github.com/erlang/otp.git
+	@[ -d otp ] || $(GIT) clone https://github.com/erlang/otp.git
 
 publish_final::
 ifndef VERSION
