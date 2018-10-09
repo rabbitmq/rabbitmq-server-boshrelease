@@ -172,14 +172,14 @@ ifndef ERLANG_PACKAGE
 	$(eval ERLANG_PACKAGE = $(shell cd packages ; select ERLANG_PACKAGE in $$(ls -1d erlang-*) ; do echo $$ERLANG_PACKAGE ; break ; done))
 endif
 	$(eval ERLANG_VERSION = $(subst erlang-,,$(ERLANG_PACKAGE)))
-remove_erlang:: $(BOSH) $(GIT) ## Remove superseded Erlang package
+remove_erlang:: $(BOSH) $(GIT) $(SED) ## Remove superseded Erlang package
 	@$(BOSH) remove-blob erlang/OTP-$(ERLANG_VERSION).tar.gz && echo && \
 	$(GIT) rm -r packages/$(ERLANG_PACKAGE) && echo && \
-	read -rp "1/5 Remove package from $(BOLD)jobs/rabbitmq-server/spec$(NORMAL) $(CONFIRM)" -n 1 && \
-	read -rp "2/5 Maybe update package dependency in $(BOLD)packages/looking_glass/spec$(NORMAL) $(CONFIRM)" -n 1 && \
-	read -rp "3/5 Maybe update package dependency in $(BOLD)packages/prometheus.erl/spec$(NORMAL) $(CONFIRM)" -n 1 && \
-	read -rp "4/5 $(BOLD)gmake dev$(NORMAL) succeeded $(CONFIRM)" -n 1 && \
-	read -rp "5/5 All changes committed & pushed $(CONFIRM)" -n 1
+	$(SED) --in-place --regexp-extended --expression '/^- erlang-$(ERLANG_VERSION)/d' jobs/rabbitmq-server/spec && \
+	read -rp "1/4 Maybe update package dependency in $(BOLD)packages/looking_glass/spec$(NORMAL) $(CONFIRM)" -n 1 && \
+	read -rp "2/4 Maybe update package dependency in $(BOLD)packages/prometheus.erl/spec$(NORMAL) $(CONFIRM)" -n 1 && \
+	read -rp "3/4 $(BOLD)gmake dev$(NORMAL) succeeded $(CONFIRM)" -n 1 && \
+	read -rp "4/4 All changes committed & pushed $(CONFIRM)" -n 1
 
 tmp:
 	@mkdir -p tmp
