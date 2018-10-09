@@ -8,4 +8,4 @@ files:
 # https://github.com/rabbitmq/looking_glass
 # If we compile against the min. supported version, it will work on all newer Erlang versions, but it will not work on older version.
 dependencies:
-- erlang-19.3.6.10
+- erlang-19.3.6.11
