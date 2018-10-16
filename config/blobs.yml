@@ -2,6 +2,9 @@ autotools/autoconf-2.69.tar.xz:
   size: 1214744
   object_id: 1e3e3c95-d525-4f96-943d-5da1511e0bda
   sha: e891c3193029775e83e0534ac0ee0c4c711f6d23
+basht-0.1.0.tar.gz:
+  size: 757703
+  sha: 5dee8d242fc333672e14d9e1d70162b77eab5924
 erlang/OTP-17.5.6.9.tar.gz:
   size: 33130949
   object_id: 0ad6395d-42c9-4bed-7356-4f2858184b4a
@@ -30,6 +33,9 @@ java/jre-8u181-linux-x64.tar.gz:
   size: 81191893
   object_id: b838ee6d-f735-4c3f-70de-1a450b40d8dc
   sha: c7e8984aa2a0a4119908d112427876415f3ddbbc
+jq-1.5.tar.gz:
+  size: 1369126
+  sha: 6595c2b0ace02f5a0922d09ce17127bd2918529c
 observer_cli-1.3.3.tar.gz:
   size: 731104
   object_id: 883d46cb-1d50-4cc4-6b21-66cbe61ccba1

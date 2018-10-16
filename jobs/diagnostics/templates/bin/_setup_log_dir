@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -e
+
+mkdir -p "${DIAGNOSTICS_LOG_BASE:?must be set}"
+chown -fR \
+  "${DIAGNOSTICS_SERVICE_USER:?must be set}":"${DIAGNOSTICS_SERVICE_GROUP:?must be set}" \
+  "$DIAGNOSTICS_LOG_BASE"

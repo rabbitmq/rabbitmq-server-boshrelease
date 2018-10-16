@@ -1,0 +1,36 @@
+# vim: set filetype=yaml :
+---
+name: diagnostics
+
+templates:
+  env.erb: env
+
+  bin/_add_diagnostics_env_to_global_shell_profile: bin/_add_diagnostics_env_to_global_shell_profile
+  bin/_setup_log_dir: bin/_setup_log_dir
+
+  bin/diagnostics: bin/diagnostics
+  bin/post-start: bin/post-start
+  bin/pre-start: bin/pre-start
+
+packages:
+- diagnostics
+- jq-1.5
+- basht-0.1.0
+
+properties:
+
+  diagnostics.debug:
+    description: 'Runs BOSH job scripts in debug mode'
+    default: false
+
+  diagnostics.log_directory:
+    description: 'All logs, traces & crash dumps will be stored here'
+    default: /var/vcap/sys/log/diagnostics
+
+  diagnostics.env:
+    description: 'File that stores all diagnostics ENV vars'
+    default: /var/vcap/jobs/diagnostics/env
+
+consumes:
+- name: rabbitmq-server
+  type: rabbitmq-server

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+[[ $DEBUG = true ]] && set -x
+
+main() {
+  if [ $# -gt 1 ] && [ -f "$DIAGNOSTICS_TEST_DIR/$1" ]; then
+    basht "$DIAGNOSTICS_TEST_DIR/$1"
+  else
+    test_all
+  fi
+}
+
+test_all() {
+  basht $DIAGNOSTICS_TEST_DIR/*_test.bash
+}
+
+main "$@"

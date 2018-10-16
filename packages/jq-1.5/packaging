@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -e
+
+
+export JQ_VERSION=1.5
+
+main() {
+  unarchive
+  install
+}
+
+unarchive() {
+  mkdir -p jq-${JQ_VERSION} && tar -xvf jq-${JQ_VERSION:?must be set}.tar.gz -C jq-${JQ_VERSION}
+}
+
+install() {
+  cp -R jq-${JQ_VERSION}/* "${BOSH_INSTALL_TARGET:?must be defined}"
+}
+
+main

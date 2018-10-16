@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -e
+
+
+export BASHT_VERSION=0.1.0
+
+main() {
+  unarchive
+  install
+}
+
+unarchive() {
+  mkdir -p basht-${BASHT_VERSION} && tar -xvf basht-${BASHT_VERSION:?must be set}.tar.gz -C basht-${BASHT_VERSION}
+}
+
+install() {
+  cp -R basht-${BASHT_VERSION}/* "${BOSH_INSTALL_TARGET:?must be defined}"
+}
+
+main

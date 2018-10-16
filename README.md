@@ -112,3 +112,7 @@ This is most likely to stay consistent across versions. For example, RabbitMQ v3
 Be aware of commands that take multiple arguments, such as `rabbitmq-plugins enable PLUGIN-A [PLUGIN-B...]`. They can speed things up considerably.
 
 If a command fails, it will be more obvious what failed and should even hint how to fix the failure. The new configuration format in RabbitMQ v3.7 will help things, for sure.
+
+## Diagnostics
+
+Every deployment comes with a suite of test cases, a.k.a. *diagnostics*, which verify the correctness and health of a RabbitMQ bosh deployment. For more information, check [this](src/diagnostics/README.md) out.

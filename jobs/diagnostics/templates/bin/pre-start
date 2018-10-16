@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -ex
+
+# shellcheck source=/dev/null
+. /var/vcap/jobs/diagnostics/env
+
+# shellcheck source=jobs/diagnostics/templates/bin/_setup_log_dir
+. _setup_log_dir
+
+# shellcheck source=jobs/diagnostics/templates/bin/_add_diagnostics_env_to_global_shell_profile
+. _add_diagnostics_env_to_global_shell_profile

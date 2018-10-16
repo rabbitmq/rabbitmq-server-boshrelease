@@ -190,5 +190,5 @@ update: ## Deploy an existing RabbitMQ cluster configuration - CONFIG is optiona
 submodules: $(GIT)
 	@$(GIT) submodule update --init
 
-verify: ## Run Acceptance Tests against a deployment - CONFIG is optional, it sets the deployment config, e.g. CONFIG=deployment_configurations/rmq-73734-3-7-2.yml
-	@verify-deployment $(CONFIG)
+diagnostics:
+	@diagnostics 

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -e
+
+# shellcheck source=/dev/null
+. /var/vcap/jobs/diagnostics/env
+
+# shellcheck source=/dev/null
+. "${RABBITMQ_ENV:?must de set}"
+
+configureDebugLevel
+
+# Unlike a drain script, a post-start script uses an exit code to indicate its
+# success (exit code 0) or failure (any other exit code).
+# https://bosh.io/docs/post-start/
+# diagnostics exits with 0 if there are no errors/failures or else with the count of failures
+diagnostics
