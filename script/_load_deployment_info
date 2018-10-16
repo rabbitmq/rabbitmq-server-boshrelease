@@ -31,7 +31,9 @@ _cleanup_deployment_manifest() {
 trap _cleanup_deployment_manifest SIGINT SIGTERM
 
 _find_in_manifest() {
+  set +e
   bosh interpolate --path="${1:?first argument must be a valid bosh int path}" "$DEPLOMENT_MANIFEST" 2>/dev/null
+  set -e
 }
 
 export_admin_user() {
@@ -68,14 +70,18 @@ export_amqp_urls() {
 export_netdata_urls() {
   unset RMQ_NETDATA_URLS
   RMQ_NETDATA_URI="$(_find_in_manifest /instance_groups/name=rmq/jobs/name=route_registrar/properties/route_registrar/routes/name=netdata-"$BOSH_DEPLOYMENT"/uris/0)"
-  INSTANCES="$(_find_in_manifest /instance_groups/name=rmq/instances)"
-  declare -a _RMQ_NETDATA_URLS=()
+  RMQ_NETDATA_URLS="Not_Configured"
+  if [ -n "$RMQ_NETDATA_URI" ]
+  then
+    INSTANCES="$(_find_in_manifest /instance_groups/name=rmq/instances)"
+    declare -a _RMQ_NETDATA_URLS=()
 
-  for ((index=0; index<INSTANCES; index++))
-  do
-    _RMQ_NETDATA_URLS+=("https://$index-${RMQ_NETDATA_URI}")
-  done
-  RMQ_NETDATA_URLS="${_RMQ_NETDATA_URLS[*]}"
+    for ((index=0; index<INSTANCES; index++))
+    do
+      _RMQ_NETDATA_URLS+=("https://$index-${RMQ_NETDATA_URI}")
+    done
+    RMQ_NETDATA_URLS="${_RMQ_NETDATA_URLS[*]}"
+  fi
   export RMQ_NETDATA_URLS
 }
 
