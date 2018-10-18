@@ -31,11 +31,9 @@ RMQ_INSTANCE_COUNT=$(bosh -d $BOSH_DEPLOYMENT instances | grep rmq | wc -l)
 
 if [ $1 = "--recent" ]; then
   echo "Displaying diagnostics on ${BOSH_DEPLOYMENT} ..."
-  LOG_FILE="/tmp/$BOSH_DEPLOYMENT-$(date -u +'%Y-%m-%dT%H:%M:%SZ').log"
-  echo "Check out output at $LOG_FILE"
   for (( i=0; i<$RMQ_INSTANCE_COUNT; i++ )) ; do
     echo "Displaying tests on rmq/$i ..."
-    bosh -d $BOSH_DEPLOYMENT ssh rmq/$i -c "sudo -i bash -c 'cat /var/vcap/sys/log/diagnostics/post-start.stdout.log'"  2>&1 | tee -a $LOG_FILE | awk '/ (FAIL|PASS)/ { print $5 " " $6 }'
+    bosh -d $BOSH_DEPLOYMENT ssh rmq/$i -r -c "sudo -i bash -c 'cat \$(ls -rt /var/vcap/sys/log/diagnostics/diagnostics-*.report | tail -1)'"
   done
 else
   echo "Running diagnostics on ${BOSH_DEPLOYMENT} ..."
@@ -47,7 +45,7 @@ else
     bosh -d $BOSH_DEPLOYMENT ssh rmq/$i -c "sudo -i bash -c 'DEBUG=false diagnostics'"  2>&1 | tee -a $LOG_FILE | awk '/ (FAIL|PASS)/ { print $5 " " $6 }'
   done
 
+  # exit 0   -> no failures
+  # exit 5   -> 5 tests failed
+  exit "$(grep '\| FAIL' $LOG_FILE | wc -l)"
 fi
-# exit 0   -> no failures
-# exit 5   -> 5 tests failed
-exit "$(grep '\| FAIL' $LOG_FILE | wc -l)"

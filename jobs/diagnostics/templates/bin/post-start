@@ -10,8 +10,28 @@ set -e
 
 configureDebugLevel
 
+DIAGNOSTICS_STAMP="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+DIAGNOSTIC_FILENAME="${DIAGNOSTICS_LOG_BASE:?must be set}/diagnostics-$DIAGNOSTICS_STAMP"
+DIAGNOSTIC_LOG_FILE="${DIAGNOSTIC_FILENAME}.log"
+DIAGNOSTIC_SUMMARY="${DIAGNOSTIC_FILENAME}.report"
+
+capture_diagnostics_log() {
+    exec 1> >(tee -a "${DIAGNOSTIC_LOG_FILE}") 2>&1
+}
+produce_diagnostics_report() {
+  cat > $DIAGNOSTIC_SUMMARY << EOL
+Diagnostics Summary from $RABBITMQ_NODENAME running $RABBITMQ_SERVER_PACKAGE_VERSION
+Produced at $DIAGNOSTICS_STAMP
+=======================================
+EOL
+  awk '/^--- (FAIL|PASS)/ { print $2 " " $3 }' $DIAGNOSTIC_LOG_FILE >> $DIAGNOSTIC_SUMMARY
+}
+run_diagnostics() {
+  capture_diagnostics_log && diagnostics && produce_diagnostics_report
+}
+
 # Unlike a drain script, a post-start script uses an exit code to indicate its
 # success (exit code 0) or failure (any other exit code).
 # https://bosh.io/docs/post-start/
 # diagnostics exits with 0 if there are no errors/failures or else with the count of failures
-[[ $DIAGNOSTICS_RUN_AT_START_UP = true ]] && diagnostics || echo "Skip diagnostics"
+[[ $DIAGNOSTICS_RUN_AT_START_UP = true ]] && run_diagnostics ||  echo "Skip diagnostics"
