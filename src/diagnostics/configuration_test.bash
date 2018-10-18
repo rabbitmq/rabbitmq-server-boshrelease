@@ -41,10 +41,20 @@ allPluginsShouldBeEnabled() {
 }
 
 allConfiguredPluginsShouldBeEnabled() {
-  for plugin in $(rabbitmq-job-OnlyEnableThesePlugins); do expect_to_contain "$(rabbitmq-plugins-all-enabled-list)" "$plugin" ; done
+  local failure_count=0
+
+  for plugin in $(rabbitmq-job-OnlyEnableThesePlugins); do
+    expect_to_contain "$(rabbitmq-plugins-all-enabled-list)" "$plugin" || failure_count=$((failure_count+1))
+  done
+  return $failure_count
 }
 allExplicitlyEnabledShouldBeConfigured() {
-  for plugin in $(rabbitmq-plugins-explicitly-enabled-list); do expect_to_contain "$(rabbitmq-job-OnlyEnableThesePlugins)" "$plugin" ; done
+  local failure_count=0
+
+  for plugin in $(rabbitmq-plugins-explicitly-enabled-list); do
+    expect_to_contain "$(rabbitmq-job-OnlyEnableThesePlugins)" "$plugin" || failure_count=$((failure_count+1))
+  done
+  return $failure_count
 }
 
 T_ConfiguredPluginsAreEnabled() {
@@ -52,6 +62,12 @@ T_ConfiguredPluginsAreEnabled() {
     allPluginsShouldBeEnabled
   else
     allConfiguredPluginsShouldBeEnabled
+  fi
+}
+T_ExplicitlyEnabledPluginsShouldBeConfigured() {
+  if [ -z "$(rabbitmq-job-OnlyEnableThesePlugins)" ]; then
+    allPluginsShouldBeEnabled
+  else
     allExplicitlyEnabledShouldBeConfigured
   fi
 }
