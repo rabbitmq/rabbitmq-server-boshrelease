@@ -35,7 +35,7 @@ if [ $1 = "--recent" ]; then
   echo "Check out output at $LOG_FILE"
   for (( i=0; i<$RMQ_INSTANCE_COUNT; i++ )) ; do
     echo "Displaying tests on rmq/$i ..."
-    bosh -d $BOSH_DEPLOYMENT ssh rmq/$i -c "cat /var/vcap/sys/log/diagnostics/post-start.stdout.log"  2>&1 | tee -a $LOG_FILE | awk '/ (FAIL|PASS)/ { print $5 " " $6 }'
+    bosh -d $BOSH_DEPLOYMENT ssh rmq/$i -c "sudo -i bash -c 'cat /var/vcap/sys/log/diagnostics/post-start.stdout.log'"  2>&1 | tee -a $LOG_FILE | awk '/ (FAIL|PASS)/ { print $5 " " $6 }'
   done
 else
   echo "Running diagnostics on ${BOSH_DEPLOYMENT} ..."
