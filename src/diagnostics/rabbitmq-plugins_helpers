@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+rabbitmq-plugins-installed-list() {
+  rabbitmq-plugins list --minimal | sort
+}
+
+rabbitmq-plugins-all-enabled-list() {
+  rabbitmq-plugins list --implicitly-enabled --minimal | sort
+}
+
+rabbitmq-plugins-explicitly-enabled-list() {
+  rabbitmq-plugins list --enabled --minimal | sort
+}

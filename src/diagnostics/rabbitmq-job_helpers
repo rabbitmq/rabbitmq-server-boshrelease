@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+rabbitmq-job-OnlyEnableThesePlugins() {
+  echo "$RABBITMQ_ONLY_ENABLE_THESE_PLUGINS" | sort 
+}

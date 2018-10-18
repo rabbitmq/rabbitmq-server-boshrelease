@@ -14,4 +14,4 @@ configureDebugLevel
 # success (exit code 0) or failure (any other exit code).
 # https://bosh.io/docs/post-start/
 # diagnostics exits with 0 if there are no errors/failures or else with the count of failures
-diagnostics
+[[ $DIAGNOSTICS_RUN_AT_START_UP = true ]] && diagnostics || echo "Skip diagnostics"

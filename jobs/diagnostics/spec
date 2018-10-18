@@ -19,6 +19,10 @@ packages:
 
 properties:
 
+  diagnostics.run_at_start_up:
+    description: 'Runs diagnostics when job starts'
+    default: true
+
   diagnostics.debug:
     description: 'Runs BOSH job scripts in debug mode'
     default: false
