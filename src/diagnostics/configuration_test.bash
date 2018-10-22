@@ -40,7 +40,7 @@ allPluginsShouldBeEnabled() {
 allConfiguredPluginsShouldBeEnabled() {
   local failure_count=0
 
-  for plugin in $(rabbitmq_OnlyEnableThesePlugins); do
+  for plugin in $(rabbitmq_config_OnlyEnableThesePlugins); do
     expect_to_contain "$(rabbitmq_plugins_all_enabled_list)" "$plugin" || failure_count=$((failure_count+1))
   done
   return $failure_count
@@ -49,20 +49,20 @@ allExplicitlyEnabledShouldBeConfigured() {
   local failure_count=0
 
   for plugin in $(rabbitmq_plugins_explicitly_enabled_list); do
-    expect_to_contain "$(rabbitmq_OnlyEnableThesePlugins)" "$plugin" || failure_count=$((failure_count+1))
+    expect_to_contain "$(rabbitmq_config_OnlyEnableThesePlugins)" "$plugin" || failure_count=$((failure_count+1))
   done
   return $failure_count
 }
 
 T_ConfiguredPluginsAreEnabled() {
-  if [ -z "$(rabbitmq_OnlyEnableThesePlugins)" ]; then
+  if [ -z "$(rabbitmq_config_OnlyEnableThesePlugins)" ]; then
     allPluginsShouldBeEnabled
   else
     allConfiguredPluginsShouldBeEnabled
   fi
 }
 T_ExplicitlyEnabledPluginsShouldBeConfigured() {
-  if [ -z "$(rabbitmq_OnlyEnableThesePlugins)" ]; then
+  if [ -z "$(rabbitmq_config_OnlyEnableThesePlugins)" ]; then
     allPluginsShouldBeEnabled
   else
     allExplicitlyEnabledShouldBeConfigured
