@@ -12,10 +12,7 @@ export T_fail
 source $TEST/test_helpers
 
 # shellcheck disable=SC1090
-source $TEST/rabbitmq-plugins_helpers
-
-# shellcheck disable=SC1090
-source $TEST/rabbitmq-job_helpers
+source $TEST/rabbitmq_helpers
 
 
 T_ConfiguredErlangVersionIsRunning() {
@@ -37,35 +34,35 @@ T_ConfiguredRabbitMQVersionIsRunning() {
 }
 
 allPluginsShouldBeEnabled() {
-  expect_to_contain "$(rabbitmq-plugins-installed-list | tr '\n' ',')" "$(rabbitmq-plugins-all-enabled-list | tr '\n' ',')"
+  expect_to_contain "$(rabbitmq_plugins_installed_list | tr '\n' ',')" "$(rabbitmq_plugins_all_enabled_list | tr '\n' ',')"
 }
 
 allConfiguredPluginsShouldBeEnabled() {
   local failure_count=0
 
-  for plugin in $(rabbitmq-job-OnlyEnableThesePlugins); do
-    expect_to_contain "$(rabbitmq-plugins-all-enabled-list)" "$plugin" || failure_count=$((failure_count+1))
+  for plugin in $(rabbitmq_OnlyEnableThesePlugins); do
+    expect_to_contain "$(rabbitmq_plugins_all_enabled_list)" "$plugin" || failure_count=$((failure_count+1))
   done
   return $failure_count
 }
 allExplicitlyEnabledShouldBeConfigured() {
   local failure_count=0
 
-  for plugin in $(rabbitmq-plugins-explicitly-enabled-list); do
-    expect_to_contain "$(rabbitmq-job-OnlyEnableThesePlugins)" "$plugin" || failure_count=$((failure_count+1))
+  for plugin in $(rabbitmq_plugins_explicitly_enabled_list); do
+    expect_to_contain "$(rabbitmq_OnlyEnableThesePlugins)" "$plugin" || failure_count=$((failure_count+1))
   done
   return $failure_count
 }
 
 T_ConfiguredPluginsAreEnabled() {
-  if [ -z "$(rabbitmq-job-OnlyEnableThesePlugins)" ]; then
+  if [ -z "$(rabbitmq_OnlyEnableThesePlugins)" ]; then
     allPluginsShouldBeEnabled
   else
     allConfiguredPluginsShouldBeEnabled
   fi
 }
 T_ExplicitlyEnabledPluginsShouldBeConfigured() {
-  if [ -z "$(rabbitmq-job-OnlyEnableThesePlugins)" ]; then
+  if [ -z "$(rabbitmq_OnlyEnableThesePlugins)" ]; then
     allPluginsShouldBeEnabled
   else
     allExplicitlyEnabledShouldBeConfigured

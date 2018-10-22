@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+store_vhosts_exists() {
+  [[ -f $DIAGNOSTICS_VHOSTS_SNAPSHOT ]]
+}
+store_vhosts() {
+  cat $DIAGNOSTICS_VHOSTS_SNAPSHOT | tr '\n' ' '
+}

@@ -11,6 +11,7 @@ templates:
   bin/diagnostics: bin/diagnostics
   bin/post-start: bin/post-start
   bin/pre-start: bin/pre-start
+  bin/drain: bin/drain
 
 packages:
 - diagnostics
