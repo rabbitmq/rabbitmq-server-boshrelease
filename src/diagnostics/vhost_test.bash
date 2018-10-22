@@ -15,10 +15,19 @@ source $TEST/store_helpers
 
 T_AllSnapshotVhostsStillExist() {
   if store_vhosts_exists; then
-    for vhost in $(store_vhosts)
+    local actual_vhosts expected_vhosts
+
+    actual_vhosts=$(rabbitmq_vhosts)
+    expected_vhosts=$(store_vhosts)
+
+    for vhost in $expected_vhosts
     do
-      expect_to_contain  "$(rabbitmq_vhosts)" "$vhost"  || $T_fail
+      expect_to_contain  "$actual_vhosts" "$vhost"  || $T_fail
     done
+    echo "All snapshot vhosts still exist"
+
+    [ "$($actual_vhosts | wc -w)" -gt "$($expected_vhosts | wc -w)" ] && echo "There are more vhosts than previous snapshot"    
+
   else
     echo "There is no snapshot vhosts in store"
   fi
