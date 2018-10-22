@@ -27,7 +27,8 @@ EOL
   awk '/^--- (FAIL|PASS)/ { print $2 " " $3 }' $DIAGNOSTIC_LOG_FILE >> $DIAGNOSTIC_SUMMARY
 }
 run_diagnostics() {
-  capture_diagnostics_log && diagnostics && produce_diagnostics_report
+  capture_diagnostics_log && diagnostics
+  produce_diagnostics_report
 }
 
 # Unlike a drain script, a post-start script uses an exit code to indicate its
