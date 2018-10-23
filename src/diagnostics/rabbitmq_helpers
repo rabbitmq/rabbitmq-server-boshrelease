@@ -7,13 +7,13 @@ rabbitmq_vhosts() {
   rabbitmqctl list_vhosts | tail -n +2 | tr '\n' ' '
 }
 rabbitmq_plugins_installed_list() {
-  rabbitmq-plugins list --minimal | sort
+  rabbitmq-plugins list -m | sort
 }
 
 rabbitmq_plugins_all_enabled_list() {
-  rabbitmq-plugins list --implicitly-enabled --minimal | sort
+  rabbitmq-plugins list -E -e -m | sort
 }
 
 rabbitmq_plugins_explicitly_enabled_list() {
-  rabbitmq-plugins list --enabled --minimal | sort
+  rabbitmq-plugins list -E -m | sort
 }
