@@ -24,3 +24,15 @@ store_permissions() {
 
   [ -r $permissions_file ] && cat $permissions_file
 }
+store_topic_permissions() {
+  local vhost topic_permissions_file
+  if [[ "$1" == '/' ]]
+  then
+    vhost='default'
+  else
+    vhost=$1
+  fi
+  topic_permissions_file="${DIAGNOSTICS_STORE_DIR}/${vhost}_topic_permissions.snapshot"
+
+  [ -r $topic_permissions_file ] && cat $topic_permissions_file
+}

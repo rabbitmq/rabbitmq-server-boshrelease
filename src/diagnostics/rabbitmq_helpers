@@ -14,6 +14,11 @@ rabbitmq_permissions() {
   vhost=$1
   rabbitmqctl list_permissions -p $vhost | tail -n +2 | sort
 }
+rabbitmq_topic_permissions() {
+  local vhost
+  vhost=$1
+  rabbitmqctl list_topic_permissions -p $vhost | tail -n +2 | sort
+}
 rabbitmq_plugins_installed_list() {
   rabbitmq-plugins list -m | sort
 }
