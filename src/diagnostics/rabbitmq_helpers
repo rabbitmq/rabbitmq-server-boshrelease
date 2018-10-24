@@ -6,14 +6,20 @@ rabbitmq_config_OnlyEnableThesePlugins() {
 rabbitmq_vhosts() {
   rabbitmqctl list_vhosts | tail -n +2 | tr '\n' ' '
 }
+rabbitmq_users() {
+  rabbitmqctl list_users | tail -n +2 | sort
+}
+rabbitmq_permissions() {
+  local vhost
+  vhost=$1
+  rabbitmqctl list_permissions -p $vhost | tail -n +2 | sort
+}
 rabbitmq_plugins_installed_list() {
   rabbitmq-plugins list -m | sort
 }
-
 rabbitmq_plugins_all_enabled_list() {
   rabbitmq-plugins list -E -e -m | sort
 }
-
 rabbitmq_plugins_explicitly_enabled_list() {
   rabbitmq-plugins list -E -m | sort
 }
