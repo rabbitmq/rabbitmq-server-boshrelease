@@ -44,6 +44,10 @@ properties:
     description: 'All persistent data will be stored here'
     default: /var/vcap/store/rabbitmq-server/mnesia
 
+  rabbitmq-server.snapshots_directory:
+    description: 'All snapshot data will be stored here'
+    default: /var/vcap/store/rabbitmq-server/snapshots
+
   rabbitmq-server.log_directory:
     description: 'All logs, traces & crash dumps will be stored here'
     default: /var/vcap/sys/log/rabbitmq-server
@@ -382,6 +386,7 @@ provides:
   - rabbitmq-server.admin_user
   - rabbitmq-server.admin_pass
   - rabbitmq-server.env
+  - rabbitmq-server.snapshots_directory
   - rabbitmq-server.collect_statistics_interval
 
 consumes:

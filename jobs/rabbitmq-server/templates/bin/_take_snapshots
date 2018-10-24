@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+main() {
+  log "Taking snaphots to $RABBITMQ_SNAPSHOTS_DIR"
+  create_or_reset_store
+  take_vhosts_snaphot
+  take_users_snapshot
+  take_users_permissions_snapshot
+}
+take_vhosts_snaphot() {
+  log "Taking snaphost of vhosts to $RABBITMQ_SNAPSHOTS_DIR/vhosts.snapshot"
+  rabbitmqctl list_vhosts | tail -n +2 > $RABBITMQ_SNAPSHOTS_DIR/vhosts.snapshot
+}
+take_users_snapshot() {
+  log "Taking snaphost of users to $RABBITMQ_SNAPSHOTS_DIR/users.snapshot"
+  rabbitmqctl list_users | tail -n +2 | sort > $RABBITMQ_SNAPSHOTS_DIR/users.snapshot
+}
+take_users_permissions_snapshot() {
+  local list_of_vhosts
+  log "Taking snaphost of user permissions per vhost to $RABBITMQ_SNAPSHOTS_DIR"
+  list_of_vhosts=$(rabbitmqctl list_vhosts | tail -n +2 | tr '\n' ' ')
+
+  for vhost in $list_of_vhosts
+  do
+    local normalized_vhost
+    if [[ "$vhost" == '/' ]]
+    then
+      normalized_vhost='default'
+    else
+      normalized_vhost=$vhost
+    fi
+
+    rabbitmqctl list_permissions -p $vhost | tail -n +2 > $RABBITMQ_SNAPSHOTS_DIR/${normalized_vhost}_permissions.snapshot
+  done
+}
+create_or_reset_store() {
+  mkdir -p $RABBITMQ_SNAPSHOTS_DIR
+  rm -f "$RABBITMQ_SNAPSHOTS_DIR/*" 2> /dev/null
+}
+
+main
