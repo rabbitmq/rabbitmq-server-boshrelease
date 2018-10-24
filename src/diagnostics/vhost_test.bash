@@ -26,7 +26,7 @@ T_AllSnapshotVhostsStillExist() {
     done
     echo "All snapshot vhosts still exist"
 
-    [ "$($actual_vhosts | wc -w)" -gt "$($expected_vhosts | wc -w)" ] && echo "There are more vhosts than previous snapshot"    
+    [ "$(echo $actual_vhosts | wc -w)" -le "$(echo $expected_vhosts | wc -w)" ] || echo "There are more vhosts than previous snapshot"
 
   else
     echo "There is no snapshot vhosts in store"
