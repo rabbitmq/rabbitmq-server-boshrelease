@@ -365,6 +365,7 @@ templates:
   bin/_verify_rabbitmq_version: bin/_verify_rabbitmq_version
   bin/_wait_for_mnesia_tables: bin/_wait_for_mnesia_tables
   bin/_write_erlang_cookie: bin/_write_erlang_cookie
+  bin/_take_snapshots: bin/_take_snapshots
 
 packages:
 - erlang-17.5.6.9
