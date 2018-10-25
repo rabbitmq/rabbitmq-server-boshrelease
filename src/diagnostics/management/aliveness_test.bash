@@ -8,7 +8,7 @@ TEST="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export T_fail
 
 # shellcheck disable=SC1090
-source $TEST/test_helpers
+source $TEST/../test_helpers
 
 RMQ_MANAGEMENT_URI="http://127.0.0.1:15672"
 

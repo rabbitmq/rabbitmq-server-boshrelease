@@ -28,3 +28,7 @@ rabbitmq_plugins_all_enabled_list() {
 rabbitmq_plugins_explicitly_enabled_list() {
   rabbitmq-plugins list -E -m | sort
 }
+# Introduced in 3.7.0
+is_topic_permissions_supported() {
+  [[ -n "$(rabbitmqctl 2>&1 | grep list_topic_permissions)" ]]
+}

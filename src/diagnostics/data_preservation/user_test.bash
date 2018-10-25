@@ -8,10 +8,10 @@ TEST="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export T_fail
 
 # shellcheck disable=SC1090
-source $TEST/test_helpers
+source $TEST/../test_helpers
 
 # shellcheck disable=SC1090
-source $TEST/store_helpers
+source $TEST/../store_helpers
 
 AllSnapshotUserTagsStillExist() {
   local missing_users
@@ -39,11 +39,19 @@ AllSnapshotUserTopicPermissionsStillExist() {
   done
   [[ -z $missing_topic_permissions ]] || $T_fail "There are missing user topic permissions { vhost :: user-topic }  : $missing_topic_permissions"
 }
+AllSnapshotUserTopicPermissionsStillExist_if_supported() {
+  if is_topic_permissions_supported
+  then
+    AllSnapshotUserTopicPermissionsStillExist
+  else
+    echo "Skipped Topic Permissions. It is not supported"
+  fi
+}
 T_AllSnapshotUsersStillExist() {
   if store_users_exists; then
     AllSnapshotUserTagsStillExist
     AllSnapshotUserPermissionsStillExist
-    AllSnapshotUserTopicPermissionsStillExist
+    AllSnapshotUserTopicPermissionsStillExist_if_supported
   else
     echo "There is no snapshot users in store"
   fi
