@@ -193,5 +193,5 @@ submodules: $(GIT)
 diagnostics: ## Run diagnostics on an existing RabbitMQ cluster
 	@diagnostics
 
-diagnostics-recent: ## Display diagnostics from the last time the RabbitMQ cluster was deloyed
+diagnostics-recent: ## Display outcome from the last diagnostics (executed after `bosh deploy|restart` commands)
 	@diagnostics "--recent"
