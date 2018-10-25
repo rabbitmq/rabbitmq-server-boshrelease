@@ -24,7 +24,11 @@ Diagnostics Summary from $RABBITMQ_NODENAME running $RABBITMQ_SERVER_PACKAGE_VER
 Produced at $DIAGNOSTICS_STAMP
 =======================================
 EOL
-  awk '/^--- (FAIL|PASS)/ { print $2 " " $3 }' $DIAGNOSTIC_LOG_FILE >> $DIAGNOSTIC_SUMMARY
+  awk '/^--- (FAIL|PASS|::)/ { print $2 " " $3 }' $DIAGNOSTIC_LOG_FILE >> $DIAGNOSTIC_SUMMARY
+  [[ $(grep FAIL $DIAGNOSTIC_SUMMARY | wc -l) = "0" ]] || (
+    echo "$(grep FAIL $DIAGNOSTIC_SUMMARY | wc -l)"
+    exit 1
+  )
 }
 run_diagnostics() {
   capture_diagnostics_log && diagnostics
@@ -35,4 +39,4 @@ run_diagnostics() {
 # success (exit code 0) or failure (any other exit code).
 # https://bosh.io/docs/post-start/
 # diagnostics exits with 0 if there are no errors/failures or else with the count of failures
-[[ $DIAGNOSTICS_RUN_AT_START_UP = true ]] && run_diagnostics ||  echo "Skip diagnostics"
+[[ $DIAGNOSTICS_RUN_AT_START_UP = true ]] && run_diagnostics ||  echo "Skipped diagnostics"
