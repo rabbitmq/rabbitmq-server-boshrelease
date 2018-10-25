@@ -42,7 +42,7 @@ else
 
   for (( i=0; i<$RMQ_INSTANCE_COUNT; i++ )) ; do
     echo "Running tests on rmq/$i ..."
-    bosh -d $BOSH_DEPLOYMENT ssh rmq/$i -c "sudo -i bash -c 'DEBUG=false diagnostics'"  2>&1 | tee -a $LOG_FILE | awk '/ (FAIL|PASS)/ { print $5 " " $6 }'
+    bosh -d $BOSH_DEPLOYMENT ssh rmq/$i -c "sudo -i bash -c 'DEBUG=false diagnostics'"  2>&1 | tee -a $LOG_FILE | awk '/^--- (FAIL|PASS|::)/ { print $5 " " $6 }'
   done
 
   # exit 0   -> no failures
