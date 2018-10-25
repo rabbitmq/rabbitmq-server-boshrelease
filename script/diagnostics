@@ -29,7 +29,7 @@ BOSH_DEPLOYMENT="${_BOSH_DEPLOYMENT##*/}"
 
 RMQ_INSTANCE_COUNT=$(bosh -d $BOSH_DEPLOYMENT instances | grep rmq | wc -l)
 
-if [ $1 = "--recent" ]; then
+if [[ $1 = "--recent" ]]; then
   echo "Displaying diagnostics on ${BOSH_DEPLOYMENT} ..."
   for (( i=0; i<$RMQ_INSTANCE_COUNT; i++ )) ; do
     echo "Displaying tests on rmq/$i ..."
