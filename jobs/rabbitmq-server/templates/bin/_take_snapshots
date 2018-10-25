@@ -30,7 +30,7 @@ take_users_permissions_snapshot() {
     else
       normalized_vhost=$vhost
     fi
-    rabbitmqctl list_permissions -p $vhost | tail -n +2 > $RABBITMQ_SNAPSHOTS_DIR/${normalized_vhost}_permissions.snapshot
+    rabbitmqctl list_permissions -p $vhost | tail -n +2 | sort > $RABBITMQ_SNAPSHOTS_DIR/${normalized_vhost}_permissions.snapshot
   done
 }
 take_users_topic_permissions_snapshot() {
@@ -46,7 +46,7 @@ take_users_topic_permissions_snapshot() {
     else
       normalized_vhost=$vhost
     fi
-    rabbitmqctl list_topic_permissions -p $vhost | tail -n +2 > $RABBITMQ_SNAPSHOTS_DIR/${normalized_vhost}_topic_permissions.snapshot
+    rabbitmqctl list_topic_permissions -p $vhost | tail -n +2 | sort > $RABBITMQ_SNAPSHOTS_DIR/${normalized_vhost}_topic_permissions.snapshot
   done
 }
 create_or_reset_store() {
