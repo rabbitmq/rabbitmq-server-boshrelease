@@ -2,16 +2,34 @@
 
 [[ $DEBUG = true ]] && set -x
 
+TEST_DIR=${DIAGNOSTICS_TEST_DIR:-$PWD}
+
 main() {
-  if [ $# -gt 1 ] && [ -f "$DIAGNOSTICS_TEST_DIR/$1" ]; then
-    basht "$DIAGNOSTICS_TEST_DIR/$1"
+  if [ $# -gt 1 ] && [ -f "$TEST_DIR/$1" ]; then
+    basht "$TEST_DIR/$1"
   else
     test_all
   fi
 }
 
 test_all() {
-  basht $DIAGNOSTICS_TEST_DIR/*_test.bash
+  local failed
+
+  echo "--- :: core"
+  basht $TEST_DIR/*_test.bash
+  [[ $? == 0 ]] || failed=1
+
+  for dir in $TEST_DIR/*/
+  do
+      dir=${dir%*/}
+      group=${dir##*/}
+      echo
+      echo "--- :: ${group}"
+      basht $dir/*_test.bash
+      [[ $? == 0 ]] || failed=1
+  done
+
+  exit $failed
 }
 
 main "$@"
