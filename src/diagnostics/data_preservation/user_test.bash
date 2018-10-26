@@ -13,11 +13,14 @@ source $TEST/../test_helpers
 # shellcheck disable=SC1090
 source $TEST/../store_helpers
 
+# shellcheck disable=SC1090
+source $TEST/../rabbitmq_helpers
+
 AllSnapshotUserTagsStillExist() {
   local missing_users
 
   missing_users=$(comm -23 $DIAGNOSTICS_USERS_SNAPSHOT <(rabbitmq_users))
-  [ -z $missing_users ] || $T_fail "There are missing users: $missing_users"
+  [[ -z $missing_users ]] || $T_fail "There are missing users: $missing_users"
 }
 AllSnapshotUserPermissionsStillExist() {
   local missing_permissions
