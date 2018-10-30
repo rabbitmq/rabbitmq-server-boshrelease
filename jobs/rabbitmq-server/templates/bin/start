@@ -41,29 +41,5 @@ exec 1> >(tee -a "${RABBITMQ_LOG_BASE:?must be set}/start.log") 2>&1
 # shellcheck source=jobs/rabbitmq-server/templates/bin/_start_rabbitmq-server
 . _start_rabbitmq-server
 
-# Operations that require RabbitMQ to have started (a.k.a. post-start)
-# shellcheck source=jobs/rabbitmq-server/templates/bin/_wait_for_mnesia_tables
-. _wait_for_mnesia_tables
-# shellcheck source=jobs/rabbitmq-server/templates/bin/_enable_plugins
-. _enable_plugins
-
-if [ -n "${BOOTSTRAP_NODE?must be defined}" ]
-then
-  # shellcheck source=jobs/rabbitmq-server/templates/bin/_set_cluster_name
-  . _set_cluster_name
-  # shellcheck source=jobs/rabbitmq-server/templates/bin/_delete_guest_user
-  . _delete_guest_user
-
-  RABBITMQ_USER="${RABBITMQ_ADMIN_USER:?must be set}" \
-    RABBITMQ_PASS="${RABBITMQ_ADMIN_PASS:?must be set}" \
-    RABBITMQ_USER_ROLE="administrator" _add_user
-
-  [ "$RABBITMQ_CREATE_DEMO_USER" == "false" ] ||
-    RABBITMQ_USER="demo" RABBITMQ_PASS="demo" RABBITMQ_USER_ROLE="monitoring" \
-      RABBITMQ_VHOST_CONF="" RABBITMQ_VHOST_WRITE="" _add_user
-else
-  echo "$0 will only run on the bootstrap node, ${BOOTSTRAP_NODE_INSTANCE:?must be set}"
-fi
-
 # shellcheck source=jobs/rabbitmq-server/templates/bin/_end
 . _end "rabbitmq-server started"
