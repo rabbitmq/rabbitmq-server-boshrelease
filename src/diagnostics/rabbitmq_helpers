@@ -19,6 +19,16 @@ rabbitmq_topic_permissions() {
   vhost=$1
   rabbitmqctl list_topic_permissions -p $vhost | tail -n +2 | sort
 }
+rabbitmq_policies() {
+  local vhost
+  vhost=$1
+  rabbitmqctl list_policies -p $vhost | tail -n +2 | sort
+}
+rabbitmq_operator_policies() {
+  local vhost
+  vhost=$1
+  rabbitmqctl list_operator_policies -p $vhost | tail -n +2 | sort
+}
 rabbitmq_plugins_installed_list() {
   rabbitmq-plugins list -m | sort
 }
@@ -27,6 +37,14 @@ rabbitmq_plugins_all_enabled_list() {
 }
 rabbitmq_plugins_explicitly_enabled_list() {
   rabbitmq-plugins list -E -m | sort
+}
+rabbitmq_parameters() {
+  local vhost
+  vhost=$1
+  rabbitmqctl list_parameters -p $vhost | tail -n +2 | sort
+}
+rabbitmq_global_parameters() {
+  rabbitmqctl list_global_parameters | tail -n +2 | sort
 }
 # Introduced in 3.7.0
 is_topic_permissions_supported() {

@@ -36,3 +36,40 @@ store_topic_permissions() {
 
   [ -r $topic_permissions_file ] && cat $topic_permissions_file
 }
+store_policies() {
+  local vhost policies_file
+  if [[ "$1" == '/' ]]
+  then
+    vhost='default'
+  else
+    vhost=$1
+  fi
+  policies_file="${DIAGNOSTICS_STORE_DIR}/${vhost}_policies.snapshot"
+
+  [ -r $policies_file ] && cat $policies_file
+}
+store_operator_policies() {
+  local vhost policies_file
+  if [[ "$1" == '/' ]]
+  then
+    vhost='default'
+  else
+    vhost=$1
+  fi
+
+  policies_file="${DIAGNOSTICS_STORE_DIR}/${vhost}_operator_policies.snapshot"
+  [ -r $policies_file ] && cat $policies_file
+}
+store_parameters() {
+  local vhost parameters_file
+  if [[ "$1" == '/' ]]
+  then
+    vhost='default'
+  else
+    vhost=$1
+  fi
+
+  parameters_file="${DIAGNOSTICS_STORE_DIR}/${vhost}_parameters.snapshot"
+  [ -r $parameters_file ] && cat $parameters_file
+}
+
