@@ -16,6 +16,3 @@ set -e
 
 # shellcheck source=jobs/apt/templates/bin/_install_perf
 . /var/vcap/jobs/apt/bin/_install_perf
-
-# shellcheck source=jobs/apt/templates/bin/_install_pika
-. /var/vcap/jobs/apt/bin/_install_pika

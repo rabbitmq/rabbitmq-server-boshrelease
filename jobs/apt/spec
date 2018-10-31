@@ -11,8 +11,7 @@ templates:
   bin/_install_perf: bin/_install_perf
   bin/_remove_expired_apt_keys: bin/_remove_expired_apt_keys
   bin/_update_apt_sources: bin/_update_apt_sources
-  bin/_install_pika: bin/_install_pika
-
+  
 packages: []
 properties:
   apt.packages_to_install:
@@ -29,4 +28,3 @@ properties:
       - vnstat
       - vim-nox
       - wget
-      - python3-pip
