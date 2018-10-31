@@ -9,6 +9,18 @@ store_vhosts() {
 
   [ -r $vhosts_file ] && (cat $vhosts_file | tr '\n' ' ')
 }
+store_vhost_limits() {
+  local vhost limits_file
+  if [[ "$1" == '/' ]]
+  then
+    vhost='default'
+  else
+    vhost=$1
+  fi
+  limits_file="${DIAGNOSTICS_STORE_DIR}/${vhost}_limits.snapshot"
+
+  [ -r $limits_file ] && cat $limits_file
+}
 store_users_exists() {
   [[ -f $DIAGNOSTICS_USERS_SNAPSHOT ]]
 }
@@ -72,4 +84,3 @@ store_parameters() {
   parameters_file="${DIAGNOSTICS_STORE_DIR}/${vhost}_parameters.snapshot"
   [ -r $parameters_file ] && cat $parameters_file
 }
-

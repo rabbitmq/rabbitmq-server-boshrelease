@@ -32,3 +32,18 @@ T_AllSnapshotVhostsStillExist() {
     echo "There is no snapshot vhosts in store"
   fi
 }
+
+T_AllSnapshotVhostsLimitsStillExist() {
+  if store_vhosts_exists; then
+    local missing_limits
+    for vhost in $(store_vhosts)
+    do
+      local vhost_missing_limits
+      vhost_missing_limits="$(comm -23 <(store_vhost_limits $vhost) <(rabbitmq_vhost_limits $vhost) | awk '{ print $1 }' | tr '\n' ' ')"
+      [[ -z $vhost_missing_limits ]] || missing_limits+="{ $vhost :: $vhost_missing_limits } , "
+    done
+    [[ -z $missing_limits ]] || $T_fail "There are missing vhost limits { vhost :: limits } : $missing_limits"
+  else
+    echo "There is no snapshot vhosts in store"
+  fi
+}

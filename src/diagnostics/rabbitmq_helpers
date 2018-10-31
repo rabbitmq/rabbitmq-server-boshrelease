@@ -6,6 +6,11 @@ rabbitmq_config_OnlyEnableThesePlugins() {
 rabbitmq_vhosts() {
   rabbitmqctl list_vhosts | tail -n +2 | tr '\n' ' '
 }
+rabbitmq_vhost_limits() {
+  local vhost
+  vhost=$1
+  rabbitmqctl list_vhost_limits -p $vhost | tail -n +2 | sort
+}
 rabbitmq_users() {
   rabbitmqctl list_users | tail -n +2 | sort
 }
