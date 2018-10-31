@@ -12,7 +12,10 @@ main() {
   then
     rabbitmq_node_is_accessible
     RABBITMQ_PID="$(rabbitmq_pid)"
-    . _take_snapshots
+
+    # shellcheck source=/dev/null
+    . ${RABBITMQ_DIAGNOSTICS_PACKAGE_DIR:?must be set}/_take_snapshots 1>&2
+
     stop_rabbitmq_app
     ( stop_erlang_vm && wait_for_erlang_vm_to_stop ) || failed_to_stop_erlang_vm
     log "RabbitMQ node stopped"

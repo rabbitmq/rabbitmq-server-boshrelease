@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+TEST="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# shellcheck disable=SC1090
+source $TEST/env
+
+main() {
+  local snapshots
+  snapshots="${DIAGNOSTICS_SNAPSHOT:?must be set}"
+
+  create_or_reset_store
+
+  rabbitmq-admin export $snapshots 
+}
+
+create_or_reset_store() {
+  mkdir -p $RABBITMQ_SNAPSHOTS_DIR
+  rm -f "$RABBITMQ_SNAPSHOTS_DIR/*" 2> /dev/null
+}
+
+main

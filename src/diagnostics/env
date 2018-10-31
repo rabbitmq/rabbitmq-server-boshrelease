@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+export DIAGNOSTICS_SNAPSHOT_FILENAME="report.json"
+export DIAGNOSTICS_SNAPSHOT="${RABBITMQ_SNAPSHOTS_DIR:?must be set}/${DIAGNOSTICS_SNAPSHOT_FILENAME}"

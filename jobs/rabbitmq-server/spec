@@ -366,8 +366,7 @@ templates:
   bin/_wait_for_mnesia_tables: bin/_wait_for_mnesia_tables
   bin/_wait_for_rabbitmq-server: bin/_wait_for_rabbitmq-server
   bin/_write_erlang_cookie: bin/_write_erlang_cookie
-  bin/_take_snapshots: bin/_take_snapshots
-
+  
 packages:
 - erlang-17.5.6.9
 - erlang-18.3.4.9
@@ -380,6 +379,7 @@ packages:
 - prometheus.erl
 - rabbitmq-support-tools
 - start-stop-daemon-1.9.18
+- diagnostics
 
 provides:
 - name: rabbitmq-server

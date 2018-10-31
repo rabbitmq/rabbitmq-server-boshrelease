@@ -3,6 +3,10 @@
 [[ $DEBUG = true ]] && set -x
 
 TEST_DIR=${DIAGNOSTICS_TEST_DIR:-$PWD}
+export TEST_RUN_ID="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+
+# shellcheck source=/dev/null
+source $TEST_DIR/env
 
 main() {
   if [ $# -gt 1 ] && [ -f "$TEST_DIR/$1" ]; then
