@@ -14,7 +14,6 @@ source $TEST/test_helpers
 # shellcheck disable=SC1090
 source $TEST/rabbitmq_helpers
 
-
 T_ConfiguredErlangVersionIsRunning() {
   local actual expected
 

@@ -1,86 +1,47 @@
 #!/usr/bin/env bash
 
-store_vhosts_exists() {
-  [[ -f $DIAGNOSTICS_VHOSTS_SNAPSHOT ]]
+store_exists() {
+  [[ -f $DIAGNOSTICS_SNAPSHOT ]]
+}
+extract_vhosts() {
+  jq -r .vhosts[].name $1 | sort
 }
 store_vhosts() {
-  local vhosts_file
-  vhosts_file=$DIAGNOSTICS_VHOSTS_SNAPSHOT
-
-  [ -r $vhosts_file ] && (cat $vhosts_file | tr '\n' ' ')
+  store_exists && extract_vhosts $DIAGNOSTICS_SNAPSHOT
 }
-store_vhost_limits() {
-  local vhost limits_file
-  if [[ "$1" == '/' ]]
-  then
-    vhost='default'
-  else
-    vhost=$1
-  fi
-  limits_file="${DIAGNOSTICS_STORE_DIR}/${vhost}_limits.snapshot"
-
-  [ -r $limits_file ] && cat $limits_file
+extract_users() {
+ jq -c -r '.users[] | [.name,.tags]' $1 | sort
 }
-store_users_exists() {
-  [[ -f $DIAGNOSTICS_USERS_SNAPSHOT ]]
+store_users() {
+  store_exists && extract_users $DIAGNOSTICS_SNAPSHOT
+}
+extract_permissions() {
+  jq -c -r '.permissions[] | [.vhost,.user,.configure,.write,.read] ' $1 | sort
 }
 store_permissions() {
-  local vhost permissions_file
-  if [[ "$1" == '/' ]]
-  then
-    vhost='default'
-  else
-    vhost=$1
-  fi
-  permissions_file="${DIAGNOSTICS_STORE_DIR}/${vhost}_permissions.snapshot"
-
-  [ -r $permissions_file ] && cat $permissions_file
+  store_exists && extract_permissions $DIAGNOSTICS_SNAPSHOT
+}
+extract_topic_permissions() {
+  jq -c -r '.topic_permissions[] | [.vhost,.user,.exchange,.write,.read] ' $1 | sort
 }
 store_topic_permissions() {
-  local vhost topic_permissions_file
-  if [[ "$1" == '/' ]]
-  then
-    vhost='default'
-  else
-    vhost=$1
-  fi
-  topic_permissions_file="${DIAGNOSTICS_STORE_DIR}/${vhost}_topic_permissions.snapshot"
-
-  [ -r $topic_permissions_file ] && cat $topic_permissions_file
+  store_exists && extract_topic_permissions $DIAGNOSTICS_SNAPSHOT
+}
+extract_policies() {
+  jq -c -r '.policies[] | [.vhost,.name,.pattern,.priority,.definition] ' $1 | sort
 }
 store_policies() {
-  local vhost policies_file
-  if [[ "$1" == '/' ]]
-  then
-    vhost='default'
-  else
-    vhost=$1
-  fi
-  policies_file="${DIAGNOSTICS_STORE_DIR}/${vhost}_policies.snapshot"
-
-  [ -r $policies_file ] && cat $policies_file
+  store_exists && extract_policies $DIAGNOSTICS_SNAPSHOT
 }
-store_operator_policies() {
-  local vhost policies_file
-  if [[ "$1" == '/' ]]
-  then
-    vhost='default'
-  else
-    vhost=$1
-  fi
-
-  policies_file="${DIAGNOSTICS_STORE_DIR}/${vhost}_operator_policies.snapshot"
-  [ -r $policies_file ] && cat $policies_file
+extract_parameters() {
+  jq -c '.parameters[] | [.vhost,.name,.component,.value]' $1 | sort
 }
 store_parameters() {
-  local vhost parameters_file
-  if [[ "$1" == '/' ]]
-  then
-    vhost='default'
-  else
-    vhost=$1
-  fi
-
-  parameters_file="${DIAGNOSTICS_STORE_DIR}/${vhost}_parameters.snapshot"
-  [ -r $parameters_file ] && cat $parameters_file
+  store_exists && extract_parameters $DIAGNOSTICS_SNAPSHOT
+}
+extract_global_parameters() {
+  jq -c -r '.global_parameters[] | [.name,.value]' $1 | sort
+}
+store_global_parameters() {
+  store_exists && extract_global_parameters $DIAGNOSTICS_SNAPSHOT
 }

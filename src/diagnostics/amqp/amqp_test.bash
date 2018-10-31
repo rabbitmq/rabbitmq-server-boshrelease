@@ -9,10 +9,10 @@ export T_fail
 
 # IMPORTs section
 # shellcheck disable=SC1090
-source $TEST/test_helpers
+source $TEST/../test_helpers
 
 # shellcheck disable=SC1090
-source $TEST/rabbitmq_helpers
+source $TEST/../rabbitmq_helpers
 
 T_RabbitMQIsReadyToServiceAMQP() {
   nc -vz "$(hostname -I)" 5672
