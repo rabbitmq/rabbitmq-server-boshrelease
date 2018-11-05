@@ -90,9 +90,8 @@ add_erlang: list_erlangs erlang_tgz $(BOSH) $(SED) $(GIT) ## Add new Erlang pack
 	read -rp "7/7 All changes committed & pushed $(CONFIRM)" -n 1 && \
 	echo -e "\nYou might want to run $(BOLD)gmake remove_erlang$(NORMAL)\n"
 
-clean: 	## Clean all dev releases
+clean: 	## Clean all rabbitmq-server BOSH dev releases locally & from the BOSH Director
 	@clean-dev-releases
-
 
 deploy: $(BOSH) $(YAML2JSON) $(JQ) ## Deploy a RabbitMQ cluster
 	@deploy
