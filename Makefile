@@ -125,7 +125,7 @@ ifndef VERSION
 	_local_final_bosh_releases && \
 	exit 1
 endif
-final:: submodules $(LPASS) $(BOSH) ## Create a rabbitmq-server BOSH final release - VERSION is required, e.g. VERSION=0.15.0
+final:: submodules $(LPASS) $(BOSH) ## Create a rabbitmq-server BOSH final release - VERSION is required, e.g. VERSION=n.n.n
 	@create-final-release $(VERSION) && \
 	shasum releases/rabbitmq-server/rabbitmq-server-$(VERSION).tgz > releases/rabbitmq-server/rabbitmq-server-$(VERSION).sha1
 
@@ -144,7 +144,7 @@ ifndef VERSION
 	_local_final_bosh_releases && \
 	exit 1
 endif
-publish_final:: $(GIT) $(CHANGELOG) ## Publish final rabbitmq-server BOSH release - VERSION is required, e.g. VERSION=0.15.0
+publish_final:: $(GIT) $(CHANGELOG) ## Publish final rabbitmq-server BOSH release - VERSION is required, e.g. VERSION=n.n.n
 	@read -rp "1/5 Update CHANGELOG.md with help from $(BOLD)git changelog$(NORMAL) $(CONFIRM)" -n 1 && \
 	echo "2/5 Add final release tarball SHA1 to release notes in CHANGELOG.md:" && \
 	echo '```' && \
@@ -183,7 +183,7 @@ remove_erlang:: $(BOSH) $(GIT) $(SED) ## Remove superseded Erlang package
 tmp:
 	@mkdir -p tmp
 
-update: ## Deploy an existing RabbitMQ cluster configuration - CONFIG is optional, it sets the deployment config, e.g. CONFIG=deployment_configurations/rmq-73734-3-7-2.yml
+update: ## Deploy an existing RabbitMQ cluster configuration - CONFIG is optional, e.g. CONFIG=deployment_configurations/rmq-n.yml
 	@deploy-configuration $(CONFIG)
 
 submodules: $(GIT)
