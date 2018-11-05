@@ -7,17 +7,20 @@ main() {
   delete_dev_releases_from_bosh
 }
 
-function delete_dev_releases_locally() {
+delete_dev_releases_locally() {
   rm -fr dev_releases
 }
-function delete_dev_releases_from_bosh() {
-  for version in $(dev_releases)
+
+delete_dev_releases_from_bosh() {
+  for dev_release_version in $(dev_releases_versions)
   do
-    bosh delete-release -n rabbitmq-server/$version 
+    bosh delete-release -n rabbitmq-server/"$dev_release_version"
   done
 }
-function dev_releases() {
-  bosh releases | awk '{print $2}' | grep '.*dev.*[0-9]$'
+
+dev_releases_versions() {
+  bosh releases |
+    awk '/rabbitmq-server.*\+dev\.[0-9]+ / { print $2 }'
 }
 
 main
