@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -o pipefail
+
+bosh deployments --json |
+  jq --raw-output '.Tables[].Rows[] | select(.release_s | contains("rabbitmq-server")) | .name'

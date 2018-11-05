@@ -2,50 +2,39 @@
 
 set -e
 
-SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+[ -n "$SCRIPT" ] || SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-if [ ! -e "$DEPLOYMENT_CONFIGURATION" ]
+echo "Select which RabbitMQ deployment to run diagnostics against:"
+select RMQ_DEPLOYMENT in $("$SCRIPT"/_rabbitmq-server_deployments)
+do
+  export RMQ_DEPLOYMENT
+  break
+done
+
+RMQ_INSTANCE_COUNT=$(bosh -d "$RMQ_DEPLOYMENT" instances | grep -c rmq)
+
+if [[ $1 = --recent ]]
 then
-  pushd "$SCRIPT"/../deployment_configurations &> /dev/null
-    shopt -s nullglob
-    deployment_configurations=( *.yml )
-    if [ ${#deployment_configurations[@]} != 0 ]
-    then
-      echo "Which configuration do you want to deploy?"
-      select deployment_configuration in "${deployment_configurations[@]}"
-      do
-        DEPLOYMENT_CONFIGURATION="$SCRIPT"/../deployment_configurations/"$deployment_configuration"
-        break
-      done
-    else
-      echo "There are no deployment configurations, you can create one by running: deploy"
-      exit 1
-    fi
-  popd &> /dev/null
-fi
-
-_BOSH_DEPLOYMENT="${DEPLOYMENT_CONFIGURATION/.yml}"
-BOSH_DEPLOYMENT="${_BOSH_DEPLOYMENT##*/}"
-
-RMQ_INSTANCE_COUNT=$(bosh -d $BOSH_DEPLOYMENT instances | grep rmq | wc -l)
-
-if [[ $1 = "--recent" ]]; then
-  echo "Displaying diagnostics on ${BOSH_DEPLOYMENT} ..."
-  for (( i=0; i<$RMQ_INSTANCE_COUNT; i++ )) ; do
+  echo "Displaying diagnostics on $RMQ_DEPLOYMENT ..."
+  for (( i=0; i<RMQ_INSTANCE_COUNT; i++ ))
+  do
     echo "Displaying tests on rmq/$i ..."
-    bosh -d $BOSH_DEPLOYMENT ssh rmq/$i -r -c "sudo -i bash -c 'cat \$(ls -rt /var/vcap/sys/log/diagnostics/diagnostics-*.report | tail -1)'"
+    bosh -d "$RMQ_DEPLOYMENT" ssh rmq/$i -r -c "sudo -i bash -c 'cat \$(ls -rt /var/vcap/sys/log/diagnostics/diagnostics-*.report | tail -1)'"
   done
 else
-  echo "Running diagnostics on ${BOSH_DEPLOYMENT} ..."
-  LOG_FILE="/tmp/$BOSH_DEPLOYMENT-$(date -u +'%Y-%m-%dT%H:%M:%SZ').log"
+  echo "Running diagnostics on $RMQ_DEPLOYMENT ..."
+  LOG_FILE="/tmp/$RMQ_DEPLOYMENT-$(date -u +'%Y-%m-%dT%H:%M:%SZ').log"
   echo "Check out output at $LOG_FILE"
 
-  for (( i=0; i<$RMQ_INSTANCE_COUNT; i++ )) ; do
+  for (( i=0; i<RMQ_INSTANCE_COUNT; i++ ))
+  do
     echo "Running tests on rmq/$i ..."
-    bosh -d $BOSH_DEPLOYMENT ssh rmq/$i -c "sudo -i bash -c 'DEBUG=false diagnostics'"  2>&1 | tee -a $LOG_FILE | awk '/^--- (FAIL|PASS|::)/ { print $5 " " $6 }'
+    bosh -d "$RMQ_DEPLOYMENT" ssh rmq/$i -c "sudo -i bash -c 'DEBUG=false diagnostics'"  2>&1 |
+      tee -a "$LOG_FILE" |
+      awk '/^--- (FAIL|PASS|::)/ { print $5 " " $6 }'
   done
 
   # exit 0   -> no failures
   # exit 5   -> 5 tests failed
-  exit "$(grep '\| FAIL' $LOG_FILE | wc -l)"
+  exit "$(grep -c '\| FAIL' "$LOG_FILE" )"
 fi

@@ -189,8 +189,8 @@ update: ## Deploy an existing RabbitMQ cluster configuration - CONFIG is optiona
 submodules: $(GIT)
 	@$(GIT) submodule update --init
 
-diagnostics: ## Run diagnostics on an existing RabbitMQ cluster
+diagnostics: ## Run diagnostics on an existing RabbitMQ deployment
 	@diagnostics
 
-diagnostics-recent: ## Display outcome from the last diagnostics (executed after `bosh deploy|restart` commands)
+diagnostics-recent: ## Show most recent diagnostics for an existing RabbitMQ deployment
 	@diagnostics "--recent"
