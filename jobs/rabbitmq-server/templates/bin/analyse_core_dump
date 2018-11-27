@@ -4,7 +4,6 @@ set -e
 
 # shellcheck source=/dev/null
 . /var/vcap/jobs/rabbitmq-server/env
-configureDebugLevel
 
 ERLANG_CORE_DUMP="${1:?first argument must be a valid Erlang Core Dump}"
 
