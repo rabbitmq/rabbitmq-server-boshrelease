@@ -19,7 +19,7 @@ then
   for (( i=0; i<RMQ_INSTANCE_COUNT; i++ ))
   do
     echo "Displaying tests on rmq/$i ..."
-    bosh -d "$RMQ_DEPLOYMENT" ssh rmq/$i -r -c "sudo -i bash -c 'diagnostic_files=(/var/vcap/sys/log/diagnostics/diagnostics-*.report) && cat \${diagnostic_files[-1]}'"
+    bosh -d "$RMQ_DEPLOYMENT" ssh rmq/$i -r -c "sudo -i bash -c 'diagnostic_files=(/var/vcap/sys/log/diagnostics/diagnostics-*.report) ; [ ! -f \${diagnostic_files[-1]} ] || cat \${diagnostic_files[-1]}'"
   done
 else
   echo "Running diagnostics on $RMQ_DEPLOYMENT ..."
