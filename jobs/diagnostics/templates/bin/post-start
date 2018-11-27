@@ -8,8 +8,6 @@ set -e
 # shellcheck source=/dev/null
 . "${RABBITMQ_ENV:?must de set}"
 
-configureDebugLevel
-
 DIAGNOSTICS_STAMP="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
 DIAGNOSTIC_FILENAME="${DIAGNOSTICS_LOG_BASE:?must be set}/diagnostics-$DIAGNOSTICS_STAMP"
 DIAGNOSTIC_LOG_FILE="${DIAGNOSTIC_FILENAME}.log"

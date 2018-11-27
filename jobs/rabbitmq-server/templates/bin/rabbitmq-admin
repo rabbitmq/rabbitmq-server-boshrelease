@@ -2,7 +2,6 @@
 
 # shellcheck source=/dev/null
 . /var/vcap/jobs/rabbitmq-server/env
-configureDebugLevel
 
 set -e
 
