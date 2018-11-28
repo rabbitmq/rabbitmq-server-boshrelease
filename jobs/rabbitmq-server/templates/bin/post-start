@@ -8,8 +8,8 @@ set -e
 # shellcheck source=jobs/rabbitmq-server/templates/bin/_begin
 . _begin "Running rabbitmq-server post-start tasks"
 
-# shellcheck source=jobs/rabbitmq-server/templates/bin/_wait_for_rabbitmq-server
-. _wait_for_rabbitmq-server
+# shellcheck source=jobs/rabbitmq-server/templates/bin/_wait_for_rabbit_to_boot
+. _wait_for_rabbit_to_boot
 
 # Operations that require RabbitMQ to have started (a.k.a. post-start)
 # shellcheck source=jobs/rabbitmq-server/templates/bin/_wait_for_mnesia_tables

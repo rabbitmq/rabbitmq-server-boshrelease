@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+rabbitmqctl eval 'rabbit:await_startup().'

@@ -360,7 +360,7 @@ templates:
   bin/_verify_erlang_version: bin/_verify_erlang_version
   bin/_verify_rabbitmq_version: bin/_verify_rabbitmq_version
   bin/_wait_for_mnesia_tables: bin/_wait_for_mnesia_tables
-  bin/_wait_for_rabbitmq-server: bin/_wait_for_rabbitmq-server
+  bin/_wait_for_rabbit_to_boot: bin/_wait_for_rabbit_to_boot
   bin/_write_erlang_cookie: bin/_write_erlang_cookie
 
 packages:
