@@ -54,7 +54,11 @@ log_levels = p("rabbitmq-server.log_levels")
    %%   * 'none'
    %%  Defaults to '{connection, info}'
    %%
+   %% Remove log_levels once we no longer want to deploy 3.6.x
    {log_levels, [{channel, <%= log_levels %>}, {connection, <%= log_levels %>}, {federation, <%= log_levels %>}, {mirroring, <%= log_levels %>}]},
+
+   %% The categories replace the rabbit.log_levels configuration setting in versions earlier than 3.7.0. More here https://www.rabbitmq.com/logging.html
+   {log, [{file, [{level, <%= log_levels %>}]}]},
 
    %% Set to 'true' to perform reverse DNS lookups when accepting a
    %% connection. Hostnames will then be shown instead of IP addresses
