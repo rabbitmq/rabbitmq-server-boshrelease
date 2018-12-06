@@ -3,7 +3,7 @@
   value:
     name: perftest
     instances: 1
-    vm_type: small-highcpu
+    vm_type: ((rmq_vm_type))
     jobs:
     - name: rabbitmq-perf-test
       release: rabbitmq-server
