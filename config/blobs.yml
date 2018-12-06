@@ -38,6 +38,10 @@ rabbitmq-perf-test-2.2.0.RC1-bin.tar.gz:
   size: 4762833
   object_id: 121b5265-e245-45ae-6e74-1dd95ed82e57
   sha: ab27ac3c30e9a525a457c010e44c853f4881fea2
+rabbitmq-perf-test-2.4.0.RC1-bin.tar.gz:
+  size: 4949212
+  object_id: 93b5d89a-18e3-41de-7f24-80862620d8e3
+  sha: 72ef63c08c78937bf420d4bd352691928df3e966
 rabbitmq-plugins/3.6/accept-0.3.3.ez:
   size: 13625
   object_id: 7cf850e3-ad75-4cdb-487e-11c484765e2a

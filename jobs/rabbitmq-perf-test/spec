@@ -8,4 +8,4 @@ templates:
 
 packages:
 - java-jre-1.8
-- rabbitmq-perf-test-2.2
+- rabbitmq-perf-test-2.4
