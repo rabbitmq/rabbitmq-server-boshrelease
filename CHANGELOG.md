@@ -1,3 +1,33 @@
+## v0.17.0, released 2019-02-12
+
+### BOSH (a.k.a. Configuration)
+
+* perftest job runs on the same vm type as rabbitmq server job
+* Add rabbitmq-perf-test 2.4 package and use it from perftest job
+* Wait for Rabbit node to boot before running post-start
+* Update prometheus_rabbitmq_exporter in 3.7 to latest
+* Make prometheus_rabbitmq_exporter plugin available in v3.8
+* post-start now waits for rabbitmq server to start
+* Do not fail when netdata is not configured
+* Add rabtap utility
+* Deploy benchmark tools
+* Print NetData urls after a successful deployment
+
+### RabbitMQ (a.k.a. Operations)
+
+* Default RabbitMQ to v3.7.11, latest stable
+* Since 3.7.0 there is a preferred way of setting up log categories
+* Use the --quiet flag when listing plugins
+
+### Dependencies (a.k.a. Artefacts)
+
+* Add new Erlang/OTP versions
+  * **v21.2.5** - default
+
+```
+88aeff181585a8773ed361af12c434cf3a7420e3
+```
+
 ## v0.16.0, released 2018-09-19
 
 ### BOSH (a.k.a. Configuration)
