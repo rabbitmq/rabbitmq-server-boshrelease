@@ -5,7 +5,7 @@
 # the public domain worldwide. This software is distributed without
 # any warranty.
 #
-# For details, see <http://creativecommons.org/publicdomain/zero/1.0/>.
+# For details, see <https://creativecommons.org/publicdomain/zero/1.0/>.
 #
 # LZ4's CMake support is maintained by Evan Nemerson; when filing
 # bugs please mention @nemequ to make sure I see it.

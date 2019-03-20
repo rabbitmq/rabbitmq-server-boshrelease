@@ -80,7 +80,7 @@ log_levels = p("rabbitmq-server.log_levels")
    %% {loopback_users, []},
 
    %% Configuring SSL.
-   %% See http://www.rabbitmq.com/ssl.html for full documentation.
+   %% See https://www.rabbitmq.com/ssl.html for full documentation.
    %%
    %% {ssl_options, [{cacertfile,           "/path/to/testca/cacert.pem"},
    %%                {certfile,             "/path/to/server/cert.pem"},
@@ -93,7 +93,7 @@ log_levels = p("rabbitmq-server.log_levels")
    %% 'AMQPLAIN'. Additional mechanisms can be added via
    %% plugins.
    %%
-   %% See http://www.rabbitmq.com/authentication.html for more details.
+   %% See https://www.rabbitmq.com/authentication.html for more details.
    %%
    %% {auth_mechanisms, ['PLAIN', 'AMQPLAIN']},
 
@@ -106,7 +106,7 @@ log_levels = p("rabbitmq-server.log_levels")
    %% rabbitmq_auth_backend_ldap plugins.
    %%
    %% NB: These options require that the relevant plugin is enabled.
-   %% See http://www.rabbitmq.com/plugins.html for further details.
+   %% See https://www.rabbitmq.com/plugins.html for further details.
 
    %% The RabbitMQ-auth-mechanism-ssl plugin makes it possible to
    %% authenticate a user based on the client's SSL certificate.
@@ -121,7 +121,7 @@ log_levels = p("rabbitmq-server.log_levels")
    %% external LDAP server.
    %%
    %% For more information about configuring the LDAP backend, see
-   %% http://www.rabbitmq.com/ldap.html.
+   %% https://www.rabbitmq.com/ldap.html.
    %%
    %% Enable the LDAP auth backend by adding to or replacing the
    %% auth_backends entry:
@@ -154,7 +154,7 @@ log_levels = p("rabbitmq-server.log_levels")
    %% {password_hashing_module, rabbit_password_hashing_sha256},
 
    %% Configuration entry encryption.
-   %% See http://www.rabbitmq.com/configure.html#configuration-encryption
+   %% See https://www.rabbitmq.com/configure.html#configuration-encryption
    %%
    %% To specify the passphrase in the configuration file:
    %%
@@ -181,7 +181,7 @@ log_levels = p("rabbitmq-server.log_levels")
 
    %% On first start RabbitMQ will create a vhost and a user. These
    %% config items control what gets created. See
-   %% http://www.rabbitmq.com/access-control.html for further
+   %% https://www.rabbitmq.com/access-control.html for further
    %% information about vhosts and access control.
    %%
    %% {default_vhost,       <<"/">>},
@@ -192,7 +192,7 @@ log_levels = p("rabbitmq-server.log_levels")
    %% Tags for default user
    %%
    %% For more details about tags, see the documentation for the
-   %% Management Plugin at http://www.rabbitmq.com/management.html.
+   %% Management Plugin at https://www.rabbitmq.com/management.html.
    %%
    %% {default_user_tags, [administrator]},
 
@@ -221,7 +221,7 @@ log_levels = p("rabbitmq-server.log_levels")
 
    %% Customising Socket Options.
    %%
-   %% See (http://www.erlang.org/doc/man/inet.html#setopts-2) for
+   %% See (https://www.erlang.org/doc/man/inet.html#setopts-2) for
    %% further documentation.
    %%
    %% {tcp_listen_options, [{backlog,       128},
@@ -233,7 +233,7 @@ log_levels = p("rabbitmq-server.log_levels")
    %% Resource Limits & Flow Control
    %% ==============================
    %%
-   %% See http://www.rabbitmq.com/memory.html for full details.
+   %% See https://www.rabbitmq.com/memory.html for full details.
 
    %% Memory-based Flow Control threshold.
    %%
@@ -269,7 +269,7 @@ log_levels = p("rabbitmq-server.log_levels")
    %%
    %% Another alternative is to configure queues to page all messages (both
    %% persistent and transient) to disk as quickly
-   %% as possible, see http://www.rabbitmq.com/lazy-queues.html.
+   %% as possible, see https://www.rabbitmq.com/lazy-queues.html.
    %%
    {vm_memory_high_watermark_paging_ratio, <%= p("rabbitmq-server.vm_memory_high_watermark_paging_ratio") %>},
 
@@ -339,13 +339,13 @@ log_levels = p("rabbitmq-server.log_levels")
    %% {server_properties, []},
 
    %% How to respond to cluster partitions.
-   %% See http://www.rabbitmq.com/partitions.html
+   %% See https://www.rabbitmq.com/partitions.html
    %%
    {cluster_partition_handling, <%= p("rabbitmq-server.cluster_partition_handling") %>},
 
    %% Make clustering happen *automatically* at startup - only applied
    %% to nodes that have just been reset or started for the first time.
-   %% See http://www.rabbitmq.com/clustering.html#auto-config
+   %% See https://www.rabbitmq.com/clustering.html#auto-config
    %%
    {cluster_nodes, {[<%= cluster_nodes.join(",") %>], disc}},
 
@@ -389,7 +389,7 @@ log_levels = p("rabbitmq-server.log_levels")
    {mnesia_table_loading_retry_timeout, <%= p("rabbitmq-server.mnesia_table_loading_retry_timeout") %>},
 
    %% Size in bytes below which to embed messages in the queue index.
-   %% See http://www.rabbitmq.com/persistence-conf.html
+   %% See https://www.rabbitmq.com/persistence-conf.html
    %%
    {queue_index_embed_msgs_below, <%= p("rabbitmq-server.queue_index_embed_msgs_below") %>},
 
@@ -474,12 +474,12 @@ log_levels = p("rabbitmq-server.log_levels")
  %% ----------------------------------------------------------------------------
  %% Advanced Erlang Networking/Clustering Options.
  %%
- %% See http://www.rabbitmq.com/clustering.html for details
+ %% See https://www.rabbitmq.com/clustering.html for details
  %% ----------------------------------------------------------------------------
  {kernel,
   [%% Sets the net_kernel tick time.
    %% Please see http://erlang.org/doc/man/kernel_app.html and
-   %% http://www.rabbitmq.com/nettick.html for further details.
+   %% https://www.rabbitmq.com/nettick.html for further details.
    %%
    %% {net_ticktime, 60}
   ]},
@@ -487,12 +487,12 @@ log_levels = p("rabbitmq-server.log_levels")
  %% ----------------------------------------------------------------------------
  %% RabbitMQ Management Plugin
  %%
- %% See http://www.rabbitmq.com/management.html for details
+ %% See https://www.rabbitmq.com/management.html for details
  %% ----------------------------------------------------------------------------
 
  {rabbitmq_management,
   [%% Pre-Load schema definitions from the following JSON file. See
-   %% http://www.rabbitmq.com/management.html#load-definitions
+   %% https://www.rabbitmq.com/management.html#load-definitions
    %%
    %% {load_definitions, "/path/to/schema.json"},
 
@@ -512,12 +512,12 @@ log_levels = p("rabbitmq-server.log_levels")
    %%                         {keyfile,    "/path/to/key.pem"}]}]},
 
    %% One of 'basic', 'detailed' or 'none'. See
-   %% http://www.rabbitmq.com/management.html#fine-stats for more details.
+   %% https://www.rabbitmq.com/management.html#fine-stats for more details.
    {rates_mode, <%= p("rabbitmq-management.rates_mode") %>},
 
    %% Configure how long aggregated data (such as message rates and queue
    %% lengths) is retained. Please read the plugin's documentation in
-   %% http://www.rabbitmq.com/management.html#configuration for more
+   %% https://www.rabbitmq.com/management.html#configuration for more
    %% details.
    %%
    {sample_retention_policies, [
@@ -530,7 +530,7 @@ log_levels = p("rabbitmq-server.log_levels")
  %% ----------------------------------------------------------------------------
  %% RabbitMQ Shovel Plugin
  %%
- %% See http://www.rabbitmq.com/shovel.html for details
+ %% See https://www.rabbitmq.com/shovel.html for details
  %% ----------------------------------------------------------------------------
 
  {rabbitmq_shovel,
@@ -598,7 +598,7 @@ log_levels = p("rabbitmq-server.log_levels")
  %% ----------------------------------------------------------------------------
  %% RabbitMQ Stomp Adapter
  %%
- %% See http://www.rabbitmq.com/stomp.html for details
+ %% See https://www.rabbitmq.com/stomp.html for details
  %% ----------------------------------------------------------------------------
 
  {rabbitmq_stomp,
@@ -724,7 +724,7 @@ log_levels = p("rabbitmq-server.log_levels")
  %% ----------------------------------------------------------------------------
  %% RabbitMQ LDAP Plugin
  %%
- %% See http://www.rabbitmq.com/ldap.html for details.
+ %% See https://www.rabbitmq.com/ldap.html for details.
  %%
  %% ----------------------------------------------------------------------------
 
@@ -801,7 +801,7 @@ log_levels = p("rabbitmq-server.log_levels")
 
    %% The LDAP plugin can perform a variety of queries against your
    %% LDAP server to determine questions of authorisation. See
-   %% http://www.rabbitmq.com/ldap.html#authorisation for more
+   %% https://www.rabbitmq.com/ldap.html#authorisation for more
    %% information.
 
    %% Set the query to use when determining vhost access

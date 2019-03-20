@@ -1,7 +1,7 @@
 - type: replace
   path: /releases/-
   value:
-    name: routing # http://bosh.io/releases/github.com/cloudfoundry-incubator/cf-routing-release?all=1
+    name: routing # https://bosh.io/releases/github.com/cloudfoundry-incubator/cf-routing-release?all=1
     version: 0.179.0 # locked to 0.170.0 until this release gets integrated with bpm
     url: https://bosh.io/d/github.com/cloudfoundry-incubator/cf-routing-release?v=0.179.0
     sha1: 203061d0438ed76f25573080f9d1f73f06de5851

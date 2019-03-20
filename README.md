@@ -45,7 +45,7 @@ When the time comes to cut a new final release, `create-final-release` will do m
 
 [github.com/erlang/otp](https://github.com/erlang/otp/releases) is the official place for downloading Erlang patch releases, such as 19.3.4
 
-Patch releases are not available from [erlang.org](http://www.erlang.org/downloads)
+Patch releases are not available from [erlang.org](https://www.erlang.org/downloads)
 
 ### Pick Your Erlang - PYE&#8482;
 

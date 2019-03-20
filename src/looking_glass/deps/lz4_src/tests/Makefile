@@ -21,7 +21,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 # You can contact the author at :
-#  - LZ4 homepage : http://www.lz4.org
+#  - LZ4 homepage : https://www.lz4.org
 #  - LZ4 source repository : https://github.com/lz4/lz4
 # ##########################################################################
 # fuzzer  : Test tool, to check lz4 integrity on target platform

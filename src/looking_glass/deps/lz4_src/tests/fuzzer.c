@@ -19,7 +19,7 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
     You can contact the author at :
-    - LZ4 homepage : http://www.lz4.org
+    - LZ4 homepage : https://www.lz4.org
     - LZ4 source repo : https://github.com/lz4/lz4
 */
 

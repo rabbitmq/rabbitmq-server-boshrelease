@@ -2,7 +2,7 @@
    LZ4 auto-framing library
    Header File
    Copyright (C) 2011-2017, Yann Collet.
-   BSD 2-Clause License (http://www.opensource.org/licenses/bsd-license.php)
+   BSD 2-Clause License (https://www.opensource.org/licenses/bsd-license.php)
 
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions are

@@ -66,8 +66,8 @@ in single-thread mode.
 |**LZ4 HC -9 (v1.7.3)**  |**2.720**|   34 MB/s   | **3240 MB/s** |
 | [zlib] deflate 1.2.8 -6|  3.099  |   33 MB/s   |    390 MB/s   |
 
-[zlib]: http://www.zlib.net/
-[Zstandard]: http://www.zstd.net/
+[zlib]: https://www.zlib.net/
+[Zstandard]: https://www.zstd.net/
 
 LZ4 is also compatible and well optimized for x32 mode, for which it provides an additional +10% speed performance.
 
@@ -111,4 +111,4 @@ many contributors have created versions of lz4 in multiple languages
 (Java, C#, Python, Perl, Ruby, etc.).
 A list of known source ports is maintained on the [LZ4 Homepage].
 
-[LZ4 Homepage]: http://www.lz4.org
+[LZ4 Homepage]: https://www.lz4.org

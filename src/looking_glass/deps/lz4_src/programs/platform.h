@@ -40,7 +40,7 @@ extern "C" {
 
 /* **************************************
 *  Detect 64-bit OS
-*  http://nadeausoftware.com/articles/2012/02/c_c_tip_how_detect_processor_type_using_compiler_predefined_macros
+*  https://nadeausoftware.com/articles/2012/02/c_c_tip_how_detect_processor_type_using_compiler_predefined_macros
 ****************************************/
 #if defined __ia64 || defined _M_IA64                                                                               /* Intel Itanium */ \
   || defined __powerpc64__ || defined __ppc64__ || defined __PPC64__                                                /* POWER 64-bit */  \

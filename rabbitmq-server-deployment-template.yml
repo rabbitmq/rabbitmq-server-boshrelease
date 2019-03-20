@@ -4,13 +4,13 @@ name: ((bosh_deployment))
 
 # Packages & processes
 #
-releases: # http://bosh.io/releases
+releases: # https://bosh.io/releases
 - name: rabbitmq-server
   version: ((bosh_release_version))
 
 # VM base images
 #
-stemcells: # http://bosh.io/stemcells
+stemcells: # https://bosh.io/stemcells
 - name: ((bosh_stemcell_name))
   version: ((bosh_stemcell_version))
   alias: default
