@@ -1,3 +1,16 @@
+
+## v0.18.0, released 2019-03-28
+
+### Dependencies (a.k.a. Artefacts)
+
+* Add new Erlang/OTP versions
+  * **v21.3.2** - default
+* Remove Erlang **21.1** superseded by **21.2.5**
+
+```
+c121795578851750024d9631404ef27d98ca30ef
+```
+
 ## v0.17.0, released 2019-02-12
 
 ### BOSH (a.k.a. Configuration)
