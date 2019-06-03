@@ -115,7 +115,7 @@ endif
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
-dev: 	submodules $(LPASS) $(BOSH) ## Create a rabbitmq-server BOSH Dev release
+dev: 	$(LPASS) $(BOSH) ## Create a rabbitmq-server BOSH Dev release
 	@create-dev-release
 
 final::
@@ -125,7 +125,7 @@ ifndef VERSION
 	_local_final_bosh_releases && \
 	exit 1
 endif
-final:: submodules $(LPASS) $(BOSH) ## Create a rabbitmq-server BOSH final release - VERSION is required, e.g. VERSION=n.n.n
+final:: $(LPASS) $(BOSH) ## Create a rabbitmq-server BOSH final release - VERSION is required, e.g. VERSION=n.n.n
 	@create-final-release $(VERSION) && \
 	shasum releases/rabbitmq-server/rabbitmq-server-$(VERSION).tgz > releases/rabbitmq-server/rabbitmq-server-$(VERSION).sha1
 
@@ -184,6 +184,3 @@ tmp:
 
 update: ## Deploy an existing RabbitMQ cluster configuration - CONFIG is optional, e.g. CONFIG=deployment_configurations/rmq-n.yml
 	@deploy-configuration $(CONFIG)
-
-submodules: $(GIT)
-	@$(GIT) submodule update --init
