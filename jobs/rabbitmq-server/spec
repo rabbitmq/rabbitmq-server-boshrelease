@@ -24,7 +24,7 @@ properties:
 
   rabbitmq-server.generic-unix-url:
     description: 'URL to Generic UNIX RabbitMQ xz package'
-    default: https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.7.11/rabbitmq-server-generic-unix-3.7.11.tar.xz
+    default: https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.7.15/rabbitmq-server-generic-unix-3.7.15.tar.xz
 
   rabbitmq-server.admin_user:
     description: 'Admin user with full privileges'
