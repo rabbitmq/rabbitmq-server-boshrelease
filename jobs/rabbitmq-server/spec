@@ -364,7 +364,6 @@ templates:
   bin/_write_erlang_cookie: bin/_write_erlang_cookie
 
 packages:
-- erlang-19.3.6.11
 - erlang-20.3.8.9
 - erlang-21.2.5
 - erlang-21.3.2

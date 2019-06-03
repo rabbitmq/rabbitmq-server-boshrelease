@@ -2,8 +2,8 @@
 
 set -ex
 
-ERLANG_19_3=(/var/vcap/packages/erlang-19.3.*)
-ERLANG_HOME=${ERLANG_19_3[-1]}
+ERLANG_20_3=(/var/vcap/packages/erlang-20.3.*)
+ERLANG_HOME=${ERLANG_20_3[-1]}
 
 export PATH=$ERLANG_HOME/bin:$PATH
 export CFLAGS="-I $ERLANG_HOME/lib/erlang/usr/include"
