@@ -23,6 +23,10 @@
 * Remove compiled prometheus.erl - it ships with RabbitMQ v3.8.x
 * Remove observer-cli - it now ships with RabbitMQ
 
+```
+075bdbcd9a35ecc626d9e8aba9eb55c4807d4e5b
+```
+
 
 
 ## v0.18.0, released 2019-03-28
