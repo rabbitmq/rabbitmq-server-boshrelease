@@ -2,10 +2,6 @@ autotools/autoconf-2.69.tar.xz:
   size: 1214744
   object_id: 1e3e3c95-d525-4f96-943d-5da1511e0bda
   sha: e891c3193029775e83e0534ac0ee0c4c711f6d23
-erlang/OTP-20.3.8.9.tar.gz:
-  size: 53514692
-  object_id: db0ed941-39ad-4e1d-6e64-ab3c045aec95
-  sha: 2bff273529bc701fa4d4f8545728b391092174c2
 erlang/OTP-20.3.8.21.tar.gz:
   size: 53541735
   object_id: 4a468e54-cf61-48fd-7a02-10046302aa7f
