@@ -26,10 +26,6 @@ erlang/OTP-21.3.2.tar.gz:
   size: 54027592
   object_id: 8aa167ad-6e82-41cd-7d71-6fd1168b880e
   sha: 8549978c79c4f584f00ce8a9fd14abb51138a55c
-erlang/OTP-R16B03-1.tar.gz:
-  size: 32821912
-  object_id: e9af9f9a-ce56-4623-63da-227843523655
-  sha: a52b93ce3faa4be148b0b5b2f4fc51093f0813bc
 java/jre-8u181-linux-x64.tar.gz:
   size: 81191893
   object_id: b838ee6d-f735-4c3f-70de-1a450b40d8dc

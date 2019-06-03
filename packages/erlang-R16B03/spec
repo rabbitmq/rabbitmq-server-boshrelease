@@ -1,6 +1,0 @@
----
-name: erlang-R16B03
-files:
-- erlang/OTP-R16B03-1.tar.gz
-dependencies:
-- autoconf-2.69
