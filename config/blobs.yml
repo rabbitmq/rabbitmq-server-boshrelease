@@ -48,6 +48,7 @@ rabbitmq-plugins/3.7/accept-0.3.3.ez:
   sha: 1d43932039547d458ba13fd1d314028d7cee5936
 rabbitmq-plugins/3.7/prometheus-3.5.1.ez:
   size: 200783
+  object_id: d17c35cd-16b0-48ce-4a3a-5069026e3e17
   sha: ddbfa5a3b15e8c63247909c63ef88632dd31b748
 rabbitmq-plugins/3.7/prometheus_cowboy-0.1.4.ez:
   size: 14344
@@ -59,21 +60,7 @@ rabbitmq-plugins/3.7/prometheus_httpd-2.1.8.ez:
   sha: 681e8d181ea4b032b0bef7ef0125145ce281b12c
 rabbitmq-plugins/3.7/prometheus_rabbitmq_exporter-3.7.2.4.ez:
   size: 224548
-  sha: 00061e8e7b8f836e34b831e88baeb87199c33136
-rabbitmq-plugins/3.8/accept-0.3.3.ez:
-  size: 13397
-  sha: 44571bfe89be4eac98228a8b7d9b3afd03b4760a
-rabbitmq-plugins/3.8/prometheus-3.5.1.ez:
-  size: 200783
-  sha: ddbfa5a3b15e8c63247909c63ef88632dd31b748
-rabbitmq-plugins/3.8/prometheus_cowboy-0.1.4.ez:
-  size: 14343
-  sha: 537969b947d4ddb4166cac826e4a0a243f4e5dc7
-rabbitmq-plugins/3.8/prometheus_httpd-2.1.8.ez:
-  size: 22059
-  sha: 494e6169a833635238111cd1d3bd1c952c1fe83a
-rabbitmq-plugins/3.8/prometheus_rabbitmq_exporter-3.7.2.4.ez:
-  size: 224548
+  object_id: f6f280f9-3686-4e94-447b-95e19a2a44da
   sha: 00061e8e7b8f836e34b831e88baeb87199c33136
 rabtap-1.11.tgz:
   size: 3067339

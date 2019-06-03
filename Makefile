@@ -175,10 +175,9 @@ remove_erlang:: $(BOSH) $(GIT) $(SED) ## Remove superseded Erlang package
 	@$(BOSH) remove-blob erlang/OTP-$(ERLANG_VERSION).tar.gz && echo && \
 	$(GIT) rm -r packages/$(ERLANG_PACKAGE) && echo && \
 	$(SED) --in-place --regexp-extended --expression '/^- erlang-$(ERLANG_VERSION)/d' jobs/rabbitmq-server/spec && \
-	read -rp "1/4 Maybe update package dependency in $(BOLD)packages/looking_glass/spec$(NORMAL) $(CONFIRM)" -n 1 && \
-	read -rp "2/4 Maybe update package dependency in $(BOLD)packages/prometheus.erl/spec$(NORMAL) $(CONFIRM)" -n 1 && \
-	read -rp "3/4 $(BOLD)gmake dev$(NORMAL) succeeded $(CONFIRM)" -n 1 && \
-	read -rp "4/4 All changes committed & pushed $(CONFIRM)" -n 1
+	read -rp "1/3 Maybe update package dependency in $(BOLD)packages/looking_glass/spec$(NORMAL) $(CONFIRM)" -n 1 && \
+	read -rp "2/3 $(BOLD)gmake dev$(NORMAL) succeeded $(CONFIRM)" -n 1 && \
+	read -rp "3/3 All changes committed & pushed $(CONFIRM)" -n 1
 
 tmp:
 	@mkdir -p tmp

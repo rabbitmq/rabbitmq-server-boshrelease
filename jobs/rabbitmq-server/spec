@@ -348,7 +348,6 @@ templates:
   bin/_increase_file_descriptor_limit: bin/_increase_file_descriptor_limit
   bin/_install_generic_unix_package: bin/_install_generic_unix_package
   bin/_rabbitmq_major_minor: bin/_rabbitmq_major_minor
-  bin/_replace_precompiled_prometheus_with_compiled_prometheus_plugin: bin/_replace_precompiled_prometheus_with_compiled_prometheus_plugin
   bin/_set_cluster_name: bin/_set_cluster_name
   bin/_setup_log_dir: bin/_setup_log_dir
   bin/_setup_mnesia_dir_and_parent_dir: bin/_setup_mnesia_dir_and_parent_dir
@@ -368,7 +367,6 @@ packages:
 - erlang-21.3.2
 - looking_glass
 - rabbitmq-plugins
-- prometheus.erl
 - rabbitmq-support-tools
 - start-stop-daemon-1.9.18
 
