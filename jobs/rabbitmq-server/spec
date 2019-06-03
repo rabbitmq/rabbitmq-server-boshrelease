@@ -365,6 +365,7 @@ templates:
 packages:
 - erlang-20.3.8.9
 - erlang-21.3.2
+- erlang-22.0.1
 - looking_glass
 - rabbitmq-plugins
 - rabbitmq-support-tools
