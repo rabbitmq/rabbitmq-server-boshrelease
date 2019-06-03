@@ -8,7 +8,7 @@ properties:
       Erlang OTP version that will be used for running RabbitMQ.
       We install multiple Erlang OTP versions to test compatibility.
       The default version is what we recommend for production deployments.
-    default: '21.3.2'
+    default: '21.3.8.2'
   erlang.cookie:
     description: 'Erlang cookie required by the nodes and CLI tools to authenticate with one another'
     default: InsecureDefaultCookie
@@ -365,6 +365,7 @@ templates:
 packages:
 - erlang-20.3.8.21
 - erlang-21.3.2
+- erlang-21.3.8.2
 - erlang-22.0.1
 - looking_glass
 - rabbitmq-plugins
