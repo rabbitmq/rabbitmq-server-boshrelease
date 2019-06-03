@@ -1,6 +1,0 @@
----
-name: erlang-17.5.6.9
-files:
-- erlang/OTP-17.5.6.9.tar.gz
-dependencies:
-- autoconf-2.69
