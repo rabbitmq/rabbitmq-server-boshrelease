@@ -42,8 +42,6 @@ instance_groups:
       swap_size: 1024
   stemcell: default
   jobs:
-  - name: observer_cli
-    release: rabbitmq-server
   - name: rabbitmq-server
     release: rabbitmq-server
     properties:

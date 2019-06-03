@@ -384,9 +384,6 @@ provides:
 consumes:
 - name: rabbitmq-server
   type: rabbitmq-server
-- name: observer_cli
-  type: observer_cli
-  optional: true
 - name: periodic_shutdown
   type: periodic_shutdown
   optional: true
