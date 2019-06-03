@@ -1,3 +1,29 @@
+## v0.19.0, released 2019-06-03
+
+### RabbitMQ (a.k.a. Operations)
+
+* Default RabbitMQ to latest stable, v3.7.15
+
+### Dependencies (a.k.a. Artefacts)
+
+* Add new Erlang/OTP versions
+  * **v21.3.8.2** - default
+  * v22.0.2 - RabbitMQ v3.7.15 or newer required
+  * v20.3.8.21
+* Remove superseded Erlang/OTP versions
+  * v21.3.2
+  * v21.2.5
+  * v20.3.8.9
+* Remove Erlang/OTP versions that are no longer used/supported
+  * v19.x
+  * v18.x
+  * v17.x
+  * R16B03
+* Remove PerfTest version v2.2.0-RC1
+* Remove compiled prometheus.erl - it ships with RabbitMQ v3.8.x
+* Remove observer-cli - it now ships with RabbitMQ
+
+
 
 ## v0.18.0, released 2019-03-28
 
@@ -10,6 +36,8 @@
 ```
 c121795578851750024d9631404ef27d98ca30ef
 ```
+
+
 
 ## v0.17.0, released 2019-02-12
 
@@ -40,6 +68,8 @@ c121795578851750024d9631404ef27d98ca30ef
 ```
 88aeff181585a8773ed361af12c434cf3a7420e3
 ```
+
+
 
 ## v0.16.0, released 2018-09-19
 
