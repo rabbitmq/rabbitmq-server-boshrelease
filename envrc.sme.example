@@ -1,4 +1,0 @@
-source_env ../sme/gcp
-
-PATH_add $PWD/script
-PATH_add $PWD/bin
