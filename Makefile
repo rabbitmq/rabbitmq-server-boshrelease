@@ -34,6 +34,8 @@ BOSH := $(LOCAL_BIN)/$(BOSH_BIN)
 PATH := $(CURDIR)/script:$(LOCAL_BIN):$(GOPATH)/bin:$(PATH)
 export PATH
 
+TODAY := $(shell date -u +'%Y.%m.%d')
+
 ### TARGETS ###
 #
 
@@ -89,6 +91,26 @@ add_erlang: list_erlangs erlang_tgz $(BOSH) $(SED) $(GIT) ## Add new Erlang pack
 	read -rp "6/7 $(BOLD)bosh upload-blobs$(NORMAL) succeeded $(CONFIRM)" -n 1 && \
 	read -rp "7/7 All changes committed & pushed $(CONFIRM)" -n 1 && \
 	echo -e "\nYou might want to run $(BOLD)gmake remove_erlang$(NORMAL)\n"
+
+OTP_VERSION = $(DEV_NAME)$(TODAY)
+DEV_OTP_TGZ = OTP-$(OTP_VERSION).tar.gz
+packages/erlang-$(OTP_VERSION): $(BOSH) $(SED) $(GIT) tmp ## Add a dev version of Erlang
+	@read -rp "Add OTP source at path as Erlang dev package: " ERLANG_SOURCE_PATH && \
+	cd $$ERLANG_SOURCE_PATH/.. && \
+	tar zcvf $(CURDIR)/tmp/$(DEV_OTP_TGZ) --exclude '.git*' otp && \
+	cd $(CURDIR) && \
+	$(BOSH) add-blob tmp/$(DEV_OTP_TGZ) erlang/$(DEV_OTP_TGZ) && echo && \
+	cp -r $(shell ls -d packages/erlang-2* | tail -n 1) packages/erlang-$(OTP_VERSION) ; echo ; \
+	$(SED) --in-place --regexp-extended --expression \
+	  's/erlang-.+/erlang-$(OTP_VERSION)/g ; s/OTP-.*.tar.gz/$(DEV_OTP_TGZ)/g' \
+	  packages/erlang-$(OTP_VERSION)/spec && echo && \
+	$(BOSH) interpolate \
+	  --ops-file=operations/add-package.yml \
+	  --var=package=erlang-$(OTP_VERSION) \
+	  jobs/rabbitmq-server/spec > jobs/rabbitmq-server/spec2 && \
+	  mv jobs/rabbitmq-server/spec{2,}
+.PHONY: add_dev_erlang
+add_dev_erlang: packages/erlang-$(OTP_VERSION)
 
 clean: 	## Clean all rabbitmq-server BOSH dev releases locally & from the BOSH Director
 	@clean-dev-releases
