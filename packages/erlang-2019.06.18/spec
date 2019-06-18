@@ -1,0 +1,6 @@
+---
+name: erlang-2019.06.18
+files:
+- erlang/OTP-2019.06.18.tar.gz
+dependencies:
+- autoconf-2.69

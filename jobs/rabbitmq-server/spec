@@ -1,345 +1,252 @@
-# vim: set filetype=yaml :
----
+consumes:
+- name: rabbitmq-server
+  type: rabbitmq-server
+- name: periodic_shutdown
+  optional: true
+  type: periodic_shutdown
 name: rabbitmq-server
-
+packages:
+- erlang-20.3.8.21
+- erlang-20.3.8.22
+- erlang-21.3.8.3
+- erlang-21.3.8.4
+- erlang-22.0.2
+- erlang-22.0.2.2207
+- erlang-22.0.3
+- erlang-22.0.4
+- looking_glass
+- rabbitmq-plugins
+- rabbitmq-support-tools
+- start-stop-daemon-1.9.18
+- erlang-2019.06.18
 properties:
-  erlang.version:
-    description: >
-      Erlang OTP version that will be used for running RabbitMQ.
-      We install multiple Erlang OTP versions to test compatibility.
-      The default version is what we recommend for production deployments.
-    default: '21.3.8.3'
   erlang.cookie:
-    description: 'Erlang cookie required by the nodes and CLI tools to authenticate with one another'
     default: InsecureDefaultCookie
+    description: Erlang cookie required by the nodes and CLI tools to authenticate
+      with one another
   erlang.lock_counting:
-    description: >
-      Enable Erlang VM lock counting
-      http://erlang.org/doc/apps/tools/lcnt_chapter.html
     default: false
-
-  rabbitmq-server.debug:
-    description: 'Runs BOSH job scripts in debug mode'
+    description: |
+      Enable Erlang VM lock counting http://erlang.org/doc/apps/tools/lcnt_chapter.html
+  erlang.version:
+    default: 21.3.8.4
+    description: |
+      Erlang OTP version that will be used for running RabbitMQ. We install multiple Erlang OTP versions to test compatibility. The default version is what we recommend for production deployments.
+  prometheus_rabbitmq_exporter.connections_total_enabled:
     default: false
-
-  rabbitmq-server.generic-unix-url:
-    description: 'URL to Generic UNIX RabbitMQ xz package'
-    default: https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.7.15/rabbitmq-server-generic-unix-3.7.15.tar.xz
-
-  rabbitmq-server.admin_user:
-    description: 'Admin user with full privileges'
-    default: admin
+    description: |
+      Report connections by state (running, flow, etc). If there are many connections, this can put a lot of pressure on the system.
+  prometheus_rabbitmq_exporter.memory_stat_enabled:
+    default: false
+    description: |
+      Report memory usage as seen in the node memory breakdown section. This is an expensive operation, enabling this when the metrics endpoint is queried < 30s might not be a good idea.
+  rabbitmq-management.basic_statistics_retention:
+    default: '[{605,5}, {3660,60}]'
+    description: |
+      Configure how long aggregated data (such as message rates and queue lengths) is retained. Must contain at least one retention pair {MaxAgeInSeconds, SampleEveryNSeconds}. By default, metrics get sampled every 5 seconds - see collect_statistics_interval. It retains basic data at 5 second resolution for 10 minutes and 5 seconds, then at 1 minute resolution for 1 hour and 1 minute. Learn more about RabbitMQ's sample retention policies http://www.rabbitmq.com/management.html#sample-retention
+  rabbitmq-management.detailed_statistics_retention:
+    default: '[{605,5}]'
+    description: |
+      Configure how long aggregated data (such as message rates and queue lengths) is retained. Must contain at least one retention pair {MaxAgeInSeconds, SampleEveryNSeconds}. By default, metrics get sampled every 5 seconds - see collect_statistics_interval. It retains detailed data at 5 second resolution 10 minutes and 5 seconds. Learn more about RabbitMQ's sample retention policies http://www.rabbitmq.com/management.html#sample-retention
+  rabbitmq-management.global_statistics_retention:
+    default: '[{605,5}, {3660,60}, {29400,600}, {88200,1800}]'
+    description: |
+      Configure how long aggregated data (such as message rates and queue lengths) is retained. Must contain at least one retention pair {MaxAgeInSeconds, SampleEveryNSeconds}. By default, metrics get sampled every 5 seconds - see collect_statistics_interval. By default, global data is retained at 5 second resolution for 10 minutes and 5 seconds, then at 1 minute resolution for 1 hour and 1 minute, then at 10 minute resolution for 8 hours and 10 minutes, then at 30 minute resolution for 24 hours and 30 minutes. Learn more about RabbitMQ's sample retention policies http://www.rabbitmq.com/management.html#sample-retention
+  rabbitmq-management.rates_mode:
+    default: basic
+    description: |
+      The management plugin by default shows message rates globally, and for each queue, channel, exchange, and vhost. These are known as the basic message rates. It can also show message rates for all the combinations of channel to exchange, exchange to queue, and queue to channel. These are known as detailed message rates. Detailed message rates are disabled by default as they can have a large memory footprint when there are a large number of combinations of channels, queues and exchanges. Alternatively, the message rates can be disabled altogether. This can help get the best possible performance out of a CPU-bound server.
+  rabbitmq-server.additional_erl_args:
+    default: ""
+    description: |
+      Add optional erl args - good for setting flags such as scheduler bind type in =< 3.6.3. Remember that init flags use '-' while emulator flags use '+'. For more info, see http://erlang.org/doc/man/erl.html
   rabbitmq-server.admin_pass:
-    description: 'Admin user password'
     default: InsecureDefaultPassword
-
-  rabbitmq-server.create_demo_user:
-    description: >
-      Create demo user with password demo that has read-only access to the / vhost.
-      This is useful when sharing RabbitMQ environments with a wider audience that is not known ahead of time,
-      such as debugging, benchmarking or demonstrating features.
-    default: false
-
-  rabbitmq-server.mnesia_base:
-    description: 'All persistent data will be stored here'
-    default: /var/vcap/store/rabbitmq-server/mnesia
-
-  rabbitmq-server.log_directory:
-    description: 'All logs, traces & crash dumps will be stored here'
-    default: /var/vcap/sys/log/rabbitmq-server
-
-  rabbitmq-server.env:
-    description: 'File that stores all RabbitMQ ENV vars'
-    default: /var/vcap/jobs/rabbitmq-server/env
-
-  rabbitmq-server.only_enable_these_plugins:
-    description: >
-      List of plugins that will be explicitly enabled.
-      By default, all plugins that RabbitMQ ships with will be enabled.
-      This default is great for QA & test environments, but not so good when benchmarking RabbitMQ.
-      rabbitmq_management will always be enabled since it's used by all systems that poll RabbitMQ API for metrics.
-      As a result, the leanest deployment will have `rabbitmq-server.only_enable_these_plugins: [rabbitmq_management]`.
-    default: []
-
-  rabbitmq-server.file_descriptor_limit:
-    description: 'Maximum number of OS open files (including sockets) that RabbitMQ is allowed'
-    default: 100000
-
+    description: Admin user password
+  rabbitmq-server.admin_user:
+    default: admin
+    description: Admin user with full privileges
   rabbitmq-server.channel_max:
-    description: >
-      Maximum number of channels allowed per AMQP connection
-      Use values higher than 1k with care, misbehaving clients are known to have crashed RabbitMQ nodes through channel churn
     default: 1000
-
-  rabbitmq-server.tcp_listen_options:
-    description:
-      Customise TCP socket options
-      http://erlang.org/doc/man/inet.html#setopts-2
-      '{sndbuf, 4096}, {recbuf, 4096}' has been observed to reduce memory usage by 58% on a RabbitMQ node with 20k connections
-    default: ''
-
+    description: |
+      Maximum number of channels allowed per AMQP connection Use values higher than 1k with care, misbehaving clients are known to have crashed RabbitMQ nodes through channel churn
+  rabbitmq-server.cluster_keepalive_interval:
+    default: 10000
+    description: |
+      How frequently nodes should send keepalive messages to other nodes (in milliseconds). Note that this is not the same thing as net_ticktime; missed keepalive messages will not cause nodes to be considered down.
+  rabbitmq-server.cluster_partition_handling:
+    default: ignore
+    description: |
+      How to handle network partitions https://www.rabbitmq.com/partitions.html#automatic-handling
+        * ignore
+        * autoheal
+        * pause_minority
+        * {pause_if_all_down, [nodes], ignore | autoheal}
   rabbitmq-server.collect_statistics:
-    description: >
-      Statistics collection mode.
-      Primarily relevant for the management plugin.
+    default: coarse
+    description: |
+      Statistics collection mode. Primarily relevant for the management plugin.
         * none (do not emit statistics events)
         * coarse (emit per-queue / per-channel / per-connection statistics)
         * fine (also emit per-message statistics)
-    default: coarse
   rabbitmq-server.collect_statistics_interval:
-    description: 'Statistics collection interval in milliseconds'
     default: 5000
-
+    description: Statistics collection interval in milliseconds
+  rabbitmq-server.create_demo_user:
+    default: false
+    description: |
+      Create demo user with password demo that has read-only access to the / vhost. This is useful when sharing RabbitMQ environments with a wider audience that is not known ahead of time, such as debugging, benchmarking or demonstrating features.
+  rabbitmq-server.credit_flow_default_credit:
+    default: '{400, 200}'
+    description: |
+      Number of credits that a connection, channel or queue are given By default, every connection, channel or queue is given 400 credits, and then 200 for every 200 messages that it processes See https://www.rabbitmq.com/blog/2015/10/06/new-credit-flow-settings-on-rabbitmq-3-5-5/
+  rabbitmq-server.debug:
+    default: false
+    description: Runs BOSH job scripts in debug mode
+  rabbitmq-server.delegate_count:
+    default: 16
+    description: |
+      Number of delegate processes to use for intra-cluster communication. On a machine which has a very large number of cores and is also part of a cluster, you may wish to increase this value.
+  rabbitmq-server.disk_free_limit:
+    default: '{mem_relative, 1.0}'
+    description: Minimum free disk space after which publishers are blocked
+  rabbitmq-server.distribution_buffer_size:
+    default: 128000
+    description: |
+      Sets the distribution buffer busy limit (dist_buf_busy_limit) in kilobytes. Valid range is 1-2097151. Erlang default is 1024, RabbitMQ used to default to 32000 but has changed to 128000 since 3.6.11 A larger buffer limit allows processes to buffer more outgoing messages over the distribution. When the buffer limit has been reached, sending processes will be suspended until the buffer size has shrunk. The buffer limit is per distribution channel. A higher limit gives lower latency and higher throughput at the expense of higher memory use.
+  rabbitmq-server.env:
+    default: /var/vcap/jobs/rabbitmq-server/env
+    description: File that stores all RabbitMQ ENV vars
+  rabbitmq-server.fhc_read_buffering:
+    default: false
+    description: Whether or not to enable read file handle cache buffering
+  rabbitmq-server.fhc_write_buffering:
+    default: true
+    description: Whether or not to enable write file handle cache buffering
+  rabbitmq-server.file_descriptor_limit:
+    default: 100000
+    description: Maximum number of OS open files (including sockets) that RabbitMQ
+      is allowed
+  rabbitmq-server.generic-unix-url:
+    default: https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.7.15/rabbitmq-server-generic-unix-3.7.15.tar.xz
+    description: URL to Generic UNIX RabbitMQ xz package
+  rabbitmq-server.hipe_compile:
+    default: false
+    description: |
+      Set to true to precompile parts of RabbitMQ with HiPE, a just-in-time compiler for Erlang. This will increase server throughput at the cost of increased startup time. You might see 20-50% better performance at the cost of a few minutes delay at startup. These figures are highly workload- and hardware-dependent. HiPE has known issues in Erlang/OTP versions prior to 17.5. Using a recent Erlang/OTP version is highly recommended for HiPE.
+  rabbitmq-server.lazy_queue_explicit_gc_run_operation_threshold:
+    default: 1000
+    description: |
+      Tunable value only for lazy queues when under memory pressure. This is the threshold at which the garbage collector and other memory reduction activities are triggered. A low value could reduce performance, and a high one can improve performance, but cause higher memory consumption.
+  rabbitmq-server.log_directory:
+    default: /var/vcap/sys/log/rabbitmq-server
+    description: All logs, traces & crash dumps will be stored here
   rabbitmq-server.log_levels:
-    descripton: >
+    default: info
+    descripton: |
       The level can be one of
         * none (no events are logged)
         * error (only errors are logged)
         * warning (only errors and warning are logged)
         * info (errors, warnings and informational messages are logged)
         * debug (errors, warnings, informational messages and debugging messages are logged)
-    default: info
-  rabbitmq-server.cluster_partition_handling:
-    description: >
-      How to handle network partitions https://www.rabbitmq.com/partitions.html#automatic-handling
-        * ignore
-        * autoheal
-        * pause_minority
-        * {pause_if_all_down, [nodes], ignore | autoheal}
-    default: ignore
-  rabbitmq-server.cluster_keepalive_interval:
-    description: >
-      How frequently nodes should send keepalive messages to other nodes (in milliseconds).
-      Note that this is not the same thing as net_ticktime; missed keepalive messages will not cause nodes to be considered down.
-    default: 10000
+  rabbitmq-server.max_erlang_atoms:
+    default: 5000000
+    description: |
+      Sets the maximum number of Erlang atoms. Recent versions of RabbitMQ default to 5000000, which should be sufficient in almost all scenarios. It's unlikely that this value will need to be increased, it's exposed for consistency & transparency. For more info, see http://erlang.org/doc/man/erl.html#+t & http://erlang.org/doc/efficiency_guide/advanced.html
+  rabbitmq-server.max_erlang_processes:
+    default: 1048576
+    description: |
+      Sets the maximum number of Erlang processes. Recent versions of RabbitMQ default to 1048576, which should be sufficient for most scenarios. Nodes that service many clients (e.g. ~100k), or have many queues (e.g. ~50k), are known to require a higher value (e.g. 2000000). A process uses 338 words when spawned (2704 bytes on 64bit architectures), including a heap of 233 words. The actual maximum chosen may be much larger than the Number passed. Currently the runtime system often, but not always, chooses a value that is a power of 2. For more info, see http://erlang.org/doc/man/erl.html#max_processes & http://erlang.org/doc/efficiency_guide/advanced.html
+  rabbitmq-server.mirroring_flow_control:
+    default: true
+    description: |
+      This is a controversial setting, understand its implications before changing the default Inter-node flow control sometimes has unexpected effects and it's not clear to some users whether it solves more problems than introduces or not. Observed behaviour * Channels sometimes enter permanent flow control state * Channels are credit-blocked on pids on remote nodes (as suggested by the 1st pid segment) * Eliminating mirroring via a policy makes the issue go away See https://github.com/rabbitmq/rabbitmq-server/issues/98
+  rabbitmq-server.mirroring_sync_batch_size:
+    default: 4096
+    description: |
+      Since RabbitMQ 3.6.0, masters perform synchronisation in batches. Earlier versions will synchronise 1 message at a time by default. By synchronising messages in batches, the synchronisation process can be sped up considerably. To choose the right value, you need to consider
+        * average message size
+        * network throughput between RabbitMQ nodes
+        * net_ticktime value
+      For example, if you set this value to 50000 (messages), and each message in the queue is 1KB, then each synchronisation message between nodes will be ~49MB. You need to make sure that your network between queue mirrors can accomodate this kind of traffic. If the network takes longer than net_ticktime to send one batch of messages, then nodes in the cluster could think they are in the presence of a network partition.
+  rabbitmq-server.mnesia_base:
+    default: /var/vcap/store/rabbitmq-server/mnesia
+    description: All persistent data will be stored here
   rabbitmq-server.mnesia_table_loading_retry_limit:
-    description: "Number of times to retry while waiting for Mnesia tables in a cluster to become available"
     default: 10
+    description: Number of times to retry while waiting for Mnesia tables in a cluster
+      to become available
   rabbitmq-server.mnesia_table_loading_retry_timeout:
-    description: "Time to wait in milliseconds per retry for Mnesia tables in a cluster to become available"
     default: 30000
+    description: Time to wait in milliseconds per retry for Mnesia tables in a cluster
+      to become available
+  rabbitmq-server.msg_store_credit_disc_bound:
+    default: '{4000, 800}'
+    description: |
+      The credits that a queue process is given by the message store. By default, a queue process is given 4000 message store credits, and then 800 for every 800 messages that it processes. A queue process persists AMQP messages by sending them 1 by 1 to the message store process. If the queue process sent 4000 AMQP messages and the message store process didn't manage to persist 800, the queue process will enter flow state. If the disks are fast and uncontended, as they should, the message store process will give the queue process 800 credits for every 800 messages that it processes. Messages which need to be paged out due to memory pressure will also use this credit. The Message Store is the last component in the credit flow chain. Learn more about credit flow https://www.rabbitmq.com/blog/2015/10/06/new-credit-flow-settings-on-rabbitmq-3-5-5/ This value only takes effect when messages are persisted to the message store. If messages are embedded on the queue index, then modifying this setting has no effect because credit_flow is NOT used when writing to the queue index.
+  rabbitmq-server.msg_store_file_size_limit:
+    default: 16777216
+    description: File size in bytes used for persisting messages
+  rabbitmq-server.msg_store_io_batch_size:
+    default: 4096
+    description: |
+      Minimum number of messages with their queue position held in RAM required to trigger writing their queue position to disk. This value MUST be higher than the initial msg_store_credit_disc_bound value, otherwise paging performance may worsen.
+  rabbitmq-server.num_tcp_acceptors:
+    default: 10
+    description: |
+      Number of Erlang processes that will accept connections for the TCP listeners
+  rabbitmq-server.only_enable_these_plugins:
+    default: []
+    description: |
+      List of plugins that will be explicitly enabled. By default, all plugins that RabbitMQ ships with will be enabled. This default is great for QA & test environments, but not so good when benchmarking RabbitMQ. rabbitmq_management will always be enabled since it's used by all systems that poll RabbitMQ API for metrics. As a result, the leanest deployment will have `rabbitmq-server.only_enable_these_plugins: [rabbitmq_management]`.
+  rabbitmq-server.queue_explicit_gc_run_operation_threshold:
+    default: 1000
+    description: |
+      Tunable value only for normal queues when under memory pressure. This is the threshold at which the garbage collector and other memory reduction activities are triggered. A low value could reduce performance, and a high one can improve performance, but cause higher memory consumption.
+  rabbitmq-server.queue_index_embed_msgs_below:
+    default: 4096
+    description: |
+      Size in bytes of message below which messages will be embedded directly in the queue index. You are advised to read the persister tuning documentation before changing this https://www.rabbitmq.com/persistence-conf.html
   rabbitmq-server.queue_master_locator:
-    description: >
+    default: client-local
+    description: |
       Queue master location strategy
         * min-masters
         * client-local
         * random
-    default: client-local
-  rabbitmq-server.mirroring_sync_batch_size:
-    description: >
-       Since RabbitMQ 3.6.0, masters perform synchronisation in batches.
-       Earlier versions will synchronise 1 message at a time by default.
-       By synchronising messages in batches, the synchronisation process can be sped up considerably.
-       To choose the right value, you need to consider
-         * average message size
-         * network throughput between RabbitMQ nodes
-         * net_ticktime value
-       For example, if you set this value to 50000 (messages), and each message in the queue is 1KB, then each synchronisation message between nodes will be ~49MB.
-       You need to make sure that your network between queue mirrors can accomodate this kind of traffic.
-       If the network takes longer than net_ticktime to send one batch of messages, then nodes in the cluster could think they are in the presence of a network partition.
-    default: 4096
-  rabbitmq-server.mirroring_flow_control:
-    description: >
-       This is a controversial setting, understand its implications before changing the default
-       Inter-node flow control sometimes has unexpected effects and it's not clear to some users whether it solves more problems than introduces or not.
-       Observed behaviour
-       * Channels sometimes enter permanent flow control state
-       * Channels are credit-blocked on pids on remote nodes (as suggested by the 1st pid segment)
-       * Eliminating mirroring via a policy makes the issue go away
-       See https://github.com/rabbitmq/rabbitmq-server/issues/98
-    default: true
-  rabbitmq-server.vm_memory_high_watermark:
-    description: 'Maximum memory footprint after which publishers are blocked'
-    default: 0.5
-  rabbitmq-server.vm_memory_high_watermark_paging_ratio:
-    description: 'Fraction of the high watermark limit at which queues start to page messages out to disc to free up memory'
-    default: 0.5
-  rabbitmq-server.disk_free_limit:
-    description: 'Minimum free disk space after which publishers are blocked'
-    default: '{mem_relative, 1.0}'
   rabbitmq-server.scheduler_bind_type:
-    description: >
-      Optimizes Erlang VM schedulers spread across CPUs
-      The more spread over the hardware the schedulers are, the more resources are available to the runtime system http://erlang.org/doc/man/erl.html#+sbt
-      For RabbitMQ =< 3.6.3, use rabbitmq-server.additional_erlang_args to set the scheduler bind type
-      In RabbitMQ =< 3.6.3 stbt is not defined, erl defaults to 'unbound'
     default: db
-  rabbitmq-server.additional_erl_args:
-    description: >
-      Add optional erl args - good for setting flags such as scheduler bind type in =< 3.6.3.
-      Remember that init flags use '-' while emulator flags use '+'.
-      For more info, see http://erlang.org/doc/man/erl.html
-    default: ''
-  rabbitmq-server.distribution_buffer_size:
-    description: >
-      Sets the distribution buffer busy limit (dist_buf_busy_limit) in kilobytes.
-      Valid range is 1-2097151. Erlang default is 1024, RabbitMQ used to default to 32000 but has changed to 128000 since 3.6.11
-      A larger buffer limit allows processes to buffer more outgoing messages over the distribution.
-      When the buffer limit has been reached, sending processes will be suspended until the buffer size has shrunk.
-      The buffer limit is per distribution channel.
-      A higher limit gives lower latency and higher throughput at the expense of higher memory use.
-    default: 128000
-  rabbitmq-server.max_erlang_processes:
-    description: >
-      Sets the maximum number of Erlang processes.
-      Recent versions of RabbitMQ default to 1048576, which should be sufficient for most scenarios.
-      Nodes that service many clients (e.g. ~100k), or have many queues (e.g. ~50k), are known to require a higher value (e.g. 2000000).
-      A process uses 338 words when spawned (2704 bytes on 64bit architectures), including a heap of 233 words.
-      The actual maximum chosen may be much larger than the Number passed.
-      Currently the runtime system often, but not always, chooses a value that is a power of 2.
-      For more info, see http://erlang.org/doc/man/erl.html#max_processes & http://erlang.org/doc/efficiency_guide/advanced.html
-    default: 1048576
-  rabbitmq-server.max_erlang_atoms:
-    description: >
-      Sets the maximum number of Erlang atoms.
-      Recent versions of RabbitMQ default to 5000000, which should be sufficient in almost all scenarios.
-      It's unlikely that this value will need to be increased, it's exposed for consistency & transparency.
-      For more info, see http://erlang.org/doc/man/erl.html#+t & http://erlang.org/doc/efficiency_guide/advanced.html
-    default: 5000000
-  rabbitmq-server.hipe_compile:
-    description: >
-      Set to true to precompile parts of RabbitMQ with HiPE, a just-in-time compiler for Erlang.
-      This will increase server throughput at the cost of increased startup time.
-      You might see 20-50% better performance at the cost of a few minutes delay at startup.
-      These figures are highly workload- and hardware-dependent.
-      HiPE has known issues in Erlang/OTP versions prior to 17.5.
-      Using a recent Erlang/OTP version is highly recommended for HiPE.
-    default: false
-  rabbitmq-server.num_tcp_acceptors:
-    description: >
-      Number of Erlang processes that will accept connections for the TCP listeners
-    default: 10
-  rabbitmq-server.delegate_count:
-    description: >
-      Number of delegate processes to use for intra-cluster communication.
-      On a machine which has a very large number of cores and is also part of a cluster, you may wish to increase this value.
-    default: 16
-  rabbitmq-server.queue_index_embed_msgs_below:
-    description: >
-      Size in bytes of message below which messages will be embedded directly in the queue index.
-      You are advised to read the persister tuning documentation before changing this https://www.rabbitmq.com/persistence-conf.html
-    default: 4096
-  rabbitmq-server.msg_store_credit_disc_bound:
-    description: >
-       The credits that a queue process is given by the message store.
-       By default, a queue process is given 4000 message store credits, and then 800 for every 800 messages that it processes.
-       A queue process persists AMQP messages by sending them 1 by 1 to the message store process.
-       If the queue process sent 4000 AMQP messages and the message store process didn't manage to persist 800, the queue process will enter flow state.
-       If the disks are fast and uncontended, as they should, the message store process will give the queue process 800 credits for every 800 messages that it processes.
-       Messages which need to be paged out due to memory pressure will also use this credit.
-       The Message Store is the last component in the credit flow chain.
-       Learn more about credit flow https://www.rabbitmq.com/blog/2015/10/06/new-credit-flow-settings-on-rabbitmq-3-5-5/
-       This value only takes effect when messages are persisted to the message store.
-       If messages are embedded on the queue index, then modifying this setting has no effect because credit_flow is NOT used when writing to the queue index.
-    default: '{4000, 800}'
-  rabbitmq-server.msg_store_io_batch_size:
-    description: >
-       Minimum number of messages with their queue position held in RAM required to trigger writing their queue position to disk.
-       This value MUST be higher than the initial msg_store_credit_disc_bound value, otherwise paging performance may worsen.
-    default: 4096
-  rabbitmq-server.msg_store_file_size_limit:
-    description: 'File size in bytes used for persisting messages'
-    default: 16777216
-  rabbitmq-server.credit_flow_default_credit:
-    description: >
-       Number of credits that a connection, channel or queue are given
-       By default, every connection, channel or queue is given 400 credits, and then 200 for every 200 messages that it processes
-       See https://www.rabbitmq.com/blog/2015/10/06/new-credit-flow-settings-on-rabbitmq-3-5-5/
-    default: '{400, 200}'
-  rabbitmq-server.fhc_read_buffering:
-    description: 'Whether or not to enable read file handle cache buffering'
-    default: false
-  rabbitmq-server.fhc_write_buffering:
-    description: 'Whether or not to enable write file handle cache buffering'
-    default: true
-  rabbitmq-server.lazy_queue_explicit_gc_run_operation_threshold:
-    description: >
-      Tunable value only for lazy queues when under memory pressure.
-      This is the threshold at which the garbage collector and other memory reduction activities are triggered.
-      A low value could reduce performance, and a high one can improve performance, but cause higher memory consumption.
-    default: 1000
-  rabbitmq-server.queue_explicit_gc_run_operation_threshold:
-    description: >
-      Tunable value only for normal queues when under memory pressure.
-      This is the threshold at which the garbage collector and other memory reduction activities are triggered.
-      A low value could reduce performance, and a high one can improve performance, but cause higher memory consumption.
-    default: 1000
-
-  rabbitmq-management.rates_mode:
-    description: >
-      The management plugin by default shows message rates globally, and for each queue, channel, exchange, and vhost.
-      These are known as the basic message rates.
-      It can also show message rates for all the combinations of channel to exchange, exchange to queue, and queue to channel.
-      These are known as detailed message rates.
-      Detailed message rates are disabled by default as they can have a large memory footprint when there are a large number of combinations of channels, queues and exchanges.
-      Alternatively, the message rates can be disabled altogether. This can help get the best possible performance out of a CPU-bound server.
-    default: basic
-
-  rabbitmq-management.global_statistics_retention:
-    description: >
-      Configure how long aggregated data (such as message rates and queue lengths) is retained.
-      Must contain at least one retention pair {MaxAgeInSeconds, SampleEveryNSeconds}.
-      By default, metrics get sampled every 5 seconds - see collect_statistics_interval.
-      By default, global data is retained at 5 second resolution for 10 minutes and 5 seconds,
-      then at 1 minute resolution for 1 hour and 1 minute,
-      then at 10 minute resolution for 8 hours and 10 minutes,
-      then at 30 minute resolution for 24 hours and 30 minutes.
-      Learn more about RabbitMQ's sample retention policies http://www.rabbitmq.com/management.html#sample-retention
-    default: '[{605,5}, {3660,60}, {29400,600}, {88200,1800}]'
-  rabbitmq-management.basic_statistics_retention:
-    description: >
-      Configure how long aggregated data (such as message rates and queue lengths) is retained.
-      Must contain at least one retention pair {MaxAgeInSeconds, SampleEveryNSeconds}.
-      By default, metrics get sampled every 5 seconds - see collect_statistics_interval.
-      It retains basic data at 5 second resolution for 10 minutes and 5 seconds,
-      then at 1 minute resolution for 1 hour and 1 minute.
-      Learn more about RabbitMQ's sample retention policies http://www.rabbitmq.com/management.html#sample-retention
-    default: '[{605,5}, {3660,60}]'
-  rabbitmq-management.detailed_statistics_retention:
-    description: >
-      Configure how long aggregated data (such as message rates and queue lengths) is retained.
-      Must contain at least one retention pair {MaxAgeInSeconds, SampleEveryNSeconds}.
-      By default, metrics get sampled every 5 seconds - see collect_statistics_interval.
-      It retains detailed data at 5 second resolution 10 minutes and 5 seconds.
-      Learn more about RabbitMQ's sample retention policies http://www.rabbitmq.com/management.html#sample-retention
-    default: '[{605,5}]'
-
+    description: |
+      Optimizes Erlang VM schedulers spread across CPUs The more spread over the hardware the schedulers are, the more resources are available to the runtime system http://erlang.org/doc/man/erl.html#+sbt For RabbitMQ =< 3.6.3, use rabbitmq-server.additional_erlang_args to set the scheduler bind type In RabbitMQ =< 3.6.3 stbt is not defined, erl defaults to 'unbound'
+  rabbitmq-server.tcp_listen_options:
+    default: ""
+    description: Customise TCP socket options http://erlang.org/doc/man/inet.html#setopts-2
+      '{sndbuf, 4096}, {recbuf, 4096}' has been observed to reduce memory usage by
+      58% on a RabbitMQ node with 20k connections
+  rabbitmq-server.vm_memory_high_watermark:
+    default: 0.5
+    description: Maximum memory footprint after which publishers are blocked
+  rabbitmq-server.vm_memory_high_watermark_paging_ratio:
+    default: 0.5
+    description: Fraction of the high watermark limit at which queues start to page
+      messages out to disc to free up memory
   rabbitmq-trust-store.directory:
-    description: 'Location of the whitelisted certificates for Trust Store'
     default: /var/vcap/store/rabbitmq-server/trust-store/whitelist
-
-  prometheus_rabbitmq_exporter.connections_total_enabled:
-    description: >
-      Report connections by state (running, flow, etc).
-      If there are many connections, this can put a lot of pressure on the system.
-    default: false
-  prometheus_rabbitmq_exporter.memory_stat_enabled:
-    description: >
-      Report memory usage as seen in the node memory breakdown section.
-      This is an expensive operation, enabling this when the metrics endpoint is queried < 30s might not be a good idea.
-    default: false
-
+    description: Location of the whitelisted certificates for Trust Store
+provides:
+- name: rabbitmq-server
+  properties:
+  - rabbitmq-server.admin_user
+  - rabbitmq-server.admin_pass
+  - rabbitmq-server.env
+  - rabbitmq-server.collect_statistics_interval
+  type: rabbitmq-server
 templates:
-  debug.erb: debug
-  env.erb: env
-  rabbitmq.config.erb: rabbitmq.config
-  erl_inetrc.erb: erl_inetrc
-
-  bin/drain: bin/drain
-  bin/post-deploy: bin/post-deploy
-  bin/post-start: bin/post-start
-  bin/start: bin/start
-  bin/stop: bin/stop
-
-  bin/rabbitmq_management_http_ok: bin/rabbitmq_management_http_ok
-  bin/analyse_core_dump: bin/analyse_core_dump
-  bin/rabbitmq-admin: bin/rabbitmq-admin
-  bin/capture_amqp_traffic: bin/capture_amqp_traffic
-
-  bin/_add_user: bin/_add_user
   bin/_add_external_plugins: bin/_add_external_plugins
   bin/_add_man_pages: bin/_add_man_pages
   bin/_add_rabbitmq_server_env_to_global_shell_profile: bin/_add_rabbitmq_server_env_to_global_shell_profile
+  bin/_add_user: bin/_add_user
   bin/_begin: bin/_begin
   bin/_delete_guest_user: bin/_delete_guest_user
   bin/_enable_core_dumps: bin/_enable_core_dumps
@@ -361,29 +268,16 @@ templates:
   bin/_wait_for_mnesia_tables: bin/_wait_for_mnesia_tables
   bin/_wait_for_rabbit_to_boot: bin/_wait_for_rabbit_to_boot
   bin/_write_erlang_cookie: bin/_write_erlang_cookie
-
-packages:
-- erlang-20.3.8.21
-- erlang-21.3.8.3
-- erlang-22.0.2
-- erlang-22.0.2.2207
-- looking_glass
-- rabbitmq-plugins
-- rabbitmq-support-tools
-- start-stop-daemon-1.9.18
-
-provides:
-- name: rabbitmq-server
-  type: rabbitmq-server
-  properties:
-  - rabbitmq-server.admin_user
-  - rabbitmq-server.admin_pass
-  - rabbitmq-server.env
-  - rabbitmq-server.collect_statistics_interval
-
-consumes:
-- name: rabbitmq-server
-  type: rabbitmq-server
-- name: periodic_shutdown
-  type: periodic_shutdown
-  optional: true
+  bin/analyse_core_dump: bin/analyse_core_dump
+  bin/capture_amqp_traffic: bin/capture_amqp_traffic
+  bin/drain: bin/drain
+  bin/post-deploy: bin/post-deploy
+  bin/post-start: bin/post-start
+  bin/rabbitmq-admin: bin/rabbitmq-admin
+  bin/rabbitmq_management_http_ok: bin/rabbitmq_management_http_ok
+  bin/start: bin/start
+  bin/stop: bin/stop
+  debug.erb: debug
+  env.erb: env
+  erl_inetrc.erb: erl_inetrc
+  rabbitmq.config.erb: rabbitmq.config
