@@ -60,6 +60,7 @@ instance_groups:
         collect_statistics_interval: 5000
         credit_flow_default_credit: '{400, 200}'
         create_demo_user: false
+        ctl_erl_args: ''
         debug: true
         delegate_count: 16
         disk_free_limit: '{mem_relative, 1.0}'

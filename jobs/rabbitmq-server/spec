@@ -60,6 +60,10 @@ properties:
     default: ""
     description: |
       Add optional erl args - good for setting flags such as scheduler bind type in =< 3.6.3. Remember that init flags use '-' while emulator flags use '+'. For more info, see http://erlang.org/doc/man/erl.html
+  rabbitmq-server.ctl_erl_args:
+    default: ""
+    description: |
+      Add optional rabbitmqctl erl args. For more info, see http://erlang.org/doc/man/erl.html
   rabbitmq-server.admin_pass:
     default: InsecureDefaultPassword
     description: Admin user password
