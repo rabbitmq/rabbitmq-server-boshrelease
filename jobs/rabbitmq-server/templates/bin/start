@@ -35,7 +35,6 @@ exec 1> >(tee -a "${RABBITMQ_LOG_BASE:?must be set}/start.log") 2>&1
 # shellcheck source=jobs/rabbitmq-server/templates/bin/_enable_plugins
 . _enable_plugins
 
-
 # shellcheck source=jobs/rabbitmq-server/templates/bin/_start_epmd
 . _start_epmd
 # shellcheck source=jobs/rabbitmq-server/templates/bin/_start_rabbitmq-server
