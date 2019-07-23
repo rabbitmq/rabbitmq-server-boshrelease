@@ -15,9 +15,6 @@ set -e
 # shellcheck source=jobs/rabbitmq-server/templates/bin/_wait_for_mnesia_tables
 . _wait_for_mnesia_tables
 
-# shellcheck source=jobs/rabbitmq-server/templates/bin/_enable_plugins
-. _enable_plugins
-
 if [ -n "${BOOTSTRAP_NODE?must be defined}" ]
 then
   # shellcheck source=jobs/rabbitmq-server/templates/bin/_set_cluster_name
