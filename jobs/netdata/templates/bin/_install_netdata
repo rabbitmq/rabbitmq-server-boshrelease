@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-set -e
-
-[ -d "${NETDATA_DIR:?must be set}" ] ||
-  bash <(curl -Ss "${NETDATA_KICKSTART_SCRIPT:?must be set}") --non-interactive

@@ -15,8 +15,6 @@ then
   BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/register-routes.yml")
 fi
 
-# We always want netdata running on all RabbitMQ node hosts - https://github.com/rabbitmq/rabbitmq-server-boshrelease/tree/master/jobs/netdata
-BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/add-netdata.yml")
 # We want the rabtap utility on all RabbitMQ node hosts - https://github.com/rabbitmq/rabbitmq-server-boshrelease/tree/master/jobs/rabtap
 BOSH_OPERATIONS+=("--ops-file=$SCRIPT/../operations/add-rabtap.yml")
 # We want perf + sysadmin friends running on all RabbitMQ node hosts - https://github.com/rabbitmq/rabbitmq-server-boshrelease/tree/master/jobs/apt

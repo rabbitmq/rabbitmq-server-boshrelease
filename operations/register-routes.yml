@@ -26,12 +26,3 @@
           health_check:
             name: rabbitmq_management-((bosh_deployment))
             script_path: /var/vcap/jobs/rabbitmq-server/bin/rabbitmq_management_http_ok
-        - name: netdata-((bosh_deployment))
-          uris:
-          - netdata-((bosh_deployment)).((cf_apps_domain))
-          port: 19999
-          registration_interval: 10s
-          health_check:
-            name: netdata-((bosh_deployment))
-            script_path: /var/vcap/jobs/netdata/bin/netdata_http_ok
-          prepend_instance_index: true

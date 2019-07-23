@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-curl --verbose --silent --show-error --fail --output /dev/null \
-  --connect-timeout 3 --max-time 5 127.0.0.1:19999
