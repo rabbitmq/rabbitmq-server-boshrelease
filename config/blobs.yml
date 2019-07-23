@@ -44,6 +44,7 @@ java/jre-8u181-linux-x64.tar.gz:
   sha: c7e8984aa2a0a4119908d112427876415f3ddbbc
 rabbitmq-perf-test-2.9.0.SNAPSHOT-bin.tar.gz:
   size: 4930802
+  object_id: a959a6b4-f05b-4d21-4726-9900e5158232
   sha: sha256:bfab18e5e03a7f4db0f9591651202988c654f82510b9d7ecea23a8280f4d3947
 rabbitmq-plugins/3.6/accept-0.3.3.ez:
   size: 13625
