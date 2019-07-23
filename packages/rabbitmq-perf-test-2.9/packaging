@@ -3,7 +3,7 @@
 set -ex
 
 export JAVA_HOME=/var/vcap/packages/java-jre-1.8
-export PERF_TEST_VERSION=2.4
+export PERF_TEST_VERSION=2.9
 
 main() {
   fail_if_unexpected_java_version
@@ -14,7 +14,7 @@ main() {
 
 fail_if_unexpected_java_version() {
   ${JAVA_HOME:?must be set}/bin/java -version 2>&1 |
-  grep 'java version "1.8.0'
+    grep 'java version "1.8.0'
 }
 
 unarchive() {
@@ -25,7 +25,7 @@ fail_if_unexpected_perftest_version() {
   # We never expect there to be more than 1 PerfTest dir here, we want to fail if that's not the case
   # shellcheck disable=SC2211
   rabbitmq-perf-test-${PERF_TEST_VERSION}.*/bin/runjava com.rabbitmq.perf.PerfTest --version |
-  grep "RabbitMQ Perf Test ${PERF_TEST_VERSION}"
+    grep "RabbitMQ Perf Test ${PERF_TEST_VERSION}"
 }
 
 install() {
