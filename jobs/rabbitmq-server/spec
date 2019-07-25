@@ -6,7 +6,6 @@ consumes:
   type: periodic_shutdown
 name: rabbitmq-server
 packages:
-- erlang-20.3.8.21
 - erlang-20.3.8.22
 - erlang-21.3.8.6
 - erlang-22.0.7
