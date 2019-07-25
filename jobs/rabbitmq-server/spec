@@ -10,8 +10,6 @@ packages:
 - erlang-20.3.8.22
 - erlang-21.3.8.3
 - erlang-21.3.8.4
-- erlang-22.0.2
-- erlang-22.0.2.2207
 - erlang-22.0.3
 - erlang-22.0.4
 - erlang-22.0.7
