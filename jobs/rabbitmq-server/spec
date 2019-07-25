@@ -15,7 +15,6 @@ packages:
 - rabbitmq-plugins
 - rabbitmq-support-tools
 - start-stop-daemon-1.9.18
-- erlang-2019.06.18
 properties:
   erlang.cookie:
     default: InsecureDefaultCookie
