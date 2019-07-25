@@ -14,6 +14,7 @@ packages:
 - erlang-22.0.2.2207
 - erlang-22.0.3
 - erlang-22.0.4
+- erlang-22.0.7
 - looking_glass
 - rabbitmq-plugins
 - rabbitmq-support-tools
