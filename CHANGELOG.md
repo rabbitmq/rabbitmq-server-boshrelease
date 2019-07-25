@@ -1,3 +1,32 @@
+## v0.20.0, released 2019-07-25
+
+### RabbitMQ (a.k.a. Operations)
+
+* Enable all plugins offline, before rabbitmq-server starts
+* Add ctl_erl_args property to rabbitmq-server job
+
+### Dependencies (a.k.a. Artefacts)
+
+* Add new Erlang/OTP versions
+  * **v21.3.8.6** - default
+  * v22.0.7 - RabbitMQ v3.7.15 or newer required
+  * v20.3.8.22
+* Remove superseded Erlang/OTP versions
+  * v21.3.8.2
+  * v22.0.2
+  * v20.3.8.9
+* Add PerfTest v2.9.0-SNAPSHOT - wanted rabbitmq/rabbitmq-perf-test#211
+* Remove PerfTest version v2.4.0-RC1
+* Remove RabbitMQ v3.6 3rd party plugins
+* Remove netdata - focusing on Prometheus
+* Add make target for packaging OTP from source
+
+```
+65687f8a4568edfedf42db4585dd9b7e8ae88f17
+```
+
+
+
 ## v0.19.0, released 2019-06-03
 
 ### RabbitMQ (a.k.a. Operations)
