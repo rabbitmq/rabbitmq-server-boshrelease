@@ -356,6 +356,10 @@ log_levels = p("rabbitmq-server.log_levels")
    %%
    {cluster_keepalive_interval, <%= p("rabbitmq-server.cluster_keepalive_interval") %>},
 
+  %% Set cluster name
+  %% https://github.com/rabbitmq/rabbitmq-server/pull/2075
+  {cluster_name, "<%= spec.deployment %>"},
+
    %% Set (internal) statistics collection granularity.
    %%
    {collect_statistics, <%= p("rabbitmq-server.collect_statistics") %>},
