@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-RMQ_NODES_COUNT=2
+RMQ_NODES_COUNT=3
 
 while true
 do
