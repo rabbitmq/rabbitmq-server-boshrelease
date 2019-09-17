@@ -126,7 +126,7 @@ properties:
     description: Maximum number of OS open files (including sockets) that RabbitMQ
       is allowed
   rabbitmq-server.generic-unix-url:
-    default: https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.7.16/rabbitmq-server-generic-unix-3.7.16.tar.xz
+    default: https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.7.18/rabbitmq-server-generic-unix-3.7.18.tar.xz
     description: URL to Generic UNIX RabbitMQ xz package
   rabbitmq-server.hipe_compile:
     default: false
