@@ -15,7 +15,7 @@ Enter URL for RabbitMQ Server generic-unix package to deploy: " RMQ_SERVER_PACKA
   else
     RMQ_SERVER_PACKAGE="$(
       "$SCRIPT"/_rmq_server_releases_github |
-        jq -r '.[] | select(.tag_name=="'"$RMQ_SERVER_RELEASE"'") | .assets[] | select(.name | contains("generic-unix"))| .browser_download_url | select(. | contains("asc") | not)'
+        jq -r '.[] | select(.tag_name=="'"$RMQ_SERVER_RELEASE"'") | .assets[] | select(.name | contains("generic-unix")) | .browser_download_url | select(. | contains("asc") | not) | select(. | contains("latest-toolchain") | not)'
     )"
   fi
 
