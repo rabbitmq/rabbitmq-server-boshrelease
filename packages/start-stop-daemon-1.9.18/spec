@@ -1,4 +1,6 @@
+# vim: set filetype=yaml :
 ---
 name: start-stop-daemon-1.9.18
 files:
 - start-stop-daemon-1.9.18/*
+# https://github.com/daleobrien/start-stop-daemon

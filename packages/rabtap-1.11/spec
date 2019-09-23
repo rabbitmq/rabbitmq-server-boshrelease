@@ -1,7 +1,6 @@
+# vim: set filetype=yaml :
 ---
 name: rabtap-1.11
-
-dependencies: []
-
 files:
 - rabtap-1.11.tgz
+# https://github.com/jandelgado/rabtap/releases
