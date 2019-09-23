@@ -206,3 +206,9 @@ tmp:
 
 update: ## Deploy an existing RabbitMQ cluster configuration - CONFIG is optional, e.g. CONFIG=deployment_configurations/rmq-n.yml
 	@deploy-configuration $(CONFIG)
+
+test_scripts: ## Run in the same environment as the BOSH Stemcell - Ubuntu Trust, 16.04
+	@docker run --interactive --tty --rm \
+	  --volume $(CURDIR):/workspace --workdir /workspace \
+	  ubuntu:16.04 \
+	  bash
