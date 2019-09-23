@@ -1,5 +1,6 @@
+# vim: set filetype=yaml :
 ---
 name: autoconf-2.69
 files:
 - autotools/autoconf-2.69.tar.xz
-dependencies: []
+# https://github.com/Distrotech/autoconf/releases

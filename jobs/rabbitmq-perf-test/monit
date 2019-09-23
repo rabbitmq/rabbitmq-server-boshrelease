@@ -1,0 +1,5 @@
+check process rabbitmq-perf-test
+  with pidfile /var/vcap/sys/run/bpm/rabbitmq-perf-test/rabbitmq-perf-test.pid
+  start program" /var/vcap/jobs/bpm/bin/bpm start rabbitmq-perf-test"
+  stop program "/var/vcap/jobs/bpm/bin/bpm stop rabbitmq-perf-test"
+  group vcap

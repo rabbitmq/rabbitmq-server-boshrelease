@@ -1,35 +1,41 @@
 #!/usr/bin/env bash
 
-set -ex
-
-export JAVA_HOME=/var/vcap/packages/java-jre-1.8
-export PERF_TEST_VERSION=2.9
+set -exo pipefail
 
 main() {
-  fail_if_unexpected_java_version
-  unarchive
-  fail_if_unexpected_perftest_version
-  install
+  native_bins | ensure_executable | ensure_valid | install
+  # java_bundles | unarchive | ensure_valid | install
 }
 
-fail_if_unexpected_java_version() {
-  ${JAVA_HOME:?must be set}/bin/java -version 2>&1 |
-    grep 'java version "1.8.0'
+native_bins() {
+  ls ./rabbitmq-perf-test-*
 }
 
-unarchive() {
-  tar xzvf rabbitmq-perf-test-${PERF_TEST_VERSION:?must be set}.*.tar.gz
+ensure_executable() {
+  while read -r perf_test
+  do
+    chmod +x "$perf_test"
+    echo "$perf_test"
+  done
 }
 
-fail_if_unexpected_perftest_version() {
-  # We never expect there to be more than 1 PerfTest dir here, we want to fail if that's not the case
-  # shellcheck disable=SC2211
-  rabbitmq-perf-test-${PERF_TEST_VERSION}.*/bin/runjava com.rabbitmq.perf.PerfTest --version |
-    grep "RabbitMQ Perf Test ${PERF_TEST_VERSION}"
+ensure_valid() {
+  while read -r perf_test
+  do
+    $perf_test --version | grep --silent "RabbitMQ Perf Test "
+    echo "$perf_test"
+  done
 }
 
 install() {
-  cp -R rabbitmq-perf-test-${PERF_TEST_VERSION}.*/* "${BOSH_INSTALL_TARGET:?must be defined}"
+  while read -r perf_test
+  do
+    cp --dereference --recursive "$perf_test" "${BOSH_INSTALL_TARGET:?must be defined}"
+  done
 }
+
+# java_bundles() {
+#   ls rabbitmq-perf-test/java/*
+# }
 
 main

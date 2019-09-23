@@ -1,6 +1,9 @@
+# vim: set filetype=yaml :
 ---
 name: rabbitmq-perf-test-2.9
-files:
-- rabbitmq-perf-test-2.9.0.SNAPSHOT-bin.tar.gz
 dependencies:
 - java-jre-1.8
+files:
+- rabbitmq-perf-test-2.9.0-rc.1
+- rabbitmq-perf-test-2.9.0-rc.2
+# https://github.com/rabbitmq/rabbitmq-perf-test/releases

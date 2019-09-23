@@ -3,5 +3,5 @@
 set -ex
 
 cat > /etc/profile.d/perf-test.sh <<EOF
-export PATH="/var/vcap/jobs/rabbitmq-perf-test/bin:\$PATH"
+source /var/vcap/jobs/rabbitmq-perf-test/env
 EOF

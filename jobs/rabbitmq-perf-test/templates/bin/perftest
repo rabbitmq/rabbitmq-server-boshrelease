@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-set -e
-
-export JAVA_HOME=/var/vcap/packages/java-jre-1.8
-
-# We never expect there to be more than 1 PerfTest dir here, we want to fail if that's not the case
-# shellcheck disable=SC2211
-/var/vcap/jobs/rabbitmq-perf-test/packages/rabbitmq-perf-test-*/bin/runjava com.rabbitmq.perf.PerfTest "$@"

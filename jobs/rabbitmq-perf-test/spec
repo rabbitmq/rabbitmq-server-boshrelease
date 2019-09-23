@@ -4,8 +4,35 @@ name: rabbitmq-perf-test
 
 templates:
   bin/post-start: bin/post-start
-  bin/perftest: bin/perftest
+  bpm.yml.erb: config/bpm.yml
+  env.erb: env
 
 packages:
-- java-jre-1.8
 - rabbitmq-perf-test-2.9
+# TODO: add back the Java-based PerfTest
+- java-jre-1.8
+
+properties:
+  rabbitmq-perf-test.executable:
+    default: "/var/vcap/jobs/rabbitmq-perf-test/packages/rabbitmq-perf-test-2.9/rabbitmq-perf-test-2.9.0-rc.2"
+    description: |
+      Which PerfTest executable to use.
+      Defaults to latest native binary in rabbitmq-perf-test package.
+  rabbitmq-perf-test.options:
+    default: '--producers 1 --variable-rate 10:30 --variable-rate 100:10 --consumers 1'
+    description: |
+      Add any options that you want to pass to perf-test binary.
+      To see all supported options, visit https://rabbitmq.github.io/rabbitmq-perf-test/milestone/htmlsingle/
+  # Default options, only meant to be overwritten if you know what they are with no description to help out
+  rabbitmq-perf-test.default_options.servers_startup_time:
+    default: 30
+  rabbitmq-perf-test.default_options.slow_start:
+    default: true
+  rabbitmq-perf-test.default_options.metrics_prometheus:
+    default: true
+  rabbitmq-perf-test.default_options.metrics_port:
+    default: 8080
+
+consumes:
+- name: rabbitmq-server
+  type: rabbitmq-server

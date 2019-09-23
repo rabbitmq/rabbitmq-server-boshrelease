@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+set -e
+
+export BOSH_INSTALL_TARGET=/tmp
+
+run() {
+  export BIN="${1:?first argument must be valid bin}"
+  export BLOB=../../blobs/$BIN
+
+  (
+    setup &&
+    bash ./packaging &&
+    assert &&
+    cleanup &&
+    pass
+  ) || fail
+}
+
+setup() {
+  chmod +x "$BLOB"
+  ln -sf "$BLOB" ./"$BIN"
+}
+
+assert() {
+  ls -l "$BOSH_INSTALL_TARGET/$BIN" &&
+  (find . -perm 777 | grep "$BIN")
+}
+
+cleanup() {
+  rm ./"$BIN" "$BOSH_INSTALL_TARGET/$BIN"
+}
+
+pass() {
+  echo "PASS"
+  exit 0
+}
+
+fail() {
+  echo "FAIL"
+  exit 1
+}
+
+run rabbitmq-perf-test-2.9.0-rc.1
+run rabbitmq-perf-test-2.9.0-rc.2
