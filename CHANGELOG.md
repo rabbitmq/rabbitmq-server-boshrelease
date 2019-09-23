@@ -22,7 +22,7 @@
 * Add make target for packaging OTP from source
 
 ```
-65687f8a4568edfedf42db4585dd9b7e8ae88f17
+sha1: 65687f8a4568edfedf42db4585dd9b7e8ae88f17
 ```
 
 
@@ -53,7 +53,7 @@
 * Remove observer-cli - it now ships with RabbitMQ
 
 ```
-075bdbcd9a35ecc626d9e8aba9eb55c4807d4e5b
+sha1: 075bdbcd9a35ecc626d9e8aba9eb55c4807d4e5b
 ```
 
 
@@ -67,7 +67,7 @@
 * Remove Erlang **21.1** superseded by **21.2.5**
 
 ```
-c121795578851750024d9631404ef27d98ca30ef
+sha1: c121795578851750024d9631404ef27d98ca30ef
 ```
 
 
@@ -99,7 +99,7 @@ c121795578851750024d9631404ef27d98ca30ef
   * **v21.2.5** - default
 
 ```
-88aeff181585a8773ed361af12c434cf3a7420e3
+sha1: 88aeff181585a8773ed361af12c434cf3a7420e3
 ```
 
 
