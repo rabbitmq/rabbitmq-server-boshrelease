@@ -10,7 +10,8 @@ main() {
 }
 
 unarchive() {
-  mkdir -p rabtap-${RABTAP_VERSION} && tar -xvf rabtap-${RABTAP_VERSION:?must be set}.tgz -C rabtap-${RABTAP_VERSION}
+  mkdir -p rabtap-${RABTAP_VERSION} &&
+  tar -xvf rabtap-${RABTAP_VERSION:?must be set}.tgz -C rabtap-${RABTAP_VERSION}
 }
 
 install() {

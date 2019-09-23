@@ -4,7 +4,7 @@ set -e
 
 # shellcheck source=/dev/null
 . /var/vcap/jobs/rabbitmq-server/env
-configureDebugLevel
+set_script_tracing
 
 declare -a TCPDUMP
 TCPDUMP+=(tcpdump)

@@ -1,10 +1,19 @@
 <% if p("rabbitmq-server.debug") != false  %>
-DEBUG=${DEBUG:-true}
+DEBUG=true
 EPMD_DEBUG="-debug"
 START_STOP_DAEMON_VERBOSE="--verbose"
 <% else %>
-DEBUG=${DEBUG:-false}
+DEBUG=false
 EPMD_DEBUG=""
 START_STOP_DAEMON_VERBOSE=""
 <% end %>
 export DEBUG EPMD_DEBUG START_STOP_DAEMON_VERBOSE
+
+set_script_tracing() {
+  if $DEBUG
+  then
+    set -x
+  else
+    set +x
+  fi
+}
