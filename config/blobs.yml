@@ -26,26 +26,6 @@ rabbitmq-perf-test-2.9.0-rc.2:
   size: 15791136
   object_id: 0d8e745b-bd0b-4222-7f9c-5dd00dc0a754
   sha: sha256:8812a423fad6b66d982ab298fa9c32096203abdabfda50278065b3746407e6bc
-rabbitmq-plugins/3.7/accept-0.3.3.ez:
-  size: 13395
-  object_id: e76677c4-b08b-4650-7f44-30b290f80723
-  sha: 1d43932039547d458ba13fd1d314028d7cee5936
-rabbitmq-plugins/3.7/prometheus-3.5.1.ez:
-  size: 200783
-  object_id: d17c35cd-16b0-48ce-4a3a-5069026e3e17
-  sha: ddbfa5a3b15e8c63247909c63ef88632dd31b748
-rabbitmq-plugins/3.7/prometheus_cowboy-0.1.4.ez:
-  size: 14344
-  object_id: 623ad1b6-8575-484b-61b7-d524b082e17b
-  sha: 543c04aae526d653736330f704d2ef4807551e92
-rabbitmq-plugins/3.7/prometheus_httpd-2.1.8.ez:
-  size: 22055
-  object_id: 0ba0cc12-b4ab-4018-7445-1ceaf85e7341
-  sha: 681e8d181ea4b032b0bef7ef0125145ce281b12c
-rabbitmq-plugins/3.7/prometheus_rabbitmq_exporter-3.7.2.4.ez:
-  size: 224548
-  object_id: f6f280f9-3686-4e94-447b-95e19a2a44da
-  sha: 00061e8e7b8f836e34b831e88baeb87199c33136
 rabtap-1.11.tgz:
   size: 3067339
   object_id: fc6994ec-ece7-4cca-698a-1ef34281b46c

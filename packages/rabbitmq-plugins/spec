@@ -1,5 +1,0 @@
-# vim: set filetype=yaml :
----
-name: rabbitmq-plugins
-files:
-- rabbitmq-plugins/**/*

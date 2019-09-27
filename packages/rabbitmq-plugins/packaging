@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-set -ex
-
-cd rabbitmq-plugins
-cp -r ./* "${BOSH_INSTALL_TARGET:?must be defined}"/

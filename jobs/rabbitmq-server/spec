@@ -10,7 +10,6 @@ name: rabbitmq-server
 packages:
 - erlang-20.3.8.22
 - erlang-21.3.8.7
-- rabbitmq-plugins
 - rabbitmq-support-tools
 - erlang-22.0.15618
 - erlang-22.1.1
@@ -242,7 +241,6 @@ provides:
   - rabbitmq-server.collect_statistics_interval
   type: rabbitmq-server
 templates:
-  bin/_add_external_plugins: bin/_add_external_plugins
   bin/_add_man_pages: bin/_add_man_pages
   bin/_add_rabbitmq_server_env_to_global_shell_profile: bin/_add_rabbitmq_server_env_to_global_shell_profile
   bin/_add_user: bin/_add_user
