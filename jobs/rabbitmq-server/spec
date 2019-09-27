@@ -10,7 +10,6 @@ name: rabbitmq-server
 packages:
 - erlang-20.3.8.22
 - erlang-21.3.8.7
-- erlang-22.0.7
 - looking_glass
 - rabbitmq-plugins
 - rabbitmq-support-tools
