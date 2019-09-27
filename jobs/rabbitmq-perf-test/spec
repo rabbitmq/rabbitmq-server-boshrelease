@@ -18,6 +18,16 @@ properties:
     description: |
       Which PerfTest executable to use.
       Defaults to latest native binary in rabbitmq-perf-test package.
+  rabbitmq-perf-test.connect_to_nodes:
+    default: 'all'
+    description: |
+      Configured which RabbitMQ nodes PerfTest should connect to.
+
+      By default, PerfTest will randomly pick one of the nodes in the deployment.
+      Valid options are 'all' or a specific node number, e.g. 0, 1, 2 etc. Node numbering starts from 0.
+
+      If you set a number higher than the available nodes, the jobs will fail.
+      Given a RabbitMQ cluster with 3 nodes, the maximum number that you can set is 2. Anything higher will make this job fail.
   rabbitmq-perf-test.options:
     default: '--producers 1 --variable-rate 10:30 --variable-rate 100:10 --consumers 1'
     description: |

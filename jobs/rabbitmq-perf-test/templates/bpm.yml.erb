@@ -26,7 +26,13 @@ processes:
               uris = link("rabbitmq-server").instances.map do |instance|
                 "amqp://#{user}:#{pass}@#{instance.address}"
               end
-              uris.join(",")
+
+              if p("rabbitmq-perf-test.connect_to_nodes") == "all"
+                uris.join(",")
+              else
+                node_number = p("rabbitmq-perf-test.connect_to_nodes").to_i
+                uris[node_number]
+              end
     %>
 
   # https://bosh.io/docs/bpm/config/#limits-schema
