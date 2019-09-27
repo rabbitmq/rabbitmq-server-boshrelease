@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-set -ex
-
-cp -r support-tools/* "${BOSH_INSTALL_TARGET:?must be defined}"

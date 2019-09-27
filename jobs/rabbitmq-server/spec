@@ -10,7 +10,6 @@ name: rabbitmq-server
 packages:
 - erlang-20.3.8.22
 - erlang-21.3.8.7
-- rabbitmq-support-tools
 - erlang-22.0.15618
 - erlang-22.1.1
 - start-stop-daemon-1.9.18
