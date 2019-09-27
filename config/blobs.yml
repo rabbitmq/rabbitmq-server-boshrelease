@@ -22,10 +22,6 @@ java/jre-8u181-linux-x64.tar.gz:
   size: 81191893
   object_id: b838ee6d-f735-4c3f-70de-1a450b40d8dc
   sha: c7e8984aa2a0a4119908d112427876415f3ddbbc
-rabbitmq-perf-test-2.9.0-rc.1:
-  size: 15815760
-  object_id: 5469e42b-ac6f-47aa-7d2d-896bd7306bb2
-  sha: sha256:669e7a29640e9a1eca8c167f3ef851578529a56b4074ceecf7a63feb2d6abe39
 rabbitmq-perf-test-2.9.0-rc.2:
   size: 15791136
   object_id: 0d8e745b-bd0b-4222-7f9c-5dd00dc0a754
