@@ -4,7 +4,6 @@ set -exo pipefail
 
 main() {
   native_bins | ensure_executable | ensure_valid | install
-  # java_bundles | unarchive | ensure_valid | install
 }
 
 native_bins() {
@@ -33,9 +32,5 @@ install() {
     cp --dereference --recursive "$perf_test" "${BOSH_INSTALL_TARGET:?must be defined}"
   done
 }
-
-# java_bundles() {
-#   ls rabbitmq-perf-test/java/*
-# }
 
 main
