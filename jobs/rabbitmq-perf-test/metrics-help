@@ -1,0 +1,37 @@
+ -mc,--metrics-client                            enable client metrics
+ -mcl,--metrics-class-loader                     enable JVM class loader
+                                                 metrics
+ -mda,--metrics-datadog                          enable Datadog metrics
+ -mdak,--metrics-datadog-application-key <arg>   Datadog application key
+ -mdd,--metrics-datadog-descriptions             if meter descriptions
+                                                 should be sent to Datadog
+ -mdh,--metrics-datadog-host-tag <arg>           tag that will be mapped
+                                                 to "host" when shipping
+                                                 metrics to datadog
+ -mdk,--metrics-datadog-api-key <arg>            Datadog API key
+ -mds,--metrics-datadog-step-size <arg>          step size (reporting
+                                                 frequency) to use in
+                                                 seconds, default is 10
+                                                 seconds
+ -mdu,--metrics-datadog-uri <arg>                URI to ship metrics,
+                                                 useful when using a
+                                                 proxy, default is
+                                                 https://app.datadoghq.com
+ -mjgc,--metrics-jvm-gc                          enable JVM GC metrics
+ -mjm,--metrics-jvm-memory                       enable JVM memory metrics
+ -mjp,--metrics-processor                        enable processor metrics
+                                                 (gathered by JVM)
+ -mjt,--metrics-jvm-thread                       enable JVM thread metrics
+ -mjx,--metrics-jmx                              enable JMX metrics
+ -mpe,--metrics-prometheus-endpoint <arg>        the HTTP metrics
+                                                 endpoint, default is
+                                                 /metrics
+ -mpp,--metrics-prometheus-port <arg>            the port to launch the
+                                                 HTTP metrics endpoint on,
+                                                 default is 8080
+ -mpr,--metrics-prometheus                       enable Prometheus metrics
+ -mpx,--metrics-prefix <arg>                     prefix for PerfTest
+                                                 metrics, default is
+                                                 perftest_
+ -mt,--metrics-tags <arg>                        metrics tags as key-value
+                                                 pairs separated by commas

@@ -1,0 +1,29 @@
+ METRICS_CLASS_LOADER              enable JVM class loader metrics
+ METRICS_CLIENT                    enable client metrics
+ METRICS_DATADOG                   enable Datadog metrics
+ METRICS_DATADOG_API_KEY           Datadog API key
+ METRICS_DATADOG_APPLICATION_KEY   Datadog application key
+ METRICS_DATADOG_DESCRIPTIONS      if meter descriptions should be sent to
+                                   Datadog
+ METRICS_DATADOG_HOST_TAG          tag that will be mapped to "host" when
+                                   shipping metrics to datadog
+ METRICS_DATADOG_STEP_SIZE         step size (reporting frequency) to use
+                                   in seconds, default is 10 seconds
+ METRICS_DATADOG_URI               URI to ship metrics, useful when using
+                                   a proxy, default is
+                                   https://app.datadoghq.com
+ METRICS_JMX                       enable JMX metrics
+ METRICS_JVM_GC                    enable JVM GC metrics
+ METRICS_JVM_MEMORY                enable JVM memory metrics
+ METRICS_JVM_THREAD                enable JVM thread metrics
+ METRICS_PREFIX                    prefix for PerfTest metrics, default is
+                                   perftest_
+ METRICS_PROCESSOR                 enable processor metrics (gathered by
+                                   JVM)
+ METRICS_PROMETHEUS                enable Prometheus metrics
+ METRICS_PROMETHEUS_ENDPOINT       the HTTP metrics endpoint, default is
+                                   /metrics
+ METRICS_PROMETHEUS_PORT           the port to launch the HTTP metrics
+                                   endpoint on, default is 8080
+ METRICS_TAGS                      metrics tags as key-value pairs
+                                   separated by commas
