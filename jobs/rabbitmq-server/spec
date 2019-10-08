@@ -26,6 +26,19 @@ properties:
     default: 22.1.2
     description: |
       Erlang OTP version that will be used for running RabbitMQ. We install multiple Erlang OTP versions to test compatibility. The default version is what we recommend for production deployments.
+  ra.segment_max_entries:
+    default: 32768
+    description: |
+      The maximum number of quorum queue commands stored in each file segment.
+      A higher value will use fewer file handles at the cost of some disk space.
+      A lower value will use more file handles but allow disk space to be reclaimed earlier.
+  ra.wal_max_size_bytes:
+    default: 536870912
+    description: |
+      The maximum size of the write ahead log file, defaults to 512MiB.
+      When the WAL reaches this size it will be closed and a new one opened whilst all commands are flushed to on disk segments.
+      A larger value uses more disk and in memory space as all contents of the WAL are also stored in memory for easy and fast access.
+      As more than one WAL can exist at any one time you need to make sure you have sufficient disk space and memory to be able to accomodate at least two but ideally more WALs at any one time.
   rabbitmq-management.basic_statistics_retention:
     default: '[{605,5}, {3660,60}]'
     description: |
@@ -204,6 +217,10 @@ properties:
         * min-masters
         * client-local
         * random
+  rabbitmq-server.quorum_commands_soft_limit:
+    default: 400
+    description: |
+       The number of in flight quorum queue commands that are permitted before the channel activates flow control. A low value could reduce performance, and a high one can improve performance, but cause higher memory consumption.
   rabbitmq-server.scheduler_bind_type:
     default: db
     description: |

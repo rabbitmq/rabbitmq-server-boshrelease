@@ -49,6 +49,9 @@ instance_groups:
         cookie: ((erlang_cookie))
         lock_counting: false
         version: ((erlang_version))
+      ra:
+        segment_max_entries: 32678
+        wal_max_size_bytes: 536870912
       rabbitmq-server:
         additional_erl_args: ''
         admin_pass: ((rmq_server_admin_pass))
@@ -88,6 +91,7 @@ instance_groups:
         queue_explicit_gc_run_operation_threshold: 1000
         queue_index_embed_msgs_below: 4096
         queue_master_locator: client-local
+        quorum_commands_soft_limit: 400
         scheduler_bind_type: db
         tcp_listen_options: ''
         vm_memory_high_watermark: 0.5

@@ -9,12 +9,34 @@ log_levels = p("rabbitmq-server.log_levels")
 %>
 
 %% ----------------------------------------------------------------------------
-%% Based on RabbitMQ Sample Configuration File
-%% https://github.com/rabbitmq/rabbitmq-server/blob/stable/docs/rabbitmq.config.example
+%% Based on RabbitMQ Advanced Configuration File
+%% https://github.com/rabbitmq/rabbitmq-server/blob/v3.7.x/docs/rabbitmq.config.example
+%%
+%% While the new style config file is preferable to most users,
+%% we use the advanced one so that we can specify all config options in a single file,
+%% including the advanced ones.
+%%
+%% The new style config is the right choice if validation errors are required,
+%% and/or if using the Erlang syntax is daunting.
+%%
+%% For more info, see:
+%% * https://www.rabbitmq.com/configure.html
+%% * https://www.rabbitmq.com/configure.html#advanced-config-file
 %% ----------------------------------------------------------------------------
 [
- {rabbit,
-  [%%
+ {ra, [
+   %% The maximum number of quorum queue commands stored in each file segment.
+   %% A higher value will use fewer file handles at the cost of some disk space.
+   %% A lower value will use more file handles but allow disk space to be reclaimed earlier.
+   {segment_max_entries, <%= p("ra.segment_max_entries") %>},
+
+   %% The maximum size of the write ahead log file, defaults to 512MiB.
+   %% When the WAL reaches this size it will be closed and a new one opened whilst all commands are flushed to on disk segments.
+   %% A larger value uses more disk and in memory space as all contents of the WAL are also stored in memory for easy and fast access.
+   %% As more than one WAL can exist at any one time you need to make sure you have sufficient disk space and memory to be able to accomodate at least two but ideally more WALs at any one time.
+   {wal_max_size_bytes, <%= p("ra.wal_max_size_bytes") %>}
+ ]},
+ {rabbit, [%%
    %% Network Connectivity
    %% ====================
    %%
@@ -309,6 +331,12 @@ log_levels = p("rabbitmq-server.log_levels")
    %%
    %% NB: Change these only if you understand what you are doing!
    %%
+
+   %% The number of in flight quorum queue commands that are permitted before the channel activates flow control.
+   %% A low value could reduce performance, and a high one can improve performance, but cause higher memory consumption.
+   %%
+   %% See https://www.rabbitmq.com/quorum-queues.html
+   {quorum_commands_soft_limit, <%= p("rabbitmq-server.quorum_commands_soft_limit") %>},
 
    %% Queue master location strategy:
    %%   * <<"min-masters">>
