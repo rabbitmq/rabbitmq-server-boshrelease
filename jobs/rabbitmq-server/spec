@@ -23,7 +23,7 @@ properties:
     description: |
       Enable Erlang VM lock counting http://erlang.org/doc/apps/tools/lcnt_chapter.html
   erlang.version:
-    default: 21.3.8.8
+    default: 22.1.2
     description: |
       Erlang OTP version that will be used for running RabbitMQ. We install multiple Erlang OTP versions to test compatibility. The default version is what we recommend for production deployments.
   rabbitmq-management.basic_statistics_retention:
@@ -117,7 +117,7 @@ properties:
     default: 10000
     description: Maximum number of OS open files (including sockets) that RabbitMQ is allowed to use
   rabbitmq-server.generic-unix-url:
-    default: https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.7.18/rabbitmq-server-generic-unix-3.7.18.tar.xz
+    default: https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.0/rabbitmq-server-generic-unix-3.8.0.tar.xz.asc
     description: URL to Generic UNIX RabbitMQ xz package
   rabbitmq-server.hipe_compile:
     default: false
