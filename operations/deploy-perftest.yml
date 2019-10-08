@@ -21,7 +21,7 @@
       properties:
         rabbitmq-perf-test:
           options: '--producers 1 --variable-rate 10:30 --variable-rate 100:10 --consumers 1'
-          connext_to_nodes: 'all'
+          connect_to_nodes: 'all'
     - name: apt
       release: rabbitmq-server
     - name: bpm
