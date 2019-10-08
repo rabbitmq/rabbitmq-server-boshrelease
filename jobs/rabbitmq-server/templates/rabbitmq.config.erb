@@ -846,20 +846,5 @@ log_levels = p("rabbitmq-server.log_levels")
             {username, <<"<%= p("rabbitmq-server.admin_user") %>">>},
             {password, <<"<%= p("rabbitmq-server.admin_pass") %>">>}
         ]
-    },
-
-    %% ----------------------------------------------------------------------------
-    %% Prometheus RabbitMQ Exporter
-    %%
-    %% See https://github.com/deadtrickster/prometheus_rabbitmq_exporter
-    %% ----------------------------------------------------------------------------
-
-    {prometheus, [
-        {rabbitmq_exporter,
-            [
-                {connections_total_enabled, <%= p("prometheus_rabbitmq_exporter.connections_total_enabled") %>},
-                {memory_stat_enabled, <%= p("prometheus_rabbitmq_exporter.memory_stat_enabled") %>}
-            ]
-        }
-    ]}
+    }
 ].

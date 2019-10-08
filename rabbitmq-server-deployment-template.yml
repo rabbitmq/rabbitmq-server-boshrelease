@@ -99,9 +99,6 @@ instance_groups:
         detailed_statistics_retention: '[{605,5}]'
       rabbitmq-trust-store:
         directory: /var/vcap/store/rabbitmq-server/trust-store/whitelist
-      prometheus_rabbitmq_exporter:
-        connections_total_enabled: false
-        memory_stat_enabled: false
   networks:
   - name: ((rmq_network))
   azs:

@@ -26,14 +26,6 @@ properties:
     default: 21.3.8.8
     description: |
       Erlang OTP version that will be used for running RabbitMQ. We install multiple Erlang OTP versions to test compatibility. The default version is what we recommend for production deployments.
-  prometheus_rabbitmq_exporter.connections_total_enabled:
-    default: false
-    description: |
-      Report connections by state (running, flow, etc). If there are many connections, this can put a lot of pressure on the system.
-  prometheus_rabbitmq_exporter.memory_stat_enabled:
-    default: false
-    description: |
-      Report memory usage as seen in the node memory breakdown section. This is an expensive operation, enabling this when the metrics endpoint is queried < 30s might not be a good idea.
   rabbitmq-management.basic_statistics_retention:
     default: '[{605,5}, {3660,60}]'
     description: |
