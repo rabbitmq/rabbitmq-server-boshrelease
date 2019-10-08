@@ -9,7 +9,6 @@ consumes:
 name: rabbitmq-server
 packages:
 - erlang-20.3.8.23
-- erlang-21.3.8.7
 - erlang-21.3.8.8
 - erlang-22.0.15618
 - erlang-22.1.1
@@ -24,7 +23,7 @@ properties:
     description: |
       Enable Erlang VM lock counting http://erlang.org/doc/apps/tools/lcnt_chapter.html
   erlang.version:
-    default: 21.3.8.7
+    default: 21.3.8.8
     description: |
       Erlang OTP version that will be used for running RabbitMQ. We install multiple Erlang OTP versions to test compatibility. The default version is what we recommend for production deployments.
   prometheus_rabbitmq_exporter.connections_total_enabled:
