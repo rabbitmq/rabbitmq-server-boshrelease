@@ -2,15 +2,32 @@
 
 set -exo pipefail
 
+export BLOB_DIR="${BLOB_DIR:-$PWD}"
+export JAVA_HOME=/var/vcap/packages/java-jre-1.8
+
+# To test/debug, uncomment the sleep line & ssh into the compilation VM
+# It is too hard to re-create the entire compilation VM state, including the JAVA state
+# It may seem more complicated this way, but in my experience it is simpler than the alternative
+#
+# sleep 3600
+
 main() {
-  native_bins | ensure_executable | ensure_valid | install
+  graalvm_bins \
+  | ensure_executable_bin \
+  | ensure_valid_exec \
+  | install_bin
+
+  jvm_bin_archives \
+  | install_bin_dir \
+  | runjava_exec \
+  | ensure_valid_exec
 }
 
-native_bins() {
-  ls ./rabbitmq-perf-test-*
+graalvm_bins() {
+  ls "${BLOB_DIR:?must be set}"/rabbitmq-perf-test/graalvm/*
 }
 
-ensure_executable() {
+ensure_executable_bin() {
   while read -r perf_test
   do
     chmod +x "$perf_test"
@@ -18,18 +35,40 @@ ensure_executable() {
   done
 }
 
-ensure_valid() {
-  while read -r perf_test
+ensure_valid_exec() {
+  while read -r perf_test_exec
   do
-    $perf_test --version | grep --silent "RabbitMQ Perf Test "
-    echo "$perf_test"
+    $perf_test_exec --version | grep --silent "RabbitMQ Perf Test "
+    echo "$perf_test_exec"
   done
 }
 
-install() {
+runjava_exec() {
+  local perf_test_jvm_bin_dir
+
+  while read -r perf_test_jvm_bin_archive
+  do
+    perf_test_jvm_bin_dir="$(grep --extended-regexp --only-matching 'rabbitmq-perf-test-[0-9\.]{4,}' <<< "$perf_test_jvm_bin_archive")"
+    printf "$BOSH_INSTALL_TARGET/%s/bin/runjava com.rabbitmq.perf.PerfTest\n" "$perf_test_jvm_bin_dir"
+  done
+}
+
+install_bin() {
   while read -r perf_test
   do
     cp --dereference --recursive "$perf_test" "${BOSH_INSTALL_TARGET:?must be defined}"
+  done
+}
+
+jvm_bin_archives() {
+  ls "$BLOB_DIR"/rabbitmq-perf-test/jvm/*.tar.gz
+}
+
+install_bin_dir() {
+  while read -r perf_test_jvm_bin_archive
+  do
+    tar --extract --ungzip --file "$perf_test_jvm_bin_archive" --directory "${BOSH_INSTALL_TARGET:?must be defined}"
+    echo "$perf_test_jvm_bin_archive"
   done
 }
 

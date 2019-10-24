@@ -10,17 +10,24 @@ processes:
 
   executable: <%= p("rabbitmq-perf-test.executable") %>
 
-  args: <% p("rabbitmq-perf-test.options").split(" ").each do |option| %>
+  args:
+  <% if p("rabbitmq-perf-test.executable").include?("runjava") %>
+  -  com.rabbitmq.perf.PerfTest
+  <% end -%>
+  <% p("rabbitmq-perf-test.options").split(" ").each do |option| %>
   - <%= option -%>
   <% end %>
 
   env:
     JAVA_HOME: /var/vcap/jobs/rabbitmq-perf-test/packages/java-jre-1.8
     SERVERS_STARTUP_TIMEOUT: <%= p("rabbitmq-perf-test.default_options.servers_startup_time") %>
-    SLOW_START: <%= p("rabbitmq-perf-test.default_options.slow_start") %>
     METRICS_PROMETHEUS: <%= p("rabbitmq-perf-test.default_options.metrics_prometheus") %>
     METRICS_PROMETHEUS_PORT: <%= p("rabbitmq-perf-test.default_options.metrics_port") %>
     METRICS_CLIENT: <%= p("rabbitmq-perf-test.default_options.metrics_client") %>
+    METRICS_JMX: <%= p("rabbitmq-perf-test.default_options.metrics_jmx") %>
+    METRICS_JVM_GC: <%= p("rabbitmq-perf-test.default_options.metrics_jvm_gc") %>
+    METRICS_JVM_MEMORY: <%= p("rabbitmq-perf-test.default_options.metrics_jvm_memory") %>
+    METRICS_JVM_THREAD: <%= p("rabbitmq-perf-test.default_options.metrics_jvm_thread") %>
     URIS: <%=
               user = link("rabbitmq-server").p("rabbitmq-server.admin_user")
               pass = link("rabbitmq-server").p("rabbitmq-server.admin_pass")

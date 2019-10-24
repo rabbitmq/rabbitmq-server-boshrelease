@@ -3,21 +3,23 @@
 name: rabbitmq-perf-test
 
 templates:
-  bin/post-start: bin/post-start
+  bin/pre-start: bin/pre-start
   bpm.yml.erb: config/bpm.yml
   env.erb: env
 
 packages:
 - rabbitmq-perf-test-2.9
-# TODO: add back the Java-based PerfTest
 - java-jre-1.8
 
 properties:
   rabbitmq-perf-test.executable:
-    default: "/var/vcap/jobs/rabbitmq-perf-test/packages/rabbitmq-perf-test-2.9/rabbitmq-perf-test-2.9.0-rc.2"
+    default: "/var/vcap/jobs/rabbitmq-perf-test/packages/rabbitmq-perf-test-2.9/rabbitmq-perf-test-2.9.1/bin/runjava"
     description: |
       Which PerfTest executable to use.
-      Defaults to latest native binary in rabbitmq-perf-test package.
+
+      Defaults to latest JVM bin from rabbitmq-perf-test package.
+
+      To use the GraalVM native binary, set this property to e.g. /var/vcap/jobs/rabbitmq-perf-test/packages/rabbitmq-perf-test-2.9/rabbitmq-perf-test-2.9.1-linux_x86_64
   rabbitmq-perf-test.connect_to_nodes:
     default: 'all'
     description: |
@@ -36,13 +38,19 @@ properties:
   # Default options, only meant to be overwritten if you know what they are with no description to help out
   rabbitmq-perf-test.default_options.servers_startup_time:
     default: 30
-  rabbitmq-perf-test.default_options.slow_start:
-    default: true
   rabbitmq-perf-test.default_options.metrics_prometheus:
     default: true
   rabbitmq-perf-test.default_options.metrics_port:
     default: 8080
   rabbitmq-perf-test.default_options.metrics_client:
+    default: true
+  rabbitmq-perf-test.default_options.metrics_jmx:
+    default: true
+  rabbitmq-perf-test.default_options.metrics_jvm_gc:
+    default: true
+  rabbitmq-perf-test.default_options.metrics_jvm_memory:
+    default: true
+  rabbitmq-perf-test.default_options.metrics_jvm_thread:
     default: true
 
 consumes:
