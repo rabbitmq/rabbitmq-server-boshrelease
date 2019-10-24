@@ -20,6 +20,7 @@ processes:
     SLOW_START: <%= p("rabbitmq-perf-test.default_options.slow_start") %>
     METRICS_PROMETHEUS: <%= p("rabbitmq-perf-test.default_options.metrics_prometheus") %>
     METRICS_PROMETHEUS_PORT: <%= p("rabbitmq-perf-test.default_options.metrics_port") %>
+    METRICS_CLIENT: <%= p("rabbitmq-perf-test.default_options.metrics_client") %>
     URIS: <%=
               user = link("rabbitmq-server").p("rabbitmq-server.admin_user")
               pass = link("rabbitmq-server").p("rabbitmq-server.admin_pass")

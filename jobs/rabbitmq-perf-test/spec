@@ -42,6 +42,8 @@ properties:
     default: true
   rabbitmq-perf-test.default_options.metrics_port:
     default: 8080
+  rabbitmq-perf-test.default_options.metrics_client:
+    default: true
 
 consumes:
 - name: rabbitmq-server
