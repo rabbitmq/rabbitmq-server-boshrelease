@@ -1,6 +1,0 @@
----
-name: erlang-22.1.3
-files:
-- erlang/OTP-22.1.3.tar.gz
-dependencies:
-- autoconf-2.69
