@@ -1,4 +1,5 @@
 SHELL := bash# we want bash behaviour in all shell invocations
+MAKEFILE := $(firstword $(MAKEFILE_LIST))
 
 ### PRIVATE VARS ###
 #
@@ -26,10 +27,15 @@ YAML2JSON := $(GOPATH)/bin/yaml2json
 
 JQ := /usr/local/bin/jq
 
-BOSH_VERSION := 5.2.2
+BOSH_VERSION := 6.1.1
 BOSH_BIN := bosh-cli-$(BOSH_VERSION)-darwin-amd64
 BOSH_URL := https://s3.amazonaws.com/bosh-cli-artifacts/$(BOSH_BIN)
 BOSH := $(LOCAL_BIN)/$(BOSH_BIN)
+
+YTT_VERSION := 0.22.0
+YTT_BIN := ytt-$(YTT_VERSION)-darwin-amd64
+YTT_URL := https://github.com/k14s/ytt/releases/download/v$(YTT_VERSION)/ytt-darwin-amd64
+YTT := $(LOCAL_BIN)/$(YTT_BIN)
 
 PATH := $(CURDIR)/script:$(LOCAL_BIN):$(GOPATH)/bin:$(PATH)
 export PATH
@@ -72,9 +78,48 @@ $(BOSH): $(WGET)
 	chmod +x $(BOSH) && \
 	$(BOSH) --version | grep $(BOSH_VERSION) && \
 	ln -sf $(BOSH) $(LOCAL_BIN)/bosh
+.PHONY: bosh
+bosh: $(BOSH)
+.PHONY: bosh_releases
 bosh_releases:
-	@$(OPEN) https://github.com/cloudfoundry/bosh-cli/releases
+	@open https://github.com/cloudfoundry/bosh-cli/releases
 
+.PHONY: $(YTT)
+$(YTT): $(WGET)
+	@mkdir -p $(LOCAL_BIN) && cd $(LOCAL_BIN) && \
+	$(GET) --output-document=$(YTT) "$(YTT_URL)" && \
+	touch $(YTT) && \
+	chmod +x $(YTT) && \
+	$(YTT) version | grep $(YTT_VERSION) && \
+	ln -sf $(YTT) $(LOCAL_BIN)/ytt
+.PHONY: ytt
+ytt: $(YTT)
+.PHONY: ytt_releases
+ytt_releases:
+	@open https://github.com/k14s/ytt/releases
+
+WATCH := /usr/local/bin/watch
+$(WATCH):
+	@brew install watch
+WATCH_MAKE_TARGET = $(WATCH) --color $(MAKE) --makefile $(MAKEFILE) --no-print-directory
+
+define MAKE_TARGETS
+  awk -F: '/^[^\.%\t][a-zA-Z\._\-]*:+.*$$/ { printf "%s\n", $$1 }' $(MAKEFILE_LIST)
+endef
+define BASH_AUTOCOMPLETE
+  complete -W \"$$($(MAKE_TARGETS) | sort | uniq)\" make gmake m
+endef
+.PHONY: autocomplete
+autocomplete: ## ac  | Configure shell autocomplete - eval "$(make autocomplete)"
+	@echo "$(BASH_AUTOCOMPLETE)"
+.PHONY: ac
+ac: autocomplete
+# Continuous Feedback for the ac target - run in a split window while iterating on it
+.PHONY: CFac
+CFac: $(WATCH)
+	@$(WATCH_MAKE_TARGET) ac
+
+.PHONY: add_erlang
 add_erlang: list_erlangs erlang_tgz $(BOSH) $(SED) $(GIT) ## Add new Erlang package
 	@$(BOSH) add-blob tmp/$(ERLANG_TGZ) erlang/$(ERLANG_TGZ) && echo && \
 	[ -d packages/erlang-$(ERLANG_VERSION) ] || \
@@ -112,16 +157,20 @@ packages/erlang-$(OTP_VERSION): $(BOSH) $(SED) $(GIT) tmp ## Add a dev version o
 .PHONY: add_dev_erlang
 add_dev_erlang: packages/erlang-$(OTP_VERSION)
 
+.PHONY: add_dev_erlang
 clean: 	## Clean all rabbitmq-server BOSH dev releases locally & from the BOSH Director
 	@clean-dev-releases
 
+.PHONY: deploy
 deploy: $(BOSH) $(YAML2JSON) $(JQ) ## Deploy a RabbitMQ cluster
 	@deploy
 
+.PHONY: erlang_tgz
 erlang_tgz: erlang_version tmp $(WGET)
 	@$(GET) --output-document=tmp/$(ERLANG_TGZ) \
 	  https://github.com/erlang/otp/archive/$(ERLANG_TGZ)
 
+.PHONY: erlang_version
 # Use multiple rules for the same target so that we first print, then set ERLANG_VERSION
 erlang_version:: otp $(GIT)
 ifndef ERLANG_TAG
@@ -134,12 +183,20 @@ endif
 	$(eval ERLANG_VERSION = $(subst OTP-,,$(ERLANG_TAG)))
 	$(eval ERLANG_TGZ = $(ERLANG_TAG).tar.gz)
 
+.PHONY: help
 help:
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+	@awk -F"[:#]" '/^[^\.][a-zA-Z\._\-]+:+.+##.+$$/ { printf "\033[36m%-24s\033[0m %s\n", $$1, $$4 }' $(MAKEFILE_LIST) \
+	| sort
+# Continuous Feedback for the help target - run in a split window while iterating on it
+.PHONY: CFhelp
+CFhelp: $(WATCH)
+	@$(WATCH_MAKE_TARGET) help
 
+.PHONY: dev
 dev: 	$(LPASS) $(BOSH) ## Create a rabbitmq-server BOSH Dev release
 	@create-dev-release
 
+.PHONY: final
 final::
 ifndef VERSION
 	@echo "$(RED)VERSION$(NORMAL) must be set to the final release version that will be created" && \
@@ -151,14 +208,16 @@ final:: $(LPASS) $(BOSH) ## Create a rabbitmq-server BOSH final release - VERSIO
 	@create-final-release $(VERSION) && \
 	shasum releases/rabbitmq-server/rabbitmq-server-$(VERSION).tgz > releases/rabbitmq-server/rabbitmq-server-$(VERSION).sha1
 
+.PHONY: list_erlangs
 list_erlangs:
 	@echo "Included Erlang versions: " ; \
 	cd packages && \
 	ls -1d erlang-* && echo
 
 otp: $(GIT)
-	@[ -d otp ] || $(GIT) clone https://github.com/erlang/otp.git
+	@$(GIT) clone https://github.com/erlang/otp.git
 
+.PHONY: publish_final
 publish_final::
 ifndef VERSION
 	@echo "$(RED)VERSION$(NORMAL) must be set to the final release version that will be published" && \
@@ -181,9 +240,11 @@ publish_final:: $(GIT) $(CHANGELOG) ## Publish final rabbitmq-server BOSH releas
 	read -rp "4/5 While you wait for the files to upload, use the latest CHANGELOG.md entry for title & release notes $(CONFIRM)" -n 1 && \
 	read -rp "5/5 Publish final release on GitHub $(CONFIRM)" -n 1
 
+.PHONY: ssh
 ssh: $(BOSH) ## SSH into any VM managed by BOSH
 	@_bosh_ssh_interactive
 
+.PHONY: remove_erlang
 remove_erlang::
 ifndef ERLANG_PACKAGE
 	@echo -e "\nWhich Erlang package do you want to remove from this BOSH release?"
@@ -203,9 +264,11 @@ remove_erlang:: $(BOSH) $(GIT) $(SED) ## Remove superseded Erlang package
 tmp:
 	@mkdir -p tmp
 
+.PHONY: update
 update: ## Deploy an existing RabbitMQ cluster configuration - CONFIG is optional, e.g. CONFIG=deployment_configurations/rmq-n.yml
 	@deploy-configuration $(CONFIG)
 
+.PHONY: test_scripts
 test_scripts: ## Run in the same environment as the BOSH Stemcell - Ubuntu Trust, 16.04
 	@docker run --interactive --tty --rm \
 	  --volume $(CURDIR):/workspace --workdir /workspace \
