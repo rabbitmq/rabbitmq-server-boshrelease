@@ -12,6 +12,7 @@ packages:
 - erlang-21.3.8.10
 - erlang-22.0.15618
 - erlang-22.1.3
+- erlang-22.1.4
 - start-stop-daemon-1.9.18
 properties:
   erlang.cookie:
@@ -23,7 +24,7 @@ properties:
     description: |
       Enable Erlang VM lock counting http://erlang.org/doc/apps/tools/lcnt_chapter.html
   erlang.version:
-    default: 22.1.3
+    default: 22.1.4
     description: |
       Erlang OTP version that will be used for running RabbitMQ. We install multiple Erlang OTP versions to test compatibility. The default version is what we recommend for production deployments.
   ra.segment_max_entries:
