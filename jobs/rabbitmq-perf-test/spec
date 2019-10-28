@@ -31,7 +31,7 @@ properties:
       If you set a number higher than the available nodes, the jobs will fail.
       Given a RabbitMQ cluster with 3 nodes, the maximum number that you can set is 2. Anything higher will make this job fail.
   rabbitmq-perf-test.options:
-    default: '--producers 1 --variable-rate 10:30 --variable-rate 100:10 --consumers 1'
+    default: '--consumers 2 --producers 2 --size 1000 --confirm 10 --variable-rate 10:30 --variable-rate 100:10 --flag persistent --queue 201910 --auto-delete false'
     description: |
       Add any options that you want to pass to perf-test binary.
       To see all supported options, visit https://rabbitmq.github.io/rabbitmq-perf-test/milestone/htmlsingle/

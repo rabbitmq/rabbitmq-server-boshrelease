@@ -20,7 +20,7 @@
       release: rabbitmq-server
       properties:
         rabbitmq-perf-test:
-          options: '--producers 1 --variable-rate 10:30 --variable-rate 100:10 --consumers 1'
+          options: '--consumers 2 --producers 2 --size 1000 --confirm 10 --variable-rate 10:30 --variable-rate 100:10 --flag persistent --queue q201910 --auto-delete false'
           connect_to_nodes: 'all'
     - name: apt
       release: rabbitmq-server
