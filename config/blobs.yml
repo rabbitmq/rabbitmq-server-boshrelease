@@ -14,10 +14,6 @@ erlang/OTP-22.0.15618.tar.gz:
   size: 55107109
   object_id: 6ac16f37-4407-439c-7502-84741da959cf
   sha: sha256:abe032234e9b67d2a210ddd22f82e243334cc2dd1716fbcfb1d051763b26551c
-erlang/OTP-22.1.6.tar.gz:
-  size: 54961413
-  object_id: a7901ed7-41ce-412d-5be6-84668202a591
-  sha: sha256:7b29813f480ccb68dee81a753af3ea74513d6ed4d138c90648c19ac247dfee57
 erlang/OTP-22.1.7.tar.gz:
   size: 54969082
   object_id: fe3cb760-c3d7-4078-4cd7-6d3f2fdfa9e6
