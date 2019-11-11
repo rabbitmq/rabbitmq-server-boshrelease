@@ -130,12 +130,12 @@ add_erlang: list_erlangs erlang_tgz $(BOSH) $(SED) $(GIT) ## Add new Erlang pack
 	$(GIT) add packages/erlang-$(ERLANG_VERSION) && echo && \
 	read -rp "1/7 $(BOLD)erlang-$(ERLANG_VERSION)$(NORMAL) added to $(BOLD)packages:$(NORMAL) in $(BOLD)jobs/rabbitmq-server/spec$(NORMAL) $(CONFIRM)" -n 1 && \
 	read -rp "2/7 Maybe update $(BOLD)erlang.version$(NORMAL) property default to $(BOLD)'$(ERLANG_VERSION)'$(NORMAL) in $(BOLD)jobs/rabbitmq-server/spec$(NORMAL) $(CONFIRM)" -n 1 && \
-	read -rp "3/7 $(BOLD)gmake dev$(NORMAL) succeeded $(CONFIRM)" -n 1 && \
-	read -rp "4/7 $(BOLD)gmake deploy$(NORMAL) with Erlang $(ERLANG_VERSION) succeeded $(CONFIRM)" -n 1 && \
+	read -rp "3/7 $(BOLD)make dev$(NORMAL) succeeded $(CONFIRM)" -n 1 && \
+	read -rp "4/7 $(BOLD)make deploy$(NORMAL) with Erlang $(ERLANG_VERSION) succeeded $(CONFIRM)" -n 1 && \
 	read -rp "5/7 Deployment deletes gracefully, e.g. $(BOLD)bosh -d DEPLOYMENT deld$(NORMAL) $(CONFIRM)" -n 1 && \
 	read -rp "6/7 $(BOLD)bosh upload-blobs$(NORMAL) succeeded $(CONFIRM)" -n 1 && \
 	read -rp "7/7 All changes committed & pushed $(CONFIRM)" -n 1 && \
-	echo -e "\nYou might want to run $(BOLD)gmake remove_erlang$(NORMAL)\n"
+	echo -e "\nYou might want to run $(BOLD)make remove_erlang$(NORMAL)\n"
 
 OTP_VERSION = $(DEV_NAME)$(TODAY)
 DEV_OTP_TGZ = OTP-$(OTP_VERSION).tar.gz
@@ -258,7 +258,7 @@ remove_erlang:: $(BOSH) $(GIT) $(SED) ## Remove superseded Erlang package
 	@$(BOSH) remove-blob erlang/OTP-$(ERLANG_VERSION).tar.gz && echo && \
 	$(GIT) rm -r packages/$(ERLANG_PACKAGE) && echo && \
 	$(SED) --in-place --regexp-extended --expression '/^- erlang-$(ERLANG_VERSION)/d' jobs/rabbitmq-server/spec && \
-	read -rp "1/2 $(BOLD)gmake dev$(NORMAL) succeeded $(CONFIRM)" -n 1 && \
+	read -rp "1/2 $(BOLD)make dev$(NORMAL) succeeded $(CONFIRM)" -n 1 && \
 	read -rp "2/2 All changes committed & pushed $(CONFIRM)" -n 1
 
 tmp:
