@@ -174,11 +174,14 @@ erlang_tgz: erlang_version tmp $(WGET)
 # Use multiple rules for the same target so that we first print, then set ERLANG_VERSION
 erlang_version:: otp $(GIT)
 ifndef ERLANG_TAG
-	@cd otp && $(GIT) pull --tags && echo -e "\nAdd the following Erlang package to this BOSH release:"
+	@cd otp && $(GIT) pull --tags && echo -e "\nAdd one of the following Erlang versions to this BOSH release:"
 endif
+define FILTER_OTP_TAGS
+git tag -l | grep -e '^OTP-2[0-9].[0-9]*.[0-9]' | sort --version-sort
+endef
 erlang_version::
 ifndef ERLANG_TAG
-	$(eval ERLANG_TAG = $(shell cd otp ; select ERLANG_TAG in $$(git tag -l) ; do echo $$ERLANG_TAG ; break ; done))
+	$(eval ERLANG_TAG = $(shell cd otp ; select ERLANG_TAG in $$($(FILTER_OTP_TAGS)) ; do echo $$ERLANG_TAG ; break ; done))
 endif
 	$(eval ERLANG_VERSION = $(subst OTP-,,$(ERLANG_TAG)))
 	$(eval ERLANG_TGZ = $(ERLANG_TAG).tar.gz)
@@ -210,7 +213,7 @@ final:: $(LPASS) $(BOSH) ## Create a rabbitmq-server BOSH final release - VERSIO
 
 .PHONY: list_erlangs
 list_erlangs:
-	@echo "Included Erlang versions: " ; \
+	@echo -e "\nErlang versions included in this BOSH release: " ; \
 	cd packages && \
 	ls -1d erlang-* && echo
 
