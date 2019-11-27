@@ -4,6 +4,7 @@ set -exo pipefail
 
 export BLOB_DIR="${BLOB_DIR:-$PWD}"
 export JAVA_HOME=/var/vcap/packages/java-jre-1.8
+export PATH=$JAVA_HOME/bin:$PATH
 
 # To test/debug, uncomment the sleep line & ssh into the compilation VM
 # It is too hard to re-create the entire compilation VM state, including the JAVA state
@@ -21,6 +22,10 @@ main() {
   | install_bin_dir \
   | runjava_exec \
   | ensure_valid_exec
+
+  rabbittesttool_jars \
+  | ensure_valid_jar \
+  | install_jar
 }
 
 graalvm_bins() {
@@ -69,6 +74,27 @@ install_bin_dir() {
   do
     tar --extract --ungzip --file "$perf_test_jvm_bin_archive" --directory "${BOSH_INSTALL_TARGET:?must be defined}"
     echo "$perf_test_jvm_bin_archive"
+  done
+}
+
+rabbittesttool_jars() {
+  ls "$BLOB_DIR"/rabbitmq-perf-test/jvm/rabbittesttool*.jar
+}
+
+ensure_valid_jar() {
+  while read -r rabbittesttool_jar
+  do
+    java -jar "$rabbittesttool_jar" help \
+    | grep --silent "RabbitMQ Test Tool"
+
+    echo "$rabbittesttool_jar"
+  done
+}
+
+install_jar() {
+  while read -r rabbittesttool_jar
+  do
+    cp --dereference --recursive "$rabbittesttool_jar" "${BOSH_INSTALL_TARGET:?must be defined}"
   done
 }
 

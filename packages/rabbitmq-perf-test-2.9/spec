@@ -4,6 +4,9 @@ name: rabbitmq-perf-test-2.9
 dependencies:
 - java-jre-1.8
 files:
+# https://github.com/rabbitmq/rabbitmq-perf-test/releases
 - rabbitmq-perf-test/graalvm/rabbitmq-perf-test-2.9.1-linux_x86_64
 - rabbitmq-perf-test/jvm/rabbitmq-perf-test-2.9.1-bin.tar.gz
-# https://github.com/rabbitmq/rabbitmq-perf-test/releases
+# This is a fork of PerfTest, so we are keeping these blobs together
+# https://github.com/Vanlightly/RabbitTestTool.git
+- rabbitmq-perf-test/jvm/rabbittesttool-20191126-1801.jar
