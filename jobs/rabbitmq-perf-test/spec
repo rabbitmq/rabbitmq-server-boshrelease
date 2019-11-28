@@ -6,6 +6,17 @@ templates:
   bin/pre-start: bin/pre-start
   bpm.yml.erb: config/bpm.yml
   env.erb: env
+  topologies/exchanges/consistent_hash.json: topologies/exchanges/consistent_hash.json
+  topologies/exchanges/direct.json: topologies/exchanges/direct.json
+  topologies/exchanges/fanout.json: topologies/exchanges/fanout.json
+  topologies/exchanges/headers1.json: topologies/exchanges/headers1.json
+  topologies/exchanges/headers2.json: topologies/exchanges/headers2.json
+  topologies/exchanges/headers3.json: topologies/exchanges/headers3.json
+  topologies/exchanges/sharded.json: topologies/exchanges/sharded.json
+  topologies/exchanges/topic_exact_match.json: topologies/exchanges/topic_exact_match.json
+  topologies/exchanges/topic_hash_match.json: topologies/exchanges/topic_hash_match.json
+  topologies/exchanges/topic_star_match.json: topologies/exchanges/topic_star_match.json
+  topologies/point_to_point/point_to_point.json: topologies/point_to_point/point_to_point.json
 
 packages:
 - rabbitmq-perf-test-2.9
