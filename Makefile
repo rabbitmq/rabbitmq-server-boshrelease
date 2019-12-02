@@ -109,15 +109,15 @@ endef
 define BASH_AUTOCOMPLETE
   complete -W \"$$($(MAKE_TARGETS) | sort | uniq)\" make gmake m
 endef
-.PHONY: autocomplete
-autocomplete: ## ac  | Configure shell autocomplete - eval "$(make autocomplete)"
+.PHONY: bash_autocomplete
+bash_autocomplete: ## ba | Configure bash autocompletion - eval "$(make bash_autocomplete)"
 	@echo "$(BASH_AUTOCOMPLETE)"
-.PHONY: ac
-ac: autocomplete
+.PHONY: bac
+bac: bash_autocomplete
 # Continuous Feedback for the ac target - run in a split window while iterating on it
-.PHONY: CFac
-CFac: $(WATCH)
-	@$(WATCH_MAKE_TARGET) ac
+.PHONY: CFbac
+CFbac: $(WATCH)
+	@$(WATCH_MAKE_TARGET) bac
 
 .PHONY: add_erlang
 add_erlang: list_erlangs erlang_tgz $(BOSH) $(SED) $(GIT) ## Add new Erlang package
