@@ -1,76 +1,110 @@
 SHELL := bash# we want bash behaviour in all shell invocations
 MAKEFILE := $(firstword $(MAKEFILE_LIST))
+PLATFORM := $(shell uname)
+platform = $(shell echo $(PLATFORM) | tr A-Z a-z)
 
-### PRIVATE VARS ###
+### VARS ###
 #
-#
+# https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences
+RED := \033[1;31m
+GREEN := \033[1;32m
+YELLOW := \033[1;33m
+BOLD := \033[1m
+NORMAL := \033[0m
+
 LOCAL_BIN := $(CURDIR)/bin
-
-RED := $(shell tput setaf 1)
-GREEN := $(shell tput setaf 2)
-YELLOW := $(shell tput setaf 3)
-BOLD := $(shell tput bold)
-NORMAL := $(shell tput sgr0)
-CONFIRM := (press any key to confirm)
-
-WGET := /usr/local/bin/wget
-GET := wget --continue --show-progress
-SED := /usr/local/bin/gsed
-
-LPASS := /usr/local/bin/lpass
-
-GIT := /usr/local/bin/git
-CHANGELOG := $(GIT)-changelog
-GO := /usr/local/opt/go/libexec/bin/go
 GOPATH ?= $(HOME)/go
-YAML2JSON := $(GOPATH)/bin/yaml2json
-
-JQ := /usr/local/bin/jq
-
-BOSH_VERSION := 6.1.1
-BOSH_BIN := bosh-cli-$(BOSH_VERSION)-darwin-amd64
-BOSH_URL := https://s3.amazonaws.com/bosh-cli-artifacts/$(BOSH_BIN)
-BOSH := $(LOCAL_BIN)/$(BOSH_BIN)
-
-YTT_VERSION := 0.22.0
-YTT_BIN := ytt-$(YTT_VERSION)-darwin-amd64
-YTT_URL := https://github.com/k14s/ytt/releases/download/v$(YTT_VERSION)/ytt-darwin-amd64
-YTT := $(LOCAL_BIN)/$(YTT_BIN)
-
 PATH := $(CURDIR)/script:$(LOCAL_BIN):$(GOPATH)/bin:$(PATH)
 export PATH
 
+CONFIRM := (press any key to confirm)
+
 TODAY := $(shell date -u +'%Y.%m.%d')
+
+ifeq ($(PLATFORM),Darwin)
+OPEN := open
+else
+OPEN := xdg-open
+endif
 
 ### TARGETS ###
 #
-
 .DEFAULT_GOAL = help
 
+ifeq ($(PLATFORM),Darwin)
+WGET := /usr/local/bin/wget
 $(WGET):
 	@brew install wget
+else
+WGET := /usr/bin/wget
+$(WGET):
+	$(error Please install wget)
+endif
+GET := $(WGET) --continue --show-progress
 
+ifeq ($(PLATFORM),Darwin)
+SED := /usr/local/bin/gsed
 $(SED):
 	@brew install gnu-sed
+else
+SED := /bin/sed
+endif
 
+ifeq ($(PLATFORM),Darwin)
+LPASS := /usr/local/bin/lpass
 $(LPASS):
 	@brew install lastpass-cli
+else
+LPASS := /usr/bin/lpass
+$(LPASS):
+	$(error Please install lastpass-cli)
+endif
 
+ifeq ($(PLATFORM),Darwin)
+GIT := /usr/local/bin/git
+CHANGELOG := $(GIT)-changelog
 $(GIT):
 	@brew install git
-
 $(CHANGELOG):
 	@brew install git-extras
+else
+GIT := /usr/bin/git
+$(GIT):
+	$(error Please install git)
+CHANGELOG := $(GIT)-changelog
+$(CHANGELOG):
+	$(error Please install git-extras)
+endif
 
+ifeq ($(PLATFORM),Darwin)
+GO := /usr/local/opt/go/libexec/bin/go
 $(GO): $(GIT)
 	@brew install go || brew upgrade go
+else
+GO := /usr/bin/go
+$(GO):
+	$(error Please install golang)
+endif
 
+YAML2JSON := $(GOPATH)/bin/yaml2json
 $(YAML2JSON): $(GO)
-	@go get -u github.com/bronze1man/yaml2json
+	@$(GO) get -u github.com/bronze1man/yaml2json
 
+ifeq ($(PLATFORM),Darwin)
+JQ := /usr/local/bin/jq
 $(JQ):
 	@brew install jq
+else
+JQ := /usr/bin/jq
+$(JQ):
+	$(error Please install jq)
+endif
 
+# https://github.com/cloudfoundry/bosh-cli/releases
+BOSH_VERSION := 6.1.1
+BOSH_BIN := bosh-cli-$(BOSH_VERSION)-$(platform)-amd64
+BOSH_URL := https://s3.amazonaws.com/bosh-cli-artifacts/$(BOSH_BIN)
+BOSH := $(LOCAL_BIN)/$(BOSH_BIN)
 $(BOSH): $(WGET)
 	@mkdir -p $(LOCAL_BIN) && cd $(LOCAL_BIN) && \
 	$(GET) --output-document=$(BOSH) "$(BOSH_URL)" && \
@@ -82,8 +116,13 @@ $(BOSH): $(WGET)
 bosh: $(BOSH)
 .PHONY: bosh_releases
 bosh_releases:
-	@open https://github.com/cloudfoundry/bosh-cli/releases
+	@$(OPEN) https://github.com/cloudfoundry/bosh-cli/releases
 
+# https://github.com/k14s/ytt/releases
+YTT_VERSION := 0.22.0
+YTT_BIN := ytt-$(YTT_VERSION)-$(platform)-amd64
+YTT_URL := https://github.com/k14s/ytt/releases/download/v$(YTT_VERSION)/ytt-$(platform)-amd64
+YTT := $(LOCAL_BIN)/$(YTT_BIN)
 .PHONY: $(YTT)
 $(YTT): $(WGET)
 	@mkdir -p $(LOCAL_BIN) && cd $(LOCAL_BIN) && \
@@ -96,7 +135,7 @@ $(YTT): $(WGET)
 ytt: $(YTT)
 .PHONY: ytt_releases
 ytt_releases:
-	@open https://github.com/k14s/ytt/releases
+	@$(OPEN) https://github.com/k14s/ytt/releases
 
 WATCH := /usr/local/bin/watch
 $(WATCH):
@@ -237,8 +276,8 @@ publish_final:: $(GIT) $(CHANGELOG) ## Publish final rabbitmq-server BOSH releas
 	read -rp "$(CONFIRM)" -n 1 && \
 	$(GIT) add --all && $(GIT) commit --gpg-sign --verbose --message "Cut v$(VERSION)" --edit && \
 	$(GIT) tag --sign --message "https://github.com/rabbitmq/rabbitmq-server-boshrelease/releases/tag/v$(VERSION)" v$(VERSION) && $(GIT) push --tags && \
-	open https://github.com/rabbitmq/rabbitmq-server-boshrelease/releases/new?tag=v$(VERSION) && \
-	open releases/rabbitmq-server && \
+	$(OPEN) https://github.com/rabbitmq/rabbitmq-server-boshrelease/releases/new?tag=v$(VERSION) && \
+	$(OPEN) releases/rabbitmq-server && \
 	echo "3/5 Upload final release tarball & corresponding SHA1 file to GitHub release" && \
 	read -rp "4/5 While you wait for the files to upload, use the latest CHANGELOG.md entry for title & release notes $(CONFIRM)" -n 1 && \
 	read -rp "5/5 Publish final release on GitHub $(CONFIRM)" -n 1
