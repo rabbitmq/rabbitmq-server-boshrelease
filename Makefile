@@ -81,7 +81,9 @@ GO := /usr/local/opt/go/libexec/bin/go
 $(GO): $(GIT)
 	@brew install go || brew upgrade go
 else
-GO := /usr/bin/go
+# Use the standard installation path for Linux:
+# https://golang.org/doc/install#tarball
+GO := /usr/local/go/bin/go
 $(GO):
 	$(error Please install golang)
 endif
