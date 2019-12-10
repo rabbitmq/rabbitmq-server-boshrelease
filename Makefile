@@ -152,7 +152,7 @@ define BASH_AUTOCOMPLETE
 endef
 .PHONY: bash_autocomplete
 bash_autocomplete: ## ba | Configure bash autocompletion - eval "$(make bash_autocomplete)"
-	@echo "$(BASH_AUTOCOMPLETE)"
+	@printf "$(BASH_AUTOCOMPLETE)\n"
 .PHONY: bac
 bac: bash_autocomplete
 # Continuous Feedback for the ac target - run in a split window while iterating on it
@@ -169,14 +169,21 @@ add_erlang: list_erlangs erlang_tgz $(BOSH) $(SED) $(GIT) ## Add new Erlang pack
 	  's/erlang-.+/erlang-$(ERLANG_VERSION)/g ; s/OTP-.*.tar.gz/$(ERLANG_TGZ)/g' \
 	  packages/erlang-$(ERLANG_VERSION)/spec && echo && \
 	$(GIT) add packages/erlang-$(ERLANG_VERSION) && echo && \
-	read -rp "1/7 $(BOLD)erlang-$(ERLANG_VERSION)$(NORMAL) added to $(BOLD)packages:$(NORMAL) in $(BOLD)jobs/rabbitmq-server/spec$(NORMAL) $(CONFIRM)" -n 1 && \
-	read -rp "2/7 Maybe update $(BOLD)erlang.version$(NORMAL) property default to $(BOLD)'$(ERLANG_VERSION)'$(NORMAL) in $(BOLD)jobs/rabbitmq-server/spec$(NORMAL) $(CONFIRM)" -n 1 && \
-	read -rp "3/7 $(BOLD)make dev$(NORMAL) succeeded $(CONFIRM)" -n 1 && \
-	read -rp "4/7 $(BOLD)make deploy$(NORMAL) with Erlang $(ERLANG_VERSION) succeeded $(CONFIRM)" -n 1 && \
-	read -rp "5/7 Deployment deletes gracefully, e.g. $(BOLD)bosh -d DEPLOYMENT deld$(NORMAL) $(CONFIRM)" -n 1 && \
-	read -rp "6/7 $(BOLD)bosh upload-blobs$(NORMAL) succeeded $(CONFIRM)" -n 1 && \
-	read -rp "7/7 All changes committed & pushed $(CONFIRM)" -n 1 && \
-	echo -e "\nYou might want to run $(BOLD)make remove_erlang$(NORMAL)\n"
+	printf "1/7 $(BOLD)erlang-$(ERLANG_VERSION)$(NORMAL) added to $(BOLD)packages:$(NORMAL) in $(BOLD)jobs/rabbitmq-server/spec$(NORMAL)" && \
+	read -rp " $(CONFIRM)" -n 1 && \
+	printf "2/7 Maybe update $(BOLD)erlang.version$(NORMAL) property default to $(BOLD)'$(ERLANG_VERSION)'$(NORMAL) in $(BOLD)jobs/rabbitmq-server/spec$(NORMAL)" && \
+	read -rp " $(CONFIRM)" -n 1 && \
+	printf "3/7 $(BOLD)make dev$(NORMAL) succeeded" && \
+	read -rp " $(CONFIRM)" -n 1 && \
+	printf "4/7 $(BOLD)make deploy$(NORMAL) with Erlang $(ERLANG_VERSION) succeeded" && \
+	read -rp " $(CONFIRM)" -n 1 && \
+	printf "5/7 Deployment deletes gracefully, e.g. $(BOLD)bosh -d DEPLOYMENT deld$(NORMAL)" && \
+	read -rp " $(CONFIRM)" -n 1 && \
+	printf "6/7 $(BOLD)bosh upload-blobs$(NORMAL) succeeded" && \
+	read -rp " $(CONFIRM)" -n 1 && \
+	printf "7/7 All changes committed & pushed" && \
+	read -rp " $(CONFIRM)" -n 1 && \
+	printf "\nYou might want to run $(BOLD)make remove_erlang$(NORMAL)\n\n"
 
 OTP_VERSION = $(DEV_NAME)$(TODAY)
 DEV_OTP_TGZ = OTP-$(OTP_VERSION).tar.gz
@@ -215,10 +222,10 @@ erlang_tgz: erlang_version tmp $(WGET)
 # Use multiple rules for the same target so that we first print, then set ERLANG_VERSION
 erlang_version:: otp $(GIT)
 ifndef ERLANG_TAG
-	@cd otp && $(GIT) pull --tags && echo -e "\nAdd one of the following Erlang versions to this BOSH release:"
+	@cd otp && $(GIT) pull --tags && printf "\nAdd one of the following Erlang versions to this BOSH release:\n"
 endif
 define FILTER_OTP_TAGS
-git tag -l | grep -e '^OTP-2[0-9].[0-9]*.[0-9]' | sort --version-sort
+git tag -l | grep -e '^OTP-2[0-9].[0-9]*' | sort --version-sort
 endef
 erlang_version::
 ifndef ERLANG_TAG
@@ -243,8 +250,8 @@ dev: 	$(LPASS) $(BOSH) ## Create a rabbitmq-server BOSH Dev release
 .PHONY: final
 final::
 ifndef VERSION
-	@echo "$(RED)VERSION$(NORMAL) must be set to the final release version that will be created" && \
-	echo "Final release versions that already exist:" && \
+	@printf "$(RED)VERSION$(NORMAL) must be set to the final release version that will be created\n" && \
+	printf "Final release versions that already exist:\n" && \
 	_local_final_bosh_releases && \
 	exit 1
 endif
@@ -254,7 +261,7 @@ final:: $(LPASS) $(BOSH) ## Create a rabbitmq-server BOSH final release - VERSIO
 
 .PHONY: list_erlangs
 list_erlangs:
-	@echo -e "\nErlang versions included in this BOSH release: " ; \
+	@printf "Erlang versions included in this BOSH release:\n" ; \
 	cd packages && \
 	ls -1d erlang-* && echo
 
@@ -264,23 +271,23 @@ otp: $(GIT)
 .PHONY: publish_final
 publish_final::
 ifndef VERSION
-	@echo "$(RED)VERSION$(NORMAL) must be set to the final release version that will be published" && \
-	echo "Local final release versions:" && \
+	@printf "$(RED)VERSION$(NORMAL) must be set to the final release version that will be published\n" && \
+	printf "Local final release versions:\n" && \
 	_local_final_bosh_releases && \
 	exit 1
 endif
 publish_final:: $(GIT) $(CHANGELOG) ## Publish final rabbitmq-server BOSH release - VERSION is required, e.g. VERSION=n.n.n
 	@read -rp "1/5 Update CHANGELOG.md with help from $(BOLD)git changelog$(NORMAL) $(CONFIRM)" -n 1 && \
-	echo "2/5 Add final release tarball SHA1 to release notes in CHANGELOG.md:" && \
-	echo '```' && \
+	printf "2/5 Add final release tarball SHA1 to release notes in CHANGELOG.md:\n" && \
+	printf '```\n' && \
 	awk '{ print $$1 }' < releases/rabbitmq-server/rabbitmq-server-$(VERSION).sha1 && \
-	echo '```' && \
+	printf '```\n' && \
 	read -rp "$(CONFIRM)" -n 1 && \
 	$(GIT) add --all && $(GIT) commit --gpg-sign --verbose --message "Cut v$(VERSION)" --edit && \
 	$(GIT) tag --sign --message "https://github.com/rabbitmq/rabbitmq-server-boshrelease/releases/tag/v$(VERSION)" v$(VERSION) && $(GIT) push --tags && \
 	$(OPEN) https://github.com/rabbitmq/rabbitmq-server-boshrelease/releases/new?tag=v$(VERSION) && \
 	$(OPEN) releases/rabbitmq-server && \
-	echo "3/5 Upload final release tarball & corresponding SHA1 file to GitHub release" && \
+	printf "3/5 Upload final release tarball & corresponding SHA1 file to GitHub release\n" && \
 	read -rp "4/5 While you wait for the files to upload, use the latest CHANGELOG.md entry for title & release notes $(CONFIRM)" -n 1 && \
 	read -rp "5/5 Publish final release on GitHub $(CONFIRM)" -n 1
 
@@ -291,7 +298,7 @@ ssh: $(BOSH) ## SSH into any VM managed by BOSH
 .PHONY: remove_erlang
 remove_erlang::
 ifndef ERLANG_PACKAGE
-	@echo -e "\nWhich Erlang package do you want to remove from this BOSH release?"
+	@printf "\nWhich Erlang package do you want to remove from this BOSH release?\n"
 endif
 remove_erlang::
 ifndef ERLANG_PACKAGE
