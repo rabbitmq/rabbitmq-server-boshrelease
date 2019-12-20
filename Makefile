@@ -308,9 +308,11 @@ endif
 remove_erlang:: $(BOSH) $(GIT) $(SED) ## Remove superseded Erlang package
 	@$(BOSH) remove-blob erlang/OTP-$(ERLANG_VERSION).tar.gz && echo && \
 	$(GIT) rm -r packages/$(ERLANG_PACKAGE) && echo && \
-	$(SED) --in-place --regexp-extended --expression '/^- erlang-$(ERLANG_VERSION)/d' jobs/rabbitmq-server/spec && \
-	read -rp "1/2 $(BOLD)make dev$(NORMAL) succeeded $(CONFIRM)" -n 1 && \
-	read -rp "2/2 All changes committed & pushed $(CONFIRM)" -n 1
+	$(SED) --in-place --regexp-extended --expression '/^- erlang-$(ERLANG_VERSION)$$/d' jobs/rabbitmq-server/spec && \
+	printf "1/2 $(BOLD)make dev$(NORMAL) succeeded" && \
+	read -rp " $(CONFIRM)" -n 1 && \
+	printf "2/2 All changes committed & pushed" && \
+	read -rp " $(CONFIRM)" -n 1
 
 tmp:
 	@mkdir -p tmp

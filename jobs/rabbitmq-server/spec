@@ -12,7 +12,6 @@ packages:
 - erlang-21.3.8.11
 - erlang-22.0.15618
 - erlang-22.1.8
-- erlang-22.2
 - erlang-22.2.1
 - start-stop-daemon-1.9.18
 properties:
