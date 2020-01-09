@@ -10,3 +10,4 @@ files:
 # This is a fork of PerfTest, so we are keeping these blobs together
 # https://github.com/Vanlightly/RabbitTestTool.git
 - rabbitmq-perf-test/jvm/rabbittesttool-*.jar
+- rabbit-test-tool/**/*.py

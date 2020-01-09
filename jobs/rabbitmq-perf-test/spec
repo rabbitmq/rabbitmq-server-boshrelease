@@ -4,6 +4,8 @@ name: rabbitmq-perf-test
 
 templates:
   bin/pre-start: bin/pre-start
+  bin/run-playlist.erb: bin/run-playlist
+  bin/rabbit-test-tool.erb: bin/rabbit-test-tool
   bpm.yml.erb: config/bpm.yml
   env.erb: env
   topologies/exchanges/consistent_hash.json: topologies/exchanges/consistent_hash.json
@@ -17,10 +19,13 @@ templates:
   topologies/exchanges/topic_hash_match.json: topologies/exchanges/topic_hash_match.json
   topologies/exchanges/topic_star_match.json: topologies/exchanges/topic_star_match.json
   topologies/point_to_point/point_to_point.json: topologies/point_to_point/point_to_point.json
+  policies/quorum-queue.json: policies/quorum-queue.json
+  playlists/qq-point-to-point-safe.json: playlists/qq-point-to-point-safe.json
 
 packages:
 - rabbitmq-perf-test-2.9
 - java-jre-1.8
+- python-3.6
 
 properties:
   rabbitmq-perf-test.executable:
@@ -31,6 +36,8 @@ properties:
       Defaults to latest JVM bin from rabbitmq-perf-test package.
 
       To use the GraalVM native binary, set this property to e.g. /var/vcap/jobs/rabbitmq-perf-test/packages/rabbitmq-perf-test-2.9/rabbitmq-perf-test-2.9.1-linux_x86_64
+
+      To use https://github.com/Vanlightly/RabbitTestTool with a playlist, set this property to '/var/vcap/jobs/rabbitmq-perf-test/bin/run-playlist' and name the playlist and other options in the rabbitmq-perf-test.options property.
   rabbitmq-perf-test.connect_to_nodes:
     default: 'all'
     description: |
@@ -41,12 +48,28 @@ properties:
 
       If you set a number higher than the available nodes, the jobs will fail.
       Given a RabbitMQ cluster with 3 nodes, the maximum number that you can set is 2. Anything higher will make this job fail.
+
+      This property is ignored when using Vanlightly/RabbitTestTool.
   rabbitmq-perf-test.options:
     default: '--consumers 2 --producers 2 --size 1000 --confirm 10 --variable-rate 10:30 --variable-rate 100:10 --flag persistent --queue 201910 --auto-delete false'
     description: |
       Add any options that you want to pass to perf-test binary.
       To see all supported options, visit https://rabbitmq.github.io/rabbitmq-perf-test/milestone/htmlsingle/
+
+      If using Vanlightly/RabbitTestTool, options will look like "--playlist-file playlists/qq-point-to-point-safe.json --gap-seconds 30".
   # Default options, only meant to be overwritten if you know what they are with no description to help out
+  rabbitmq-perf-test.broker_version:
+    default: unknown
+  rabbitmq-perf-test.broker_vm_type:
+    default: unknown
+  rabbitmq-perf-test.broker_disk_type:
+    default: unknown
+  rabbitmq-perf-test.broker_filesystem:
+    default: unknown
+  rabbitmq-perf-test.broker_vm_core_count:
+    default: 0
+  rabbitmq-perf-test.broker_vm_threads_per_core:
+    default: 0
   rabbitmq-perf-test.default_options.servers_startup_time:
     default: 30
   rabbitmq-perf-test.default_options.metrics_prometheus:

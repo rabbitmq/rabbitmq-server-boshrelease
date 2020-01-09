@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+export METRICS_JMX=true
+export METRICS_JVM_GC=<%= p("rabbitmq-perf-test.default_options.metrics_jvm_gc") %>
+export METRICS_JVM_MEMORY=<%= p("rabbitmq-perf-test.default_options.metrics_jvm_memory") %>
+export METRICS_JVM_THREAD=<%= p("rabbitmq-perf-test.default_options.metrics_jvm_thread") %>
+
+export JAVA_HOME=/var/vcap/jobs/rabbitmq-perf-test/packages/java-jre-1.8
+export PATH="$JAVA_HOME/bin:$PATH"
+
+RABBIT_TEST_TOOL_JARS=(/var/vcap/jobs/rabbitmq-perf-test/packages/rabbitmq-perf-test-2.9/rabbittesttool-*.jar)
+
+_most_recent_rabbit_test_tool_jar() {
+  echo ${RABBIT_TEST_TOOL_JARS[-1]}
+}
+
+java -jar $(_most_recent_rabbit_test_tool_jar) $@

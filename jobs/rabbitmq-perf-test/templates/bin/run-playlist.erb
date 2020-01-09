@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+export SERVERS_STARTUP_TIMEOUT=<%= p("rabbitmq-perf-test.default_options.servers_startup_time") %>
+
+RABBITMQ_ADMIN_USER="<%= link("rabbitmq-server").p("rabbitmq-server.admin_user") %>"
+RABBITMQ_ADMIN_PASS="<%= link("rabbitmq-server").p("rabbitmq-server.admin_pass") %>"
+RABBITMQ_BROKER_HOSTS="<%=
+    uris = link("rabbitmq-server").instances.map do |instance|
+      "#{instance.address}:5672"
+    end
+    uris.join(",")
+-%>"
+
+export PLAYLIST_LOAD_PATH=/var/vcap/jobs/rabbitmq-perf-test
+
+PATH=/var/vcap/jobs/rabbitmq-perf-test/bin:${PATH}
+
+/var/vcap/jobs/rabbitmq-perf-test/packages/python-3.6/bin/python3 /var/vcap/jobs/rabbitmq-perf-test/packages/rabbitmq-perf-test-2.9/playlist_runner/run-playlist.py \
+    --tags "<%= spec.deployment %>" \
+    --technology rabbitmq \
+    --instance "<%= p("rabbitmq-perf-test.broker_vm_type") %>" \
+    --volume "<%= p("rabbitmq-perf-test.broker_disk_type") %>" \
+    --filesystem "<%= p("rabbitmq-perf-test.broker_filesystem") %>" \
+    --tenancy default \
+    --core-count "<%= p("rabbitmq-perf-test.broker_vm_core_count") %>" \
+    --threads-per-core "<%= p("rabbitmq-perf-test.broker_vm_threads_per_core") %>" \
+    --version "<%= p("rabbitmq-perf-test.broker_version") %>" \
+    --username "${RABBITMQ_ADMIN_USER}" \
+    --password "${RABBITMQ_ADMIN_PASS}" \
+    --broker-hosts "${RABBITMQ_BROKER_HOSTS}" $@

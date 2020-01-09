@@ -26,6 +26,9 @@ main() {
   rabbittesttool_jars \
   | ensure_valid_jar \
   | install_jar
+
+  rabbittesttool_playlist_runner_scripts \
+  | install_scripts
 }
 
 graalvm_bins() {
@@ -95,6 +98,21 @@ install_jar() {
   while read -r rabbittesttool_jar
   do
     cp --dereference --recursive "$rabbittesttool_jar" "${BOSH_INSTALL_TARGET:?must be defined}"
+  done
+}
+
+rabbittesttool_playlist_runner_scripts() {
+  ls rabbit-test-tool/*.py
+}
+
+install_scripts() {
+  local playlist_runner_dir
+
+  while read -r playlist_runner_script
+  do
+    playlist_runner_dir="${BOSH_INSTALL_TARGET:?must be defined}/playlist_runner"
+    mkdir -p ${playlist_runner_dir}
+    cp --dereference "$playlist_runner_script" "${playlist_runner_dir}"
   done
 }
 
