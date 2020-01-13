@@ -1,17 +1,14 @@
 import uuid
-from command_args import get_args, get_optional_arg, get_mandatory_arg, get_mandatory_arg_no_print, is_true, get_mandatory_arg_validated, get_optional_arg_validated
+
+from command_args import get_optional_arg, get_mandatory_arg, get_optional_arg_validated
+
 
 class CommonConfiguration:
 
     def __init__(self, args):
         self.run_id = str(uuid.uuid4())
         self.tags = get_mandatory_arg(args, "--tags", "")
-        self.mode = get_optional_arg_validated(args, "--mode", "", ["benchmark","model"], "benchmark")
-        # self.config_count = int(get_optional_arg(args, "--config-count", "", "1"))
-        # self.new_instance_per_run = is_true(get_optional_arg(args, "--new-instance-per-run", "", "false"))
-        # self.no_destroy = is_true(get_optional_arg(args, "--no-destroy", "", "false"))
-        # self.no_deploy = is_true(get_optional_arg(args, "--no-deploy", "", "false"))
-        # self.run_tag = get_optional_arg(args, "--run-tag", "", "none")
+        self.mode = get_optional_arg_validated(args, "--mode", "", ["benchmark", "model"], "benchmark")
         self.playlist_file = get_mandatory_arg(args, "--playlist-file", "")
         self.background_policies_file = get_optional_arg(args, "--bg-policies-file", "", "none")
         self.background_topology_file = get_optional_arg(args, "--bg-topology-file", "", "none")
@@ -20,19 +17,10 @@ class CommonConfiguration:
         self.background_step_repeat = int(get_optional_arg(args, "--bg-step-repeat", "", "0"))
         self.gap_seconds = int(get_mandatory_arg(args, "--gap-seconds", ""))
         self.repeat_count = int(get_optional_arg(args, "--repeat", "", "1000000"))
-        # self.parallel_count = int(get_optional_arg(args, "--parallel", "", "1"))
         self.override_step_seconds = int(get_optional_arg(args, "--override-step-seconds", "", "0"))
         self.override_step_repeat = int(get_optional_arg(args, "--override-step-repeat", "", "0"))
         self.override_step_msg_limit = int(get_optional_arg(args, "--override-step-msg-limit", "", "0"))
-        # self.override_broker_hosts = get_optional_arg(args, "--override-broker-hosts", "", "")
         self.broker_hosts = get_mandatory_arg(args, "--broker-hosts", "").split(',')
-
-        # self.ami = get_mandatory_arg(args, "--ami", "")
-        # self.broker_sg = get_mandatory_arg(args, "--broker-sg", "")
-        # self.loadgen_sg = get_mandatory_arg(args, "--loadgen-sg", "")
-        # self.loadgen_instance = get_mandatory_arg(args, "--loadgen-instance", "")
-        # self.subnet = get_mandatory_arg(args, "--subnet", "")
-        # self.key_pair = get_mandatory_arg(args, "--keypair", "")
         self.username = get_mandatory_arg(args, "--username", "")
         self.password = get_mandatory_arg(args, "--password", "")
         self.postgres_url = get_optional_arg(args, "--postgres-jdbc-url", "", "")

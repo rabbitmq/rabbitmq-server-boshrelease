@@ -1,12 +1,7 @@
-import sys
 import subprocess
-import threading
-import time
-import uuid
-import os.path
-from random import randint
-from collections import namedtuple
+
 from printer import console_out
+
 
 class Runner:
     def __init__(self):
@@ -73,57 +68,3 @@ class Runner:
             self._benchmark_status[status_id] = "failed"
         else:
             self._benchmark_status[status_id] = "success"
-
-    def run_background_load_across_runs(self, configurations, common_conf):
-        bg_threads = list()
-
-        for config_tag in configurations:
-            unique_conf_list = configurations[config_tag]
-
-            for p in range(common_conf.parallel_count):
-                unique_conf = unique_conf_list[p]
-                t1 = threading.Thread(target=self.run_background_load, args=(unique_conf, common_conf,))
-                bg_threads.append(t1)
-
-        for bt in bg_threads:
-            bt.start()
-
-        time.sleep(10)
-        console_out(self.actor, f"Delaying start of benchmark by {common_conf.background_delay} seconds")
-        time.sleep(common_conf.background_delay)
-
-    def run_background_load(self, unique_conf, common_conf):
-        console_out(self.actor, f"Starting background load for {unique_conf.node_number}")
-        status_id = unique_conf.technology + unique_conf.node_number
-
-        broker_user = "benchmark"
-        broker_password = common_conf.password
-        topology = common_conf.background_topology_file
-        policies = common_conf.background_policies_file
-        step_seconds = str(common_conf.background_step_seconds)
-        step_repeat = str(common_conf.background_step_repeat)
-
-        nodes = ""
-        for x in range(int(unique_conf.cluster_size)):
-            comma = ","
-            if x == 0:
-                comma = ""
-
-            node_number = int(unique_conf.node_number) + x
-            nodes = f"{nodes}{comma}{node_number}"
-
-        self._benchmark_status[status_id] = "started"
-        subprocess.Popen(["bash", "run-background-load-aws.sh",
-                        broker_user,
-                        broker_password,
-                        str(unique_conf.cluster_size),
-                        # common_conf.key_pair,
-                        unique_conf.node_number,
-                        nodes,
-                        policies,
-                        step_seconds,
-                        step_repeat,
-                        common_conf.run_tag,
-                        unique_conf.technology,
-                        topology,
-                        unique_conf.broker_version])
