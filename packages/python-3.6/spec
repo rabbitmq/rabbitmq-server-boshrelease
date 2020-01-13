@@ -5,5 +5,3 @@ files:
 - python-pkg/compile.env
 - python-pkg/runtime.env
 - python/Python-3.6*.tgz
-# - python/pip*.tar.gz
-# - python/setuptools*.zip
