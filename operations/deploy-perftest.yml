@@ -22,6 +22,10 @@
         rabbitmq-perf-test:
           options: '--consumers 2 --producers 2 --size 1000 --confirm 10 --variable-rate 10:30 --variable-rate 100:10 --flag persistent --queue q201910 --auto-delete false'
           connect_to_nodes: 'all'
+          broker_version: ((rmq_server_release))
+          broker_vm_type: ((rmq_vm_type))
+          broker_disk_type: ((rmq_persistent_disk_type))
+          broker_filesystem: ((bosh_stemcell_name))
     - name: apt
       release: rabbitmq-server
     - name: bpm

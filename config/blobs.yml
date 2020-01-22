@@ -26,6 +26,10 @@ java/jre-8u181-linux-x64.tar.gz:
   size: 81191893
   object_id: b838ee6d-f735-4c3f-70de-1a450b40d8dc
   sha: c7e8984aa2a0a4119908d112427876415f3ddbbc
+python/Python-3.6.10.tgz:
+  size: 23019480
+  object_id: 953746bd-e61d-4ead-7536-cebb5d4bce59
+  sha: sha256:7034dd7cba98d4f94c74f9edd7345bac71c8814c41672c64d9044fa2f96f334d
 rabbitmq-perf-test/graalvm/rabbitmq-perf-test-2.9.1-linux_x86_64:
   size: 15770888
   object_id: eba1d979-8ca8-4434-6d13-967dcf53632c
@@ -38,6 +42,10 @@ rabbitmq-perf-test/jvm/rabbittesttool-20191128-1534.jar:
   size: 5398075
   object_id: e579987f-d5c7-4cdf-54a7-c6e0e1bd17c8
   sha: sha256:737cd33a73d7a60abc958d56cfa6713d5ccccde9c41511be567f4cf83ebf0cbe
+rabbitmq-perf-test/jvm/rabbittesttool-20200110-1410.jar:
+  size: 7011146
+  object_id: 68a586e3-93f3-4839-478a-79e408859261
+  sha: sha256:b79b72dce8c2c368ad741ecac79a478481863eb5a8184a49100a015ebfec270f
 rabtap-1.11.tgz:
   size: 3067339
   object_id: fc6994ec-ece7-4cca-698a-1ef34281b46c
