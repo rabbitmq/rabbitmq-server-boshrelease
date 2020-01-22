@@ -47,6 +47,7 @@ class Runner:
                                 "--broker-mgmt-port", str(15672),
                                 "--broker-user", common_conf.username,
                                 "--broker-password", common_conf.password,
+                                "--run-tag", common_conf.run_tag,
                                 *(["--postgres-jdbc-url", common_conf.postgres_url] if common_conf.postgres_url else []),
                                 *(["--postgres-user", common_conf.postgres_user] if common_conf.postgres_user else []),
                                 *(["--postgres-pwd", common_conf.postgres_pwd] if common_conf.postgres_pwd else []),

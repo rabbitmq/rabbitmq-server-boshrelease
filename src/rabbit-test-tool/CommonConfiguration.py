@@ -9,6 +9,7 @@ class CommonConfiguration:
         self.run_id = str(uuid.uuid4())
         self.tags = get_mandatory_arg(args, "--tags", "")
         self.mode = get_optional_arg_validated(args, "--mode", "", ["benchmark", "model"], "benchmark")
+        self.run_tag = get_optional_arg(args, "--run-tag", "", "none")
         self.playlist_file = get_mandatory_arg(args, "--playlist-file", "")
         self.background_policies_file = get_optional_arg(args, "--bg-policies-file", "", "none")
         self.background_topology_file = get_optional_arg(args, "--bg-topology-file", "", "none")
