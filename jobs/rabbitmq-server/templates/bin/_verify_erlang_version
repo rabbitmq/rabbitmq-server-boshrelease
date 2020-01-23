@@ -2,7 +2,7 @@
 
 set -e
 
-actual_erlang_version="$(which erl)"
+actual_erlang_version="$(command -v erl)"
 expected_erlang_version="${ERLANG_VERSION:?must be set}"
 
 [[ $actual_erlang_version =~ erlang-$expected_erlang_version/bin/erl ]] || (
