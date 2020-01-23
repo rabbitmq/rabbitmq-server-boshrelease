@@ -22,6 +22,10 @@ erlang/OTP-22.2.2.tar.gz:
   size: 55743605
   object_id: 7811b133-82fd-4369-53d2-17f99000482c
   sha: sha256:92df7d22239b09f7580572305c862da1fb030a97cef7631ba060ac51fa3864cc
+erlang/OTP-22.2.3.tar.gz:
+  size: 55742102
+  object_id: c8801d33-8490-49af-6417-15850ca8039d
+  sha: sha256:8470fff519d9ffa5defba4e42c3c1e64cd86905313040246d4a6e35799a9e614
 java/jre-8u181-linux-x64.tar.gz:
   size: 81191893
   object_id: b838ee6d-f735-4c3f-70de-1a450b40d8dc
