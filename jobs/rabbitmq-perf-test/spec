@@ -23,14 +23,6 @@ packages:
 - java-jre-1.8
 
 properties:
-  rabbitmq-perf-test.executable:
-    default: "/var/vcap/jobs/rabbitmq-perf-test/packages/rabbitmq-perf-test-2.9/rabbitmq-perf-test-2.9.1/bin/runjava"
-    description: |
-      Which PerfTest executable to use.
-
-      Defaults to latest JVM bin from rabbitmq-perf-test package.
-
-      To use the GraalVM native binary, set this property to e.g. /var/vcap/jobs/rabbitmq-perf-test/packages/rabbitmq-perf-test-2.9/rabbitmq-perf-test-2.9.1-linux_x86_64
   rabbitmq-perf-test.connect_to_nodes:
     default: 'all'
     description: |
@@ -41,6 +33,14 @@ properties:
 
       If you set a number higher than the available nodes, the jobs will fail.
       Given a RabbitMQ cluster with 3 nodes, the maximum number that you can set is 2. Anything higher will make this job fail.
+  rabbitmq-perf-test.executable:
+    default: "/var/vcap/jobs/rabbitmq-perf-test/packages/rabbitmq-perf-test-2.9/rabbitmq-perf-test-2.9.1/bin/runjava"
+    description: |
+      Which PerfTest executable to use.
+
+      Defaults to latest JVM bin from rabbitmq-perf-test package.
+
+      To use the GraalVM native binary, set this property to e.g. /var/vcap/jobs/rabbitmq-perf-test/packages/rabbitmq-perf-test-2.9/rabbitmq-perf-test-2.9.1-linux_x86_64
   rabbitmq-perf-test.options:
     default: '--consumers 2 --producers 2 --size 1000 --confirm 10 --variable-rate 10:30 --variable-rate 100:10 --flag persistent --queue 201910 --auto-delete false'
     description: |

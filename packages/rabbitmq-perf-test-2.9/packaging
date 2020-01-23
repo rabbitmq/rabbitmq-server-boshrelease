@@ -53,7 +53,7 @@ runjava_exec() {
 
   while read -r perf_test_jvm_bin_archive
   do
-    perf_test_jvm_bin_dir="$(grep --extended-regexp --only-matching 'rabbitmq-perf-test-[0-9\.]{4,}' <<< "$perf_test_jvm_bin_archive")"
+    perf_test_jvm_bin_dir="$(grep --extended-regexp --only-matching 'rabbitmq-perf-test-[0-9\.]{4,}(-SNAPSHOT)?' <<< "$perf_test_jvm_bin_archive")"
     printf "$BOSH_INSTALL_TARGET/%s/bin/runjava com.rabbitmq.perf.PerfTest\n" "$perf_test_jvm_bin_dir"
   done
 }

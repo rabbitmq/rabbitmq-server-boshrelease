@@ -38,6 +38,10 @@ rabbitmq-perf-test/jvm/rabbitmq-perf-test-2.9.1-bin.tar.gz:
   size: 4961897
   object_id: cd58fded-8024-4ad1-545c-a9612ef74dc0
   sha: sha256:1006c3a30064bc5bff93206c29021a705df6cb9e55f8cb8e0b93353d1fec141f
+rabbitmq-perf-test/jvm/rabbitmq-perf-test-2.11.0-SNAPSHOT-bin.tar.gz:
+  size: 5064749
+  object_id: b5f82877-7795-414c-7339-5ffd9716f34f
+  sha: sha256:66e7f5e350b98cb3edd2b6a593d76d293e74e6e090a5ba8ac92431ad8750b671
 rabbitmq-perf-test/jvm/rabbittesttool-20191128-1534.jar:
   size: 5398075
   object_id: e579987f-d5c7-4cdf-54a7-c6e0e1bd17c8
