@@ -83,7 +83,7 @@ $(GO): $(GIT)
 else
 # Use the standard installation path for Linux:
 # https://golang.org/doc/install#tarball
-GO := /usr/local/go/bin/go
+GO := $(shell which go)
 $(GO):
 	$(error Please install golang)
 endif
